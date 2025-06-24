@@ -35,16 +35,8 @@ class Loan
     #[ORM\Column(type: 'string')]
     private LoanStatusEnum $loanStatus;
 
-    /**
-     * @var Collection<int, Book>
-     */
-    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'loans')]
-    private Collection $books;
-
-    public function __construct()
-    {
-        $this->books = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'loans')]
+    private ?Book $book = null;
 
     public function getId(): int
     {
@@ -106,30 +98,17 @@ class Loan
         return $this->loanStatus;
     }
 
-    /**
-     * @return Collection<int, Book>
-     */
-    public function getBooks(): Collection
+    public function getBook(): ?Book
     {
-        return $this->books;
+        return $this->book;
     }
 
-    public function addBook(Book $book): static
+    public function setBook(?Book $book): static
     {
-        if (!$this->books->contains($book)) {
-            $this->books->add($book);
-            $book->addLoan($this);
-        }
+        $this->book = $book;
 
         return $this;
     }
 
-    public function removeBook(Book $book): static
-    {
-        if ($this->books->removeElement($book)) {
-            $book->removeLoan($this);
-        }
-
-        return $this;
-    }
+    
 }

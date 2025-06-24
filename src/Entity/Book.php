@@ -32,19 +32,21 @@ class Book
     #[ORM\Column(type:'string')] 
     private BookStatusEnum $bookStatus;
 
+    #[ORM\Column(length: 255)]
+    private ?string $bookCode = null;
+
     /**
      * @var Collection<int, Loan>
      */
-    #[ORM\ManyToMany(targetEntity: Loan::class, inversedBy: 'books')]
+    #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'book')]
     private Collection $loans;
-
-    #[ORM\Column(length: 255)]
-    private ?string $bookCode = null;
 
     public function __construct()
     {
         $this->loans = new ArrayCollection();
     }
+
+    
 
     public function getId(): int
     {
@@ -107,6 +109,19 @@ class Book
         return $this->bookStatus;
     }
 
+
+    public function getBookCode(): ?string
+    {
+        return $this->bookCode;
+    }
+
+    public function setBookCode(string $bookCode): static
+    {
+        $this->bookCode = $bookCode;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Loan>
      */
@@ -119,6 +134,7 @@ class Book
     {
         if (!$this->loans->contains($loan)) {
             $this->loans->add($loan);
+            $loan->setBook($this);
         }
 
         return $this;
@@ -126,19 +142,12 @@ class Book
 
     public function removeLoan(Loan $loan): static
     {
-        $this->loans->removeElement($loan);
-
-        return $this;
-    }
-
-    public function getBookCode(): ?string
-    {
-        return $this->bookCode;
-    }
-
-    public function setBookCode(string $bookCode): static
-    {
-        $this->bookCode = $bookCode;
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getBook() === $this) {
+                $loan->setBook(null);
+            }
+        }
 
         return $this;
     }
