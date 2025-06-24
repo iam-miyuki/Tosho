@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+{% block body %}
+	<h1>Prêts et Retours</h1>
+	<form action="" method="POST">
+		<div>
+			<label for="family_name">Chercher par famille</label>
+			<input type="text" id="family_name" name="family_name" placeholder="Rechercher une famille...">
+			<button>Chercher</button>
+		</div>
+		<div>
+			<label for="book_code">Chercher par livre</label>
+			<input type="text" id="book_code" name="book_code" placeholder="Rechercher un livre...">
+			<button>Chercher</button>
+		</div>
+	</form>
+{% endblock %}
