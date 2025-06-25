@@ -16,8 +16,31 @@ class LoanRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Loan::class);
     }
-    public function loanList()
+    
+    public function findByFamily(string $name)
     {
-        $this->entityManager->getRepository(Loan::class)->findAll();    
+        $qb = $this->createQueryBuilder('loan');
+        $qb
+            ->addSelect('family')
+            ->addSelect('book')
+            ->leftJoin('loan.family', 'family')
+            ->leftJoin('loan.book', 'book')
+            ->where('family.name = :name')
+            ->setParameter('name', $name)
+            ;
+
+        return $qb->getQuery()->getResult();
+    }
+    public function findByBookCode(string $bookCode)
+    {
+        $qb = $this->createQueryBuilder('loan');
+        $qb
+            ->addSelect('book')
+            ->leftJoin('loan.book', 'book')
+            ->where('book.bookCode = :code')
+            ->setParameter('code', $bookCode)
+            ;
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

@@ -14,37 +14,25 @@ class Family
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $familyName = null;
+    private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $accountNumber = null;
 
     public function getId(): ?int //soit null soit int
     {
         return $this->id;
     }
 
-    public function getFamilyName(): ?string
+    public function getName(): ?string
     {
-        return $this->familyName;
+        return $this->name;
     }
 
-    public function setFamilyName(?string $familyName): static
+    public function setName(?string $name): static
     {
-        $this->familyName = $familyName;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getAccountNumber(): ?string
-    {
-        return $this->accountNumber;
-    }
-
-    public function setAccountNumber(?string $accountNumber): static
-    {
-        $this->accountNumber = $accountNumber;
-
-        return $this;
-    }
+    
 }

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 use App\Enum\BookStatusEnum;
-use App\Enum\SectionEnum;
+use App\Enum\LocationEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,8 +15,6 @@ class Book
     #[ORM\GeneratedValue] // permet de générer automatiquement l'ID
     protected int $id;
 
-    
-
     #[ORM\Column(type:'string')]
     private string $title;
 
@@ -26,10 +24,10 @@ class Book
     #[ORM\Column(type:'string')]
     private string $coverUrl;
 
-    #[ORM\Column(type:'string')] 
-    private SectionEnum $section;
+    #[ORM\Column(type:'string', enumType: LocationEnum::class)] 
+    private LocationEnum $location;
 
-    #[ORM\Column(type:'string')] 
+    #[ORM\Column(type: 'string', enumType: BookStatusEnum::class)]
     private BookStatusEnum $bookStatus;
 
     #[ORM\Column(length: 255)]
@@ -87,15 +85,15 @@ class Book
         return $this->coverUrl;
     }
 
-    public function setSection(SectionEnum $section)
+    public function setlocation(LocationEnum $location)
     {
-        $this->section = $section;
+        $this->location = $location;
         return $this;
     }
 
-    public function getSection(): SectionEnum
+    public function getlocation(): LocationEnum
     {
-        return $this->section;
+        return $this->location;
     }
 
     public function setBookStatus(BookStatusEnum $bookStatus)

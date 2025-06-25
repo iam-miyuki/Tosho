@@ -15,12 +15,5 @@ class FamilyRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Family::class);
     }
-    public function familyList()
-    {
-
-        return $this->entityManager->getRepository(Family::class)->findAll();
-    }
-    
-  
 
 }

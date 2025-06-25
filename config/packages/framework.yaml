@@ -6,7 +6,7 @@ framework:
     handle_all_throwables: true
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
-    # Remove or comment this section to explicitly disable session support.
+    # Remove or comment this location to explicitly disable session support.
     session:
         handler_id: null
         cookie_secure: auto

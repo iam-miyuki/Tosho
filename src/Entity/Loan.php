@@ -32,7 +32,7 @@ class Loan
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $returnDate;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', enumType: LoanStatusEnum::class)]
     private LoanStatusEnum $loanStatus;
 
     #[ORM\ManyToOne(inversedBy: 'loans')]
@@ -64,7 +64,7 @@ class Loan
     {
         return $this->loanDate;
     }
-
+    //TODO : à corriger setExpectedReturnDate
     public function setExpectedReturnDate(DateTime $loanDate)
     {
         $this->expectedReturnDate = $loanDate->add(new DateInterval("21 days"));
