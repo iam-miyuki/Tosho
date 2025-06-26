@@ -39,6 +39,12 @@ class Book
     #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'book')]
     private Collection $loans;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jpTitle = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jpAuthor = null;
+
     public function __construct()
     {
         $this->loans = new ArrayCollection();
@@ -146,6 +152,30 @@ class Book
                 $loan->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getJpTitle(): ?string
+    {
+        return $this->jpTitle;
+    }
+
+    public function setJpTitle(?string $jpTitle): static
+    {
+        $this->jpTitle = $jpTitle;
+
+        return $this;
+    }
+
+    public function getJpAuthor(): ?string
+    {
+        return $this->jpAuthor;
+    }
+
+    public function setJpAuthor(?string $jpAuthor): static
+    {
+        $this->jpAuthor = $jpAuthor;
 
         return $this;
     }

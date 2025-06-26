@@ -14,60 +14,36 @@ final class LoanController extends AbstractController
     #[Route('/loan', name: 'loan')]
     public function index(Request $request, LoanRepository $loanRepository): Response
     {
-        $loans = [];
-        $book = null;
-        if (($request->getMethod() === 'POST')&& ($request->request->has('family_name'))) {
-                $loans = $loanRepository->findByFamily($request->request->get("family_name"));
-                return $this->render('loan/list.html.twig',[
-                    'loans'=>$loans
-                ]);
+        $loans=null;
+        if ($request->getMethod() === 'POST') {
+            if ($request->request->has('family_name')) {
+                $loans = $loanRepository->findByFamily($request->request->get('family_name'));
+                
             }
-        if (($request->getMethod() === 'POST')&&($request->request->has('book_code'))) {
-                $book = $loanRepository->findByBookCode($request->request->get("book_code"));
+        }
+        // dd($loans);
+        return $this->render('loan/index.html.twig', [
+            'loans' => $loans
+        ]);
+    }
+
+    // #[Route('/loan/list', name: 'loan_list')]
+    // public function list(): Response
+    // {
+    // }
+
+    #[Route('/loan/book', name: 'loan_book')]
+    public function showBook(Request $request, LoanRepository $loanRepository): Response
+    {
+        if ($request->getMethod() === 'POST') {
+            $book = null;
+            if ($request->request->has('book_code')) {
+                $book = $loanRepository->findByBookCode($request->request->get('book_code'));
                 return $this->render('loan/book.html.twig', [
-                    'book'=>$book
+                    'book' => $book
                 ]);
             }
+        }
         return $this->render('loan/index.html.twig');
-    }    
+    }
 }
-
-
-
-// final class LoanController extends AbstractController
-// {
-//     #[Route('/loan', name: 'loan')]
-//     public function index(): Response
-//     {
-//         return $this->render('loan/index.html.twig');
-//     }
-
-//     #[Route('/loan/list', name: 'loan_list')]
-//     public function list(Request $request, LoanRepository $loanRepository): Response
-//     {
-//         $loans = new ArrayCollection();
-//         if (($request->getMethod() === 'POST')&& ($request->request->has('family_name'))) {
-//                 $loans = $loanRepository->findByFamily($request->request->get("family_name"));
-//             }
-        
-//         return $this->render('loan/list.html.twig',[
-//             'loans'=>$loans
-//         ]);
-//     }
-
-//     #[Route('/loan/book', name: 'loan_book')]
-//     public function showBook(Request $request,LoanRepository $loanRepository): Response
-//     {
-//         $book = null;
-//         if (($request->getMethod() === 'POST')&&($request->request->has('book_code'))) {
-            
-//                 $book = $loanRepository->findByBookCode($request->request->get("book_code"));
-            
-//             }
-//             return $this->render('loan/book.html.twig', [
-//                 'book' => $book
-//             ]);
-//     }
-
-    
-// }

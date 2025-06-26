@@ -1,22 +1,63 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<h1>Prêts et Retours</h1>
-	<form action="" method="POST">
-		<div>
-			<label for="family_name">Chercher par famille</label>
-			<input type="text" id="family_name" name="family_name" placeholder="Rechercher une famille...">
-			<button type="submit">Chercher</button>
-		</div>
-	</form>
-    <form action="" method="POST">
-		<div>
-			<label for="book_code">Chercher par livre</label>
-			<input type="text" id="book_code" name="book_code" placeholder="Rechercher un livre...">
-			<button type="submit">Chercher</button>
-		</div>
-    </form>
+<body>
+    <div>
+      <h1>Application de gestion des prêts des livres pour école japonaise</h1>
+    </div>
+    <nav>
+      <h2>Géerz les prêts de livres en toute simplicité</h2>
+      <ul>
+        <li>Home</li>
+        <li>Prêts & Retours</li>
+        <li>Inventaire</li>
+        <li>Mon compte</li>
+        <li></li>
+      </ul>
+    </nav>
+    <h3>Prêts & Retours</h3>
 
+    <div>
+      <h4>Chercher par famille</h4>
+      <form action="" method="POST">
+		<div>
+		  <label for="family_name"></label>
+		  <input
+			type="text"
+			id="family_name"
+			name="family_name"
+			placeholder="Rechercher une famille..."
+		  />
+				<button type="submit">Chercher</button>
+		</div>
+	  </form>
+    </div>
+    <div>
+      <h4>Chercher par livre</h4>
+      <form action="" method="POST">
+		<div>
+		  <label for="book_code"></label>
+		  <input
+			type="text"
+			id="book_code"
+			name="book_code"
+			placeholder="Rechercher une famille..."
+		  />
+				<button type="submit">Chercher</button>
+		</div>
+	  </form>
+    </div>
+	<div>
+	<ul>
+		{% if loans %}
+			{% for loan in loans %}
+				<li>{{ loan.family.name }}</li>
+			{% endfor %}
+		{% endif %}
+	</ul>
 	
+	</div>
+  </body>
+</html>
 {% endblock %}
 
 {# <input type="text" id="search" placeholder="Search for books..." autocomplete="off">
