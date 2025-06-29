@@ -55,8 +55,8 @@ class Loan
 
     public function setLoanDate(DateTime $loanDate)
     {
-        $this->loanDate = $loanDate;
-        $this->setExpectedReturnDate($loanDate);
+        $this->loanDate = clone $loanDate; // clone : stocker $loanDate permet de modifier sans perdre la date d'emprunt
+        $this->setExpectedReturnDate($loanDate); 
         return $this;
     }
 
@@ -64,10 +64,9 @@ class Loan
     {
         return $this->loanDate;
     }
-    //TODO : à corriger setExpectedReturnDate
     public function setExpectedReturnDate(DateTime $loanDate)
     {
-        $this->expectedReturnDate = $loanDate->add(new DateInterval("21 days"));
+        $this->expectedReturnDate = (clone $loanDate)->add(new DateInterval('P21D')); // 'P21D' signifie Period 21 Days. ici on modifie clone de $loanDate.
         return $this;
     }
 
@@ -109,6 +108,4 @@ class Loan
 
         return $this;
     }
-
-    
 }

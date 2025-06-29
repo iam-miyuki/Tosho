@@ -1,91 +1,101 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<body>
-    <div>
-      <h1>Application de gestion des prêts des livres pour école japonaise</h1>
-    </div>
-    <nav>
-      <h2>Géerz les prêts de livres en toute simplicité</h2>
-      <ul>
-        <li>Home</li>
-        <li>Prêts & Retours</li>
-        <li>Inventaire</li>
-        <li>Mon compte</li>
-        <li></li>
-      </ul>
-    </nav>
-    <h3>Prêts & Retours</h3>
 
-    <div>
-      <h4>Chercher par famille</h4>
-      <form action="" method="POST">
-		<div>
-		  <label for="family_name"></label>
-		  <input
-			type="text"
-			id="family_name"
-			name="family_name"
-			placeholder="Rechercher une famille..."
-		  />
-				<button type="submit">Chercher</button>
-		</div>
-	  </form>
-    </div>
-    <div>
-      <h4>Chercher par livre</h4>
-      <form action="" method="POST">
-		<div>
-		  <label for="book_code"></label>
-		  <input
-			type="text"
-			id="book_code"
-			name="book_code"
-			placeholder="Rechercher une famille..."
-		  />
-				<button type="submit">Chercher</button>
-		</div>
-	  </form>
-    </div>
+	<h3>Prêts & Retours</h3>
+
 	<div>
-	<ul>
-		{% if loans %}
-			{% for loan in loans %}
-				<li>{{ loan.family.name }}</li>
-			{% endfor %}
-		{% endif %}
-	</ul>
-	
+		<h4>Chercher par famille</h4>
+		<form action="" method="POST">
+			<div>
+				<label for="family_name"></label>
+				<input type="text" id="family_name" name="family_name" placeholder="Rechercher une famille..."/>
+				<button type="submit">Chercher</button>
+			</div>
+		</form>
 	</div>
-  </body>
-</html>
+	<div>
+		<h4>Chercher par livre</h4>
+		<form action="" method="POST">
+			<div>
+				<label for="book_code"></label>
+				<input type="text" id="book_code" name="book_code" placeholder="Rechercher une famille..."/>
+				<button type="submit">Chercher</button>
+			</div>
+		</form>
+	</div>
+	<div>
+		<ul>
+			{% if loans %}
+				<h3>Ajouter un nouveau prêt pour famille
+					{{ loans[0].family.name }}</h3>
+				<form method="POST" action="{{path('new-loan')}}">
+					<input type="hidden" name="family_id" value="{{ loans[0].family.id }}">
+					<label for="book_code">Code du livre :</label>
+					<input type="text" name="book_code" required>
+					<button type="submit">Prêter</button>
+				</form>
+				{% for loan in loans %}
+
+					<li>{{loan.book.bookCode}}</li>
+					<li>
+						{{loan.book.title}}
+					</li>
+					<li>
+						{{loan.book.author}}
+					</li>
+					<li>
+						{{loan.book.location.value}}
+					</li>
+					<li>
+						Statut :
+						{{loan.book.bookStatus.value}}
+					</li>
+					<li>
+						Emprunté par : Famille
+						{{loan.family.name}}
+					</li>
+					<li>
+						Emprunté :
+						{{loan.loanDate|date('d/m/Y')}}
+					</li>
+					<li>
+						Retour prévu :
+						{{loan.expectedReturnDate|date('d/m/Y')}}
+					</li>
+					<a href="{{path('return-book',{id:loan.id})}}">Rendre</a>
+				{% endfor %}
+
+			{% endif %}
+			{% if loan %}
+				<li>{{loan.book.bookCode}}</li>
+				<li>
+					{{loan.book.title}}
+				</li>
+				<li>
+					{{loan.book.author}}
+				</li>
+				<li>
+					{{loan.book.location.value}}
+				</li>
+				<li>
+					Statut :
+					{{loan.book.bookStatus.value}}
+				</li>
+				<li>
+					Emprunté par : Famille
+					{{loan.family.name}}
+				</li>
+				<li>
+					Emprunté :
+					{{loan.loanDate|date('d/m/Y')}}
+				</li>
+				<li>
+					Retour prévu :
+					{{loan.expectedReturnDate|date('d/m/Y')}}
+				</li>
+				<a href="{{path('return-book',{id:loan.id})}}">Rendre</a>
+			{% endif %}
+		</ul>
+
+	</div>
 {% endblock %}
-
-{# <input type="text" id="search" placeholder="Search for books..." autocomplete="off">
-<ul id="results"></ul>
-
-// <script> #}
-{# // document.addEventListener('DOMContentLoaded', () => {
-//     const input = document.getElementById('search');
-//     const results = document.getElementById('results');
-
-//     input.addEventListener('input', () => {
-//         const query = input.value;
-
-//         if (query.length < 2) {
-//             results.innerHTML = '';
-//             return;
-//         }
-
-//         fetch('/loan/search/autocomplete?query=' + encodeURIComponent(query))
-//             .then(response => response.json())
-//             .then(data => {
-//                 results.innerHTML = '';
-//                 data.forEach(item => {
-//                     const li = document.createElement('li');
-//                     li.textContent = item;
-//                     results.appendChild(li);
-//                 });
-//             });
-//     });
-// });
-// </script> #}

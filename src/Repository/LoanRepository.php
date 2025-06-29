@@ -17,7 +17,7 @@ class LoanRepository extends ServiceEntityRepository
         parent::__construct($registry, Loan::class);
     }
     
-    public function findByFamily(string $name)
+    public function searchByFamily(string $name)
     {
         $qb = $this->createQueryBuilder('loan');
         $qb
@@ -26,12 +26,13 @@ class LoanRepository extends ServiceEntityRepository
             ->leftJoin('loan.family', 'family')
             ->leftJoin('loan.book', 'book')
             ->where('family.name = :name')
-            ->setParameter('name', $name)
-            ;
+            ->andWhere('loan.loanStatus != \'Rendu\'') // afficher la liste des prêts non rendu
+            ->setParameter('name', $name);
 
         return $qb->getQuery()->getResult();
     }
-    public function findByBookCode(string $bookCode)
+
+    public function findOneByBookCode(string $bookCode)
     {
         $qb = $this->createQueryBuilder('loan');
         $qb
@@ -43,4 +44,8 @@ class LoanRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+   
+
+   
 }

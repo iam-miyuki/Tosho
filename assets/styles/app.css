@@ -1,4 +1,37 @@
-body {
-    background-color: rgba(254, 254, 254, 1);
-    color: rgba(28, 33, 118, 1);
+:root {
+  /* Couleurs */
+  --color-primary: #DEBAFF;
+  --color-secondary: #B9FAFF;
+  --color-cameleon:#9BFFEE;
+  --color-badet: #9BAFFF;
+  --color-f: #FF9BD5;
+  --color-mba: #FAFF9B;
+  --color-alert: #FFBABB;
+  --color-btn-hover: #C286F8;
+  --color-edit: #C9FFBA;
+  --color-text: #1C2176;
+  --color-background: #FEFEFE;
+  --color-cards: #FFFFFF;
+
+  /* Tailles de police */
+  --font-xs: 0.875rem;   /* 14px */
+  --font-s: 1rem;        /* 16px */
+  --font-m: 1.125rem;  /* 18px */
+  --font-l: 1.25rem;     /* 20px */
+  --font-xl: 1.5rem;     /* 24px */
+  --font-title: 2rem;       /* 32px */
+
+  /* Margin */
+  /* Padding */
 }
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border-color: var(--color-text);
+}
+
+h1{
+    font-size: var(--font-m);
+}
+
