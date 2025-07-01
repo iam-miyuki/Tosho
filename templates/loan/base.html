@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toshio - Prêts & Retours</title>
+  <link rel="stylesheet" href="base.css" />
+</head>
+<body>
+  <header>
+    <h1>Toshio</h1>
+    <nav>
+      <a href="#">Accueil</a>
+      <a href="#">Prêts & Retours</a>
+      <a href="#">Livres</a>
+      <a href="#">Familles</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Prêts & Retours</h2>
+
+    <div class="tab-container">
+      <div class="tabs">
+        <button class="tab active" data-tab="famille">🔍 Chercher une famille</button>
+        <button class="tab" data-tab="livre">📖 Chercher un livre</button>
+      </div>
+
+      <div class="tab-content active" id="famille">
+        <form>
+          <input type="text" placeholder="Nom de famille…" />
+          <button type="submit">Rechercher</button>
+        </form>
+      </div>
+
+      <div class="tab-content" id="livre">
+        <form>
+          <input type="text" placeholder="Code du livre…" />
+          <button type="submit">Rechercher</button>
+        </form>
+      </div>
+    </div>
+
+    <section class="famille-info">
+      <h3>Famille CHIRIBAL</h3>
+      <p class="success">3 emprunts en cours</p>
+
+      <form class="loan-form">
+        <input type="text" placeholder="ID du livre à emprunter" />
+        <button type="submit">Faire un prêt</button>
+      </form>
+
+      <button class="return-button">Retourner un livre</button>
+    </section>
+
+    <section class="loan-list">
+      <div class="loan-card">
+        <div class="cover"></div>
+        <div class="info">
+          <p><strong>Code :</strong> B123</p>
+          <p><strong>Titre :</strong> Mon livre</p>
+          <p><strong>Auteur :</strong> Mme Yuki</p>
+          <p><strong>Emplacement :</strong> Étage 1</p>
+          <p><strong>Statut :</strong> Emprunté</p>
+          <p><strong>Emprunté le :</strong> 01/07/2025</p>
+          <p><strong>Retour prévu :</strong> 15/07/2025</p>
+          <button class="return-link">Rendre</button>
+        </div>
+      </div>
+
+      <!-- Ajouter d'autres loan-cards ici -->
+    </section>
+  </main>
+</body>
+</html>

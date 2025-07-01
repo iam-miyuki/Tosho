@@ -1,101 +1,119 @@
 {% extends 'base.html.twig' %}
+
 {% block body %}
 
 	<h3>Prêts & Retours</h3>
 
 	<div>
-		<h4>Chercher par famille</h4>
-		<form action="" method="POST">
-			<div>
-				<label for="family_name"></label>
-				<input type="text" id="family_name" name="family_name" placeholder="Rechercher une famille..."/>
-				<button type="submit">Chercher</button>
+		<div class="tab-container">
+			<div class="tabs">
+				<button class="tab active family-tab" data-tab="family">Chercher une famille</button>
+				<button class="tab book-tab" data-tab="book">Chercher un livre</button>
 			</div>
-		</form>
-	</div>
-	<div>
-		<h4>Chercher par livre</h4>
-		<form action="" method="POST">
-			<div>
-				<label for="book_code"></label>
-				<input type="text" id="book_code" name="book_code" placeholder="Rechercher une famille..."/>
-				<button type="submit">Chercher</button>
-			</div>
-		</form>
-	</div>
-	<div>
-		<ul>
-			{% if loans %}
-				<h3>Ajouter un nouveau prêt pour famille
-					{{ loans[0].family.name }}</h3>
-				<form method="POST" action="{{path('new-loan')}}">
-					<input type="hidden" name="family_id" value="{{ loans[0].family.id }}">
-					<label for="book_code">Code du livre :</label>
-					<input type="text" name="book_code" required>
-					<button type="submit">Prêter</button>
+
+			<div class="tab-content active family-tab">
+				<form action="" method="POST">
+					<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
+					<button type="submit">Rechercher</button>
 				</form>
-				{% for loan in loans %}
+                {# Recherche par famille #}
+				{% if loans is defined %}
+					{% if loans|length > 0 %}
+						<h2>Famille
+							{{ loans[0].family.name }}</h2>
 
-					<li>{{loan.book.bookCode}}</li>
-					<li>
-						{{loan.book.title}}
-					</li>
-					<li>
-						{{loan.book.author}}
-					</li>
-					<li>
-						{{loan.book.location.value}}
-					</li>
-					<li>
-						Statut :
-						{{loan.book.bookStatus.value}}
-					</li>
-					<li>
-						Emprunté par : Famille
-						{{loan.family.name}}
-					</li>
-					<li>
-						Emprunté :
-						{{loan.loanDate|date('d/m/Y')}}
-					</li>
-					<li>
-						Retour prévu :
-						{{loan.expectedReturnDate|date('d/m/Y')}}
-					</li>
-					<a href="{{path('return-book',{id:loan.id})}}">Rendre</a>
-				{% endfor %}
+						<h3>Ajouter un nouveau prêt</h3>
+						<form method="POST" action="{{ path('new-loan') }}">
+							<input type="hidden" name="family_id" value="{{ loans[0].family.id }}">
+							<label for="book_code">Code du livre :</label>
+							<input type="text" name="book_code" required>
+							<button type="submit">Prêter</button>
+						</form>
 
-			{% endif %}
-			{% if loan %}
-				<li>{{loan.book.bookCode}}</li>
-				<li>
-					{{loan.book.title}}
-				</li>
-				<li>
-					{{loan.book.author}}
-				</li>
-				<li>
-					{{loan.book.location.value}}
-				</li>
-				<li>
-					Statut :
-					{{loan.book.bookStatus.value}}
-				</li>
-				<li>
-					Emprunté par : Famille
-					{{loan.family.name}}
-				</li>
-				<li>
-					Emprunté :
-					{{loan.loanDate|date('d/m/Y')}}
-				</li>
-				<li>
-					Retour prévu :
-					{{loan.expectedReturnDate|date('d/m/Y')}}
-				</li>
-				<a href="{{path('return-book',{id:loan.id})}}">Rendre</a>
-			{% endif %}
-		</ul>
+						<h3>Prêts en cours</h3>
+						{% for loan in loans %}
+							<li>Code livre :
+								{{ loan.book.bookCode }}</li>
+							<li>Titre :
+								{{ loan.book.title }}</li>
+							<li>Auteur :
+								{{ loan.book.author }}</li>
+							<li>Emplacement :
+								{{ loan.book.location.value }}</li>
+							<li>Statut :
+								{{ loan.book.bookStatus.value }}</li>
+							<li>Emprunté par : Famille
+								{{ loan.family.name }}</li>
+							<li>Emprunté :
+								{{ loan.loanDate|date('d/m/Y') }}</li>
+							<li>Retour prévu :
+								{{ loan.expectedReturnDate|date('d/m/Y') }}</li>
+							<li>
+								<a href="{{ path('return-book', { id: loan.id }) }}">Rendre</a>
+							</li>
+							<hr>
+						{% endfor %}
+						{# {% else %}
+						                {% if selectedFamily is defined %}
+						                    <h2>Aucun prêt en cours pour la famille {{ selectedFamily.name }}</h2>
+						
+						                    <h3>Ajouter un nouveau prêt</h3>
+						                    <form method="POST" action="{{ path('new-loan') }}">
+						                        <input type="hidden" name="family_id" value="{{ selectedFamily.id }}">
+						                        <label for="book_code">Code du livre :</label>
+						                        <input type="text" name="book_code" required>
+						                        <button type="submit">Prêter</button>
+						                    </form>
+						                {% endif %} #}
+					{% endif %}
+				{% endif %}
+			</div>
 
-	</div>
-{% endblock %}
+			<div class="tab-content book-tab">
+				<form action="" method="POST">
+					<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
+					<button type="submit">Rechercher</button>
+				</form>
+                {# Recherche par livre #}
+				{% if loan is defined %}
+					{% if loan %}
+						<h3>Détail du prêt du livre</h3>
+						<li>Code livre :
+							{{ loan.book.bookCode }}</li>
+						<li>Titre :
+							{{ loan.book.title }}</li>
+						<li>Auteur :
+							{{ loan.book.author }}</li>
+						<li>Emplacement :
+							{{ loan.book.location.value }}</li>
+						<li>Statut :
+							{{ loan.book.bookStatus.value }}</li>
+						<li>Emprunté par : Famille
+							{{ loan.family.name }}</li>
+						<li>Emprunté :
+							{{ loan.loanDate|date('d/m/Y') }}</li>
+						<li>Retour prévu :
+							{{ loan.expectedReturnDate|date('d/m/Y') }}</li>
+						<li>
+							<a href="{{ path('return-book', { id: loan.id }) }}">Rendre</a>
+						</li>
+
+					{% else %}
+
+
+						<h3>Aucun livre trouvé</h3>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+		<div>
+			<ul>
+
+				
+
+				
+
+			</ul>
+		</div>
+
+	{% endblock %}

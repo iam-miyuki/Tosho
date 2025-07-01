@@ -22,19 +22,25 @@ final class LoanController extends AbstractController
     {
         $loans = null;
         $loan = null;
+        $familyName = $request->request->get('family_name');
+        $bookCode = $request->request->get('book_code');
+        $selectedFamily = null;
+
         if ($request->getMethod() === 'POST') {
             if ($request->request->has('family_name')) {
-                $loans = $loanRepository->searchByFamily($request->request->get('family_name'));
+                $loans = $loanRepository->searchByFamily($familyName);
+                
             }
             if ($request->request->has('book_code')) {
-                $loan = $loanRepository->findOneByBookCode($request->request->get('book_code'));
+                $loan = $loanRepository->findOneByBookCode($bookCode);
                 //dd($loan);
             }
         }
-
+        
         return $this->render('loan/index.html.twig', [
             'loans' => $loans,
-            'loan' => $loan
+            'loan' => $loan,
+            'selectedFamily' => $selectedFamily
         ]);
     }
      #[Route('/loan/new', name: 'new-loan', methods: ['POST'])]

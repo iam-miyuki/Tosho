@@ -1,0 +1,88 @@
+/* body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #fdfdff;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #d9baff;
+}
+
+header h1 {
+  font-family: 'Comic Sans MS', cursive;
+  color: #2c0177;
+}
+
+nav a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #2c0177;
+  font-weight: bold;
+}
+
+main {
+  padding: 2rem;
+}
+
+
+.famille-info {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #e6ceff;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+.loan-form {
+  margin-top: 1rem;
+}
+
+.return-button {
+  margin-top: 1rem;
+  background-color: #ff9edb;
+}
+
+.loan-list {
+  max-width: 800px;
+  margin: 2rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.loan-card {
+  display: flex;
+  width: 300px;
+  background: #f4e5ff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 2px 2px 5px rgba(100, 0, 150, 0.2);
+}
+
+.cover {
+  width: 60px;
+  height: 90px;
+  background: #ccc;
+  margin-right: 1rem;
+  border-radius: 4px;
+}
+
+.info {
+  font-size: 0.9rem;
+}
+
+.return-link {
+  background: #ff5e5e;
+  margin-top: 0.5rem;
+} */
