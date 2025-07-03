@@ -16,13 +16,5 @@ final class FamilyController extends AbstractController
             'controller_name' => 'FamilyController',
         ]);
     }
-    #[Route('/families', name: 'families')]
-    public function list(FamilyRepository $familyRepository): Response
-    {
-        $families = $familyRepository->findAll(); // Récupère toutes les familles
-
-        return $this->render('family/list.html.twig', [
-            'families' => $families,
-        ]);
-    }
+    
 }

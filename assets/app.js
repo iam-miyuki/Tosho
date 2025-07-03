@@ -7,4 +7,29 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+document.addEventListener('DOMContentLoaded', () => {
+	const tabs = document.querySelectorAll('.tab');
+	const tabContents = document.querySelectorAll('.tab-content');
+	const currentTab = (new URLSearchParams(window.location.search)).get('tab');
+	// document.querySelector('.tab.family-tab').classList.add('active');
+	// document.querySelector('.tab-content.family-tab').classList.add('active');
+	// if (currentTab && currentTab === 'book') {
+	// 	document.querySelector('.tab.family-tab').classList.remove('active');
+	// 	document.querySelector('.tab-content.family-tab').classList.remove('active');
+	// 	document.querySelector('.tab-content.book-tab').classList.add('active');
+	// }	
+
+	tabs.forEach(tab => {
+		tab.addEventListener('click', (event)=> {
+			tabs.forEach(tab => tab.classList.remove('active'));
+			tabContents.forEach(content => content.classList.remove('active'));
+			event.target.classList.add('active');
+			if (event.target.classList.contains('book-tab')) {
+				document.querySelector('.tab-content.book-tab').classList.add('active');
+			} else if (event.target.classList.contains('family-tab')) {
+				document.querySelector('.tab-content.family-tab').classList.add('active');
+			}
+		});
+	});
+});

@@ -16,13 +16,5 @@ final class BookController extends AbstractController
             'controller_name' => 'BookController',
         ]);
     }
-    #[Route('/books', name: 'books')]
-    public function bookList(BookRepository $bookRepository): Response
-    {
-        $books = $bookRepository->findAll(); // Récupère toutes les familles
-
-        return $this->render('book/list.html.twig', [
-            'books' => $books,
-        ]);
-    }
+    
 }

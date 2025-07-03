@@ -17,35 +17,41 @@ class LoanRepository extends ServiceEntityRepository
         parent::__construct($registry, Loan::class);
     }
     
-    public function searchByFamily(string $name)
+    public function findByFamilyName(string $familyName)
     {
         $qb = $this->createQueryBuilder('loan');
         $qb
-            ->addSelect('family')
-            ->addSelect('book')
-            ->leftJoin('loan.family', 'family')
-            ->leftJoin('loan.book', 'book')
-            ->where('family.name = :name')
-            ->andWhere('loan.loanStatus != \'Rendu\'') // afficher la liste des prêts non rendu
-            ->setParameter('name', $name);
-
+        ->addSelect('family')
+        ->addSelect('book')
+        ->leftJoin('loan.family', 'family')
+        ->leftJoin('loan.book', 'book')
+        ->where('family.name = :name')
+        ->andWhere("loan.loanStatus != :status") // afficher la liste des prêts non rendu
+        ->setParameter('name', $familyName)
+        ->setParameter('status', 'Rendu');
+        // dd($qb->getQuery()->getSQL());
         return $qb->getQuery()->getResult();
 
         // TODO : s'occuper de cas ou il y a deux comptes au même nom, meme s'il n'y a pas de prets en cours
     }
 
-    public function findOneByBookCode(string $bookCode)
+    public function findByFamilyId(string $familyId)
     {
         $qb = $this->createQueryBuilder('loan');
         $qb
-            ->addSelect('book')
-            ->leftJoin('loan.book', 'book')
-            ->where('book.bookCode = :code')
-            ->setParameter('code', $bookCode)
-            ;
-
-        return $qb->getQuery()->getOneOrNullResult();
+        ->addSelect('family')
+        ->addSelect('book')
+        ->leftJoin('loan.family', 'family')
+        ->leftJoin('loan.book', 'book')
+        ->where('family.id = :id')
+        ->andWhere("loan.loanStatus != :status") // afficher la liste des prêts non rendu
+        ->setParameter('id', $familyId)
+        ->setParameter('status', 'Rendu');
+        // dd($qb->getQuery()->getSQL());
+        return $qb->getQuery()->getResult();
     }
+
+    
 
    
 

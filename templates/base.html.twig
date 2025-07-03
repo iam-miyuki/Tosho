@@ -10,7 +10,8 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
 		{% block stylesheets %}{% endblock %}
 
 		{% block javascripts %}
@@ -21,8 +22,11 @@
 	</head>
 	<body>
 		{% block header %}
-			<div class="sub">
-				<h1>Application de gestion des prêts des livres pour école japonaise</h1>
+			<div id="header">
+				<div class="header-top">
+					<img src="{{ asset('img/LogoToshoDesktop.svg') }}" alt="logo">
+					<h1>Application de gestion des prêts des livres pour école japonaise</h1>
+				</div>
 				<nav>
 					<h2>Gérez les prêts de livres en toute simplicité</h2>
 					<ul>
@@ -39,7 +43,10 @@
 		{% block body %}{% endblock %}
 
 		{% block footer %}
-			<p>Application de gestion des prêts des livres pour école japonaise</p>
+			<div class="footer">
+				<img src="{{ asset('img/LogoToshoMobile.svg') }}" alt="logo">
+				<p>Application de gestion des prêts des livres pour école japonaise</p>
+			</div>
 		{% endblock %}
 	</body>
 </html>

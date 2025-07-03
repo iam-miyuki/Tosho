@@ -15,4 +15,13 @@ class BookRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Book::class);
     }
+
+    public function findByBookCode(string $bookCode)
+    {
+        $qb = $this->createQueryBuilder('book');
+        $qb
+            ->where('book.bookCode = :bookCode')
+            ->setParameter('bookCode', $bookCode);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

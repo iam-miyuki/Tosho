@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use App\Enum\LoanStatusEnum;
+use App\Repository\LoanRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity()]
+#[ORM\Entity(repositoryClass: LoanRepository::class)]
 class Loan
 {
     #[ORM\Id]
