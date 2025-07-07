@@ -11,13 +11,13 @@
 			class="tab-container">
 			{# label de tabs #}
 			<div class="tabs">
-				<button class="tab family-tab {{ tab == 'family' ? 'active' : '' }}" data="family">Chercher une famille</button>
-				<button class="tab book-tab {{ tab == 'book' ? 'active' : '' }}" data="book">Chercher un livre</button>
+				<a href="{{ path('loan', {tab: 'family'}) }}" class="tab family-tab {{ tab == 'family' ? 'active' : '' }}" data="family">Chercher par famille</a>
+				<a href="{{ path('loan', {tab: 'book'}) }}" class="tab book-tab {{ tab == 'book' ? 'active' : '' }}" data="book">Chercher par livre</a>
 			</div>
 			{# Rechercher une famille #}
 			<div class="tab-content family-tab {{ tab == 'family' ? 'active' : '' }}">
 				<form action="" method="POST">
-					<h3>Chercher une famille</h3>
+					<h3>Chercher par famille</h3>
 
 					{# <img src="{{ asset('img/IconFamily.svg') }}" alt="family"> #}
 					<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
@@ -25,12 +25,12 @@
 					<button type="submit">Rechercher</button>
 				</form>
 
-				{% if searchedFamily %}
-					{% if searchedFamily|length > 0 %}
+				{% if searchedFamilies %}
+					{% if searchedFamilies|length > 0 %}
 						<h4>Résultats de recherche :
 						</h4>
-						<ul>
-							{% for family in searchedFamily %}
+						<ul class="result-list">
+							{% for family in searchedFamilies %}
 								<li>
 									<a href="{{ path('loan-by-family', {familyId: family.id}) }}">
 										{{family.name|upper }}
@@ -51,7 +51,9 @@
 					<h2>Famille
 						{{ currentFamily.name }}</h2>
 
-					<h3>Ajouter un nouveau prêt</h3>
+					<div>
+						<h3>Ajouter un nouveau prêt</h3>
+					</div>
 					<form method="POST" action="{{ path('new-loan') }}">
 						<input type="hidden" name="family_id" value="{{ currentFamily.id }}">
 						<label for="book_code">Code du livre :</label>
@@ -109,7 +111,7 @@
 			{# Chercher un livre #}
 			<div class="tab-content book-tab {{ tab == 'book' ? 'active' : '' }}">
 				<form action="" method="POST">
-					<h3>Chercher un livre</h3>
+					<h3>Chercher par livre</h3>
 					<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
 					<button type="submit">Rechercher</button>
 				</form>

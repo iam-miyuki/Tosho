@@ -1,5 +1,5 @@
 :root {
-  /* Couleurs */
+  /* colors */
   --color-primary: #debaff;
   --color-text: #1c2176;
   --color-secondary: #b9faff;
@@ -13,21 +13,20 @@
   --color-background: #fefefe;
   --color-cards: #ffffff;
 
-  /* Tailles de police */
-  --font-xs: 0.875rem; /* 14px */
-  --font-s: 1rem; /* 16px */
-  --font-m: 1.125rem; /* 18px */
-  --font-l: 1.25rem; /* 20px */
-  --font-xl: 1.5rem; /* 24px */
-  --font-title: 2rem; /* 32px */
+  /* font-size */
+  --font-xs: 0.875rem; 
+  --font-s: 1rem; 
+  --font-m: 1.125rem; 
+  --font-l: 1.25rem; 
+  --font-xl: 1.5rem; 
+  --font-title: 2rem; 
 
-  /* Police */
+  /* font-family */
   --font-main: "MuseoModerno", sans-serif;
   --font-sub: "Outfit", sans-serif;
 
-  /* Margin */
-  /* Padding */
-}
+ 
+} 
 
 body {
   background-color: var(--color-background);
@@ -200,12 +199,18 @@ form button {
   font-family: var(--font-main);
   cursor: pointer;
   box-shadow: 6px 6px 0 var(--color-text); 
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 form button:hover {
   background-color:var(--color-btn-hover);
 }
+
+form button:active {
+  box-shadow: 2px 2px 0 var(--color-text);
+  transform: translate(2px, 2px);
+}
+
 
 .footer p{
   font-family: var(--font-sub);
@@ -238,7 +243,7 @@ form button:hover {
 .return-book {
   background: none;
   border: none;
-  color: #4b0082;
+  color: var(--color-text);
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -249,6 +254,7 @@ form button:hover {
 .return-book span {
   font-size: 12px;
   margin-top: -4px;
+  color: var(--color-text);
 }
 
 .card-body {
@@ -273,13 +279,26 @@ form button:hover {
 
 .location {
   display: inline-block;
-  background-color: var(--color-mba);
   border: 2px solid var(--color-text);
-  padding: 4px 10px;
+  padding: 0.2rem 1rem;
+  
   border-radius: 10px;
   font-weight: bold;
   color: var(--color-text);
+  text-align: center;
+}
+.location.cameleon{
+  background-color: var(--color-cameleon);
+}
+.location.f{
+  background-color: var(--color-f);
+}
+.location.badet{
+  background-color: var(--color-badet);
+}
+.location.mba{
+  background-color: var(--color-mba);
 }
 .cards-container{
   display: flex;
-}
+} 
