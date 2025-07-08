@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Family;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Family>
@@ -25,6 +26,7 @@ class FamilyRepository extends ServiceEntityRepository
             ->setParameter('familyName', $familyName);
         return $qb->getQuery()->getResult();
     }
+
     public function findOneById(int $familyId)
     {
         $qb = $this->createQueryBuilder('family');

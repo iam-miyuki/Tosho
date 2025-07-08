@@ -16,14 +16,16 @@
 			</div>
 			{# Rechercher une famille #}
 			<div class="tab-content family-tab {{ tab == 'family' ? 'active' : '' }}">
+
+
 				<form action="" method="POST">
+
+
 					<h3>Chercher par famille</h3>
-
-					{# <img src="{{ asset('img/IconFamily.svg') }}" alt="family"> #}
 					<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
-
 					<button type="submit">Rechercher</button>
 				</form>
+
 
 				{% if searchedFamilies %}
 					{% if searchedFamilies|length > 0 %}
@@ -150,6 +152,8 @@
 						</div>
 					{% else %}
 						<div class="card">
+							<h3>Livre disponible</h3>
+							<p>pour prêter ce livre, veuillez d'abord choisir une famille dans l'onglet 'chercher par famille'</p>
 							<div class="card-body">
 								<div class="book-image"></div>
 								<div class="book-details">
@@ -164,14 +168,15 @@
 									<p>Emplacement :
 										<span class="location">{{ currentBook.location.value }}</span>
 									</p>
-									<div class="btn-loan">
-										<a href="{{ path('new-loan', { id: currentBook.id }) }}">Prêter
-										</a>
-									</div>
+									
+									
+									
+									
+
 								</div>
 							</div>
 						</div>
-				
+
 					{% endif %}
 				{% endif %}
 

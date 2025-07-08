@@ -45,9 +45,13 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpAuthor = null;
 
+    
+
+    
+
     public function __construct()
     {
-        $this->loans = new ArrayCollection();
+        $this->loans = new ArrayCollection();        
     }
 
     
@@ -179,4 +183,7 @@ class Book
 
         return $this;
     }
+
+    
+   
 }

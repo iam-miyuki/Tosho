@@ -1,8 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des livres{% endblock %}
+{% block title %}Gestion des livres
+{% endblock %}
 
 {% block body %}
-<h2>Livres</h2>
-{% endblock %}
-r002
+	<form action="" method="POST">
+		<h3>Chercher par livre</h3>
+		<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
+		<button type="submit">Rechercher</button>
+	</form>
+	{% if currentBook is defined and currentBook is not null %}
+
+		<div class="card">
+			<div class="card-header">
+				<a href="{{ path('modify-book', { id: currentBook.id }) }}" class="modify-book"><img src="{{ asset('img/IconPencil.svg') }}" alt="modify">
+					
+				</a>
+			
+            
+				<a href="{{ path('delete-book', { id: currentBook.id }) }}" class="delete-book"><img src="{{ asset('img/IconTrush.svg') }}" alt="delete">
+					
+				</a>
+			</div>
+			<div class="card-body">
+				<div class="book-image"></div>
+				<div class="book-details">
+					<p>Code :
+						{{ currentBook.bookCode }}</p>
+					<p>Titre :
+						{{ currentBook.title }}</p>
+					<p>Auteur :
+						{{ currentBook.author }}</p>
+					{# <p>Date d’emprunt :
+															{{ currentBookLoan.loanDate|date('d/m/Y') }}</p>
+														<p>Date de retour prévu :
+															{{ currentBookLoan.expectedReturnDate|date('d/m/Y') }}</p> #}
+					<p>Statut :
+						{{ currentBook.bookStatus.value }}</p>
+					{# <p>Emprunté par : famille
+															{{ currentBook.family.name }}</p> #}
+					<p>Emplacement :
+						<span class="location">{{ currentBook.location.value }}</span>
+					</p>
+				</div>
+			</div>
+
+		</div>
+
+
+	{% endif %}
+	{% if condition %}{% endif %}
+	
+
+
+</div>{% endblock %}
