@@ -45,13 +45,20 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpAuthor = null;
 
+    /**
+     * @var Collection<int, InventoryItem>
+     */
+    #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'Book')]
+    private Collection $inventoryItems;
+
     
 
     
 
     public function __construct()
     {
-        $this->loans = new ArrayCollection();        
+        $this->loans = new ArrayCollection();
+        $this->inventoryItems = new ArrayCollection();        
     }
 
     
@@ -180,6 +187,36 @@ class Book
     public function setJpAuthor(?string $jpAuthor): static
     {
         $this->jpAuthor = $jpAuthor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryItem>
+     */
+    public function getInventoryItems(): Collection
+    {
+        return $this->inventoryItems;
+    }
+
+    public function addInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if (!$this->inventoryItems->contains($inventoryItem)) {
+            $this->inventoryItems->add($inventoryItem);
+            $inventoryItem->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if ($this->inventoryItems->removeElement($inventoryItem)) {
+            // set the owning side to null (unless already changed)
+            if ($inventoryItem->getBook() === $this) {
+                $inventoryItem->setBook(null);
+            }
+        }
 
         return $this;
     }

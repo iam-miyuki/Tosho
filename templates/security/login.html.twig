@@ -10,13 +10,13 @@
 		{% endif %}
 
 		{% if app.user %}
-			<div class="mb-3">
+			<div>
 				You are logged in as
 				{{ app.user.userIdentifier }},
 				<a href="{{ path('app_logout') }}">Logout</a>
 			</div>
 		{% endif %}
-<div class="conainers">
+<div class="containers">
     
             <div class="container">
                 <div class="form-title">
@@ -53,8 +53,8 @@
                         Se connecter
                     </button>
                 </div>
-            </div>
-            <div class="container">
+            {# </div> #}
+            {# <div class="container">
                 <div class="form-title">
                     <span>
                         <h3>Première connection ?</h3>
@@ -62,31 +62,25 @@
                     <span>
                         <h3>Activez votre compte !</h3>
                     </span>
-                    <img src="{{ asset('img/IconLogin.svg') }}" alt="login">
-                </div>
-                <div class="form-container">
+                    <img src="{{ asset('img/IconStart.svg') }}" alt="login">
+                </div> #}
+                {# <div class="form-container">
                     <div class="login-container">
                         <div class="form form-mail">
                             <div class="form-label">
                                 <label for="username">Email :</label>
                             </div>
                             <div><input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus></div>
-                        </div>
-                        <div class="form form-pass">
-                            <div class="form-label">
-                                <label for="password">Mot de passe :
-                                </label>
-                            </div>
-                            <div><input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required></div>
-                        </div>
-                    </div>
+                        </div> #}
+                        
+                    {# </div>
                     <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
     
-                    <button class="btn btn-lg btn-primary" type="submit">
+                    <button class="form button" type="submit">
                         Suivant
                     </button>
                 </div>
-            </div>
+            </div> #}
 </div>
 	</form>
 {% endblock %}

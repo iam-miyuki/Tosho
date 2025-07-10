@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste familles
+{% block title %}Gestion des familles
 {% endblock %}
 
 {% block body %}
+	<a href="{{path('new-family')}}">Ajouter une nouvelle famille</a>
 	<form action="" method="POST">
 		<h3>Chercher par famille</h3>
 		<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
@@ -14,7 +15,10 @@
 			{% for family in searchedFamilies %}
 				<li>
 					<a href="{{ path('show-family', {id: family.id}) }}">
-						{{family.name}}
+
+						{{family.name| upper}}
+						/
+						{{family.jpName}}
 					</a>
 				</li>
 
@@ -22,12 +26,44 @@
 		</ul>
 
 	{% endif %}
-		{% if currentFamily is defined %}
-			<h3>
-				{{currentFamily.name}}
-			</h3>
-		{% endif %}
-		
+	{% if currentFamily is defined %}
+		<h3>
+			{{currentFamily.name | upper}}
+			/
+			{{currentFamily.jpName}}
+		</h3>
+		<div class="card">
+			<div class="card-header">
+				<a href="{{ path('modify-family', { id: currentFamily.id }) }}" class="modify"><img src="{{ asset('img/IconPencil.svg') }}" alt="modify">
+
+				</a>
+
+
+				<a href="{{ path('delete-family', { id: currentFamily.id }) }}" class="delete"><img src="{{ asset('img/IconTrush.svg') }}" alt="delete">
+
+				</a>
+			</div>
+			<div class="card-body">
+				<ul>
+					<p>Code famille :
+						{{currentFamily.code}}</p>
+					<p>Email :
+						{{currentFamily.email}}</p>
+					<div class="detail">
+						{% for member in members %}
+							<p>Enfant 1</p>
+							<p>Prénom :
+								{{member.firstName}}
+							</p>
+							<p>Prénom en japonias :
+								{{member.jpFirstName}}
+							</p>
+						{% endfor %}
+					</div>
+				</ul>
+			</div>
+		</div>
+	{% endif %}
 
 
 {% endblock %}

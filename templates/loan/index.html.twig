@@ -37,7 +37,7 @@
 									<a href="{{ path('loan-by-family', {familyId: family.id}) }}">
 										{{family.name|upper }}
 										/
-										{{family.members[0].firstName}}</a>
+										{{family.jpName}}</a>
 								</li>
 							{% endfor %}
 
@@ -51,7 +51,7 @@
 
 				{% if currentFamily %}
 					<h2>Famille
-						{{ currentFamily.name }}</h2>
+						{{ currentFamily.name|upper }} / {{currentFamily.jpName}}</h2>
 
 					<div>
 						<h3>Ajouter un nouveau prêt</h3>
@@ -78,7 +78,7 @@
 										</div>
 										<div class="card-body">
 											<div class="book-image"></div>
-											<div class="book-details">
+											<div class="detail book-details">
 												<p>Code :
 													{{ loan.book.bookCode }}</p>
 												<p>Titre :
@@ -92,7 +92,7 @@
 												<p>Statut :
 													{{ loan.loanStatus.value }}</p>
 												<p>Emprunté par : famille
-													{{ loan.family.name }}</p>
+													{{ loan.family.name | upper }} / {{loan.family.jpName}}</p>
 												<p>Emplacement :
 													<span class="location">{{ loan.book.location.value }}</span>
 												</p>
@@ -128,7 +128,7 @@
 							</div>
 							<div class="card-body">
 								<div class="book-image"></div>
-								<div class="book-details">
+								<div class="detail book-details">
 									<p>Code :
 										{{ currentBookLoan.book.bookCode }}</p>
 									<p>Titre :
@@ -142,7 +142,7 @@
 									<p>Statut :
 										{{ currentBookLoan.loanStatus.value }}</p>
 									<p>Emprunté par : famille
-										{{ currentBookLoan.family.name }}</p>
+										{{ currentBookLoan.family.name | upper }} / {{currentBookLoan.family.jpName}} </p>
 									<p>Emplacement :
 										<span class="location">{{ currentBookLoan.book.location.value }}</span>
 									</p>
@@ -156,7 +156,7 @@
 							<p>pour prêter ce livre, veuillez d'abord choisir une famille dans l'onglet 'chercher par famille'</p>
 							<div class="card-body">
 								<div class="book-image"></div>
-								<div class="book-details">
+								<div class="detail book-details">
 									<p>Code :
 										{{ currentBook.bookCode }}</p>
 									<p>Titre :

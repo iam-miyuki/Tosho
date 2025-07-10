@@ -33,6 +33,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * @var Collection<int, Inventory>
+     */
+    #[ORM\OneToMany(targetEntity: Inventory::class, mappedBy: 'User')]
+    private Collection $inventories;
+
+    /**
+     * @var Collection<int, Loan>
+     */
+    #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'User')]
+    private Collection $loans;
+
+    public function __construct()
+    {
+        $this->inventories = new ArrayCollection();
+        $this->loans = new ArrayCollection();
+    }
+
     
 
    
@@ -108,6 +126,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Inventory>
+     */
+    public function getInventories(): Collection
+    {
+        return $this->inventories;
+    }
+
+    public function addInventory(Inventory $inventory): static
+    {
+        if (!$this->inventories->contains($inventory)) {
+            $this->inventories->add($inventory);
+            $inventory->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventory(Inventory $inventory): static
+    {
+        if ($this->inventories->removeElement($inventory)) {
+            // set the owning side to null (unless already changed)
+            if ($inventory->getUser() === $this) {
+                $inventory->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): static
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): static
+    {
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getUser() === $this) {
+                $loan->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
     

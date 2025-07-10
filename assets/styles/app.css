@@ -53,7 +53,6 @@ body {
 #header img{
   height: auto;
   width: 11rem;
-  
 }
 h1,p,h3 li {
   font-family: var(--font-sub);
@@ -72,7 +71,6 @@ h2 {
   font-weight: 800;
   padding: 0;
   margin: 0.5rem;
-
 }
 
 h3{
@@ -207,13 +205,8 @@ hr{
   padding: 2rem 5rem 5rem 5rem;
   margin:2rem;
 }
-.containers{
-  display: flex;
-  flex-direction: row;
-}
+
 .container{
-  display: block;
-  
   margin: 1rem;
 }
 form button {
@@ -300,7 +293,7 @@ form button:active {
   border: 1px solid #999;
 }
 
-.book-details {
+.detail {
   font-size: 14px;
   color: var(--color-text);
   text-align: left;

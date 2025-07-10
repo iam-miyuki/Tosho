@@ -30,7 +30,7 @@ final class LoanController extends AbstractController
         $bookCode = $request->request->get('book_code');
         $currentBook = null;
         $currentBookLoan = null;
-        
+
         if ($request->getMethod() === 'POST') {
             if ($request->request->has('family_name')) {
                 $searchedFamilies = $entityManager->getRepository(Family::class)->findAllByName($familyName);
@@ -63,7 +63,6 @@ final class LoanController extends AbstractController
                     'tab' => 'book'
                 ]);
             }
-           
         } // else (get...)
         $defaultTab = $request->query->get('tab');
         if (!$defaultTab) {
@@ -75,7 +74,7 @@ final class LoanController extends AbstractController
             'loans' => null,
             'currentBook' => null,
             'currentBookLoan' => null,
-    
+
             'tab' => $defaultTab
         ]);
     }
@@ -106,34 +105,42 @@ final class LoanController extends AbstractController
                     return $this->redirectToRoute('loan-by-family', [
                         'familyId' => $familyId,
                     ]);
-                } else {
+                }
+                if ($family && $book && $book->getBookStatus() === BookStatusEnum::borrowed) {
                     dd('ce livre est déjà emprunté !');
+                } else {
+                    dd('aucun livre trouvé !');
                 }
             }
             if ($request->request->has('book_code') && !$request->request->has('family_name')) {
                 $bookCode = $request->request->get('book_code');
                 $currentBook = $entityManager->getRepository(Book::class)->findOneByBookCode($bookCode);
-                return $this->render('loan/index.html.twig', [
-                    'currentBook' => $currentBook,
-                    'currentBookLoan' => null,
-                    'currentFamily'=>null,
-                    'searchedFamilies'=>null,
-                   
-                    'loans'=>null,
-                    'tab'=> 'family'
-                ]);
+                if ($currentBook && $currentBook != null) {
+
+                    return $this->render('loan/index.html.twig', [
+                        'currentBook' => $currentBook,
+                        'currentBookLoan' => null,
+                        'currentFamily' => null,
+                        'searchedFamilies' => null,
+
+                        'loans' => null,
+                        'tab' => 'family'
+                    ]);
+                } 
+                else {
+                    dd('aucun livre trouvé !');
+                }
             }
-            
         }
         return $this->redirectToRoute('loan');
     }
 
- #[Route(path: '/{familyId}/list', name: 'loan-by-family')]
+    #[Route(path: '/{familyId}/list', name: 'loan-by-family')]
     public function loanByFamily(int $familyId, EntityManagerInterface $entityManager, Request $request): Response
     {
         //$familyName = null;
 
-        
+
         $familyName = $request->request->get('family_name');
 
         if ($request->request->has('family_name')) {

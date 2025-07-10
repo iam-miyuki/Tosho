@@ -39,6 +39,9 @@ class Loan
     #[ORM\ManyToOne(inversedBy: 'loans')]
     private ?Book $book = null;
 
+    #[ORM\ManyToOne(inversedBy: 'loans')]
+    private ?User $User = null;
+
     public function getId(): int
     {
         return $this->id;
@@ -106,6 +109,18 @@ class Loan
     public function setBook(?Book $book): static
     {
         $this->book = $book;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): static
+    {
+        $this->User = $User;
 
         return $this;
     }

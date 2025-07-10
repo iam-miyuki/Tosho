@@ -13,18 +13,18 @@
 
 		<div class="card">
 			<div class="card-header">
-				<a href="{{ path('modify-book', { id: currentBook.id }) }}" class="modify-book"><img src="{{ asset('img/IconPencil.svg') }}" alt="modify">
+				<a href="{{ path('modify-book', { id: currentBook.id }) }}" class="modify"><img src="{{ asset('img/IconPencil.svg') }}" alt="modify">
 					
 				</a>
 			
             
-				<a href="{{ path('delete-book', { id: currentBook.id }) }}" class="delete-book"><img src="{{ asset('img/IconTrush.svg') }}" alt="delete">
+				<a href="{{ path('delete-book', { id: currentBook.id }) }}" class="delete"><img src="{{ asset('img/IconTrush.svg') }}" alt="delete">
 					
 				</a>
 			</div>
 			<div class="card-body">
 				<div class="book-image"></div>
-				<div class="book-details">
+				<div class="detail book-details">
 					<p>Code :
 						{{ currentBook.bookCode }}</p>
 					<p>Titre :
@@ -49,7 +49,6 @@
 
 
 	{% endif %}
-	{% if condition %}{% endif %}
 	
 
 

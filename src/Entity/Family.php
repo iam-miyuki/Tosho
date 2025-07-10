@@ -27,6 +27,15 @@ class Family
     #[ORM\OneToMany(targetEntity: Member::class, mappedBy: 'family')]
     private Collection $members;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jpName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $email = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isActive = null;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -89,6 +98,42 @@ class Family
                 $member->setFamily(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getJpName(): ?string
+    {
+        return $this->jpName;
+    }
+
+    public function setJpName(?string $jpName): static
+    {
+        $this->jpName = $jpName;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): static
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

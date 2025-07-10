@@ -5,7 +5,7 @@
 
 	<ul>
         {% for family in families %}
-            <li> {{family.name}}</li>
+            <li> {{family.name | upper}} / {{family.jpName}} </li>
             {% else %}
                 <li>Aucune famille trouvée</li>
         {% endfor %}
