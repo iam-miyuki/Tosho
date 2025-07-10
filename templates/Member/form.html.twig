@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un enfant
+{% endblock %}
+{% block body %}
+<h3>Ajouter un enfant</h3>
+
+	{{ form_start(form) }}
+	{{ form_row(form.firstName) }}
+	{{ form_row(form.jpFirstName) }}
+	{{ form_row(form.family) }}
+
+	<button class="btn btn-primary">Ajouter</button>
+
+	{{ form_end(form) }}
+
+{% endblock %}

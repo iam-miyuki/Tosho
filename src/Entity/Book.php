@@ -51,6 +51,9 @@ class Book
     #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'Book')]
     private Collection $inventoryItems;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $addedAt = null;
+
     
 
     
@@ -217,6 +220,18 @@ class Book
                 $inventoryItem->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddedAt(): ?\DateTimeImmutable
+    {
+        return $this->addedAt;
+    }
+
+    public function setAddedAt(?\DateTimeImmutable $addedAt): static
+    {
+        $this->addedAt = $addedAt;
 
         return $this;
     }

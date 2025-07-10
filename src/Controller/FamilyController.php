@@ -4,15 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Family;
 use App\Entity\Member;
+use App\Form\FamilyTypeForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route(path: '/family')]
+#[IsGranted('ROLE_USER')]
 final class FamilyController extends AbstractController
 {
-    #[Route('/family', name: 'family')]
+    #[Route('/', name: 'family')]
     public function index(Request $request, 
     EntityManagerInterface $em): Response
     {
@@ -31,14 +35,25 @@ final class FamilyController extends AbstractController
         ]);
     }
     
-    
-    #[Route('/family/new', name:'new-family')]
-    public function create(Request $request) : Response
-    {
-        dd('je suis la');
+    #[Route('/new', name:'new-family')]
+    public function new(Request $request, EntityManagerInterface $em) : Response
+    {  
+        $family = new Family();
+        $form = $this->createForm(FamilyTypeForm::class ,$family);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&& $form->isValid()){
+            $family->setCreatedAt(new \DateTimeImmutable('now'));
+            $family->setIsActive(true);
+            $family = $form->getData();
+            $em->persist($family);
+            $em->flush();
+        }
+        return $this->render('family/form.html.twig',[
+            'form'=>$form
+        ]);
     }
 
-    #[Route('/family/{id}', name:'show-family')]
+    #[Route('/{id}', name:'show-family')]
     public function read(int $id, EntityManagerInterface $em, Request $request)
     {
         
@@ -61,7 +76,7 @@ final class FamilyController extends AbstractController
     }
 
 
-     #[Route('/family/modify/{id}', name:'modify-family')]
+     #[Route('/modify/{id}', name:'modify-family')]
     public function update(int $id, EntityManagerInterface $em) : Response
     {
         $currentFamily = $em->getRepository(Family::class)->find($id);
@@ -71,16 +86,15 @@ final class FamilyController extends AbstractController
         ]);
     }
 
-    #[Route('/family/delete/{id}', name:'delete-family')]
+    #[Route('/delete/{id}', name:'delete-family')]
     public function delete(int $id, EntityManagerInterface $em) : Response
     {
         $currentFamily = $em->getRepository(Family::class)->find($id);
-
         if($currentFamily)
         {
-        // TODO:cascade avec membres
+            $em->remove($currentFamily);
+            $em->flush();
         }
         return $this->render('family/index.html.twig');
     }
-    
 }
