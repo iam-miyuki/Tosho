@@ -45,7 +45,6 @@ final class FamilyController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $family->setCreatedAt(new \DateTimeImmutable('now'));
-            $family->setIsActive(true);
             $family = $form->getData();
             $em->persist($family);
             $em->flush();

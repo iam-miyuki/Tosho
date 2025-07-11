@@ -30,7 +30,7 @@ class Book
     #[ORM\Column(type: 'string', enumType: BookStatusEnum::class)]
     private BookStatusEnum $bookStatus;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string',length: 4, unique : true)]
     private ?string $bookCode = null;
 
     /**

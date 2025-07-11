@@ -33,9 +33,6 @@ class Family
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(nullable: true)] 
-    private ?bool $isActive = null;
-
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -129,17 +126,7 @@ class Family
         return $this;
     }
 
-    public function isActive(): ?bool
-    {
-        return $this->isActive;
-    }
-
-    public function setIsActive(?bool $isActive): static
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
+    
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
