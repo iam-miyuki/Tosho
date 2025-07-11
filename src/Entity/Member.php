@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\LocationEnum;
 use App\Repository\MemberRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,6 +25,8 @@ class Member
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpFirstName = null;
+
+    
 
 
     public function getId(): ?int

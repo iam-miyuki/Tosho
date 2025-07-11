@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Success
+{% endblock %}
+{% block body %}
+<h4>La famille {{family.name}} / {{family.jpName}} a été ajouté avec success ! </h4>
+<p>Voulez-vous ajouter des enfants dans cette famille ?</p>
+<a href="{{path('new-member',{id: family.id})}}">Ajouter</a>
+
+<p>Voulez-vous ajouter une nouvelle famille ?</p>
+<a href="">Ajouter une nouvelle famille</a>
+{% endblock %}

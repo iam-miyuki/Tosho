@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier
+{% endblock %}
+{% block body %}
+<h3>Modifier</h3>
+	{{ form_start(form) }}
+	{{ form_row(form.name) }}
+	{{ form_row(form.jpName) }}
+	{{ form_row(form.email) }}
+		
+	{{ form_row(form.members) }}
+
+
+<a href="{{path('new-member',{id: currentFamily.id})}}">Ajouter un enfant</a>
+	<button type="submit">Modifier</button>
+{{ form_end(form) }}
+	
+{% endblock %}

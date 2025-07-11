@@ -21,10 +21,9 @@ final class BookController extends AbstractController
     {
         $bookCode = $request->request->get('book_code');
         $currentBook = null;
-        if($bookCode)
-        {
+        if ($bookCode) {
             $currentBook = $em->getRepository(Book::class)->findOneByBookCode([
-                'bookCode'=>$bookCode
+                'bookCode' => $bookCode
             ]);
             // return $this->render('book/index.html.twig',[
             //     'currentBook'=>$currentBook
@@ -33,32 +32,32 @@ final class BookController extends AbstractController
 
         return $this->render('book/index.html.twig', [
             'currentBook' => $currentBook,
-            'bookToModify'=>null,
-            'bookToDelete'=>null
-        ]);
-    }
-    
-    #[Route('/modify/{id}', name:'modify-book')]
-    public function modify(int $id, EntityManagerInterface $em) : Response
-    {
-        $bookToModify = $em->getRepository(Book::class)->find($id);
-        dd($bookToModify);
-        return $this->render('book/index.html.twig',[
-            'currentBook'=>null,
-            'bookToModify'=>$bookToModify,
-            'bookToDelete'=>null
+            'bookToEdit' => null,
+            'bookToDelete' => null
         ]);
     }
 
-    #[Route('/delete/{id}', name:'delete-book')]
-    public function delete(int $id, EntityManagerInterface $em) : Response
+    #[Route('/edit/{id}', name: 'edit-book')]
+    public function edit(int $id, EntityManagerInterface $em): Response
+    {
+        $bookToEdit = $em->getRepository(Book::class)->find($id);
+        dd($bookToEdit);
+        return $this->render('book/index.html.twig', [
+            'currentBook' => null,
+            'bookToEdit' => $bookToEdit,
+            'bookToDelete' => null
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete-book')]
+    public function delete(int $id, EntityManagerInterface $em): Response
     {
         $bookToDelete = $em->getRepository(Book::class)->find($id);
         dd($bookToDelete);
-        return $this->render('book/index.html.twig',[
-            'currentBook'=>null,
-            'bookToModify'=>null,
-            'bookToDelete'=>$bookToDelete
+        return $this->render('book/index.html.twig', [
+            'currentBook' => null,
+            'bookToEdit' => null,
+            'bookToDelete' => $bookToDelete
         ]);
     }
 }

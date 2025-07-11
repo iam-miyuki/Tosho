@@ -4,15 +4,15 @@
 {% endblock %}
 {% block body %}
 <h3>Ajouter une nouvelle famille</h3>
-
 	{{ form_start(form) }}
 	{{ form_row(form.name) }}
 	{{ form_row(form.jpName) }}
 	{{ form_row(form.email) }}
 
     <p>Ajouter des membres de la famille dans la page suivante</p>
-	<button class="btn btn-primary">Ajouter</button>
+	<button type="submit">Ajouter</button>
 
 	{{ form_end(form) }}
 
 {% endblock %}
+

@@ -32,9 +32,9 @@
 			/
 			{{currentFamily.jpName}}
 		</h3>
-		<div class="card">
-			<div class="card-header">
-				<a href="{{ path('modify-family', { id: currentFamily.id }) }}" class="modify"><img src="{{ asset('img/pencil.svg') }}" alt="modify">
+		<div>
+			<div>
+				<a href="{{ path('edit-family', { id: currentFamily.id }) }}" class="edit"><img src="{{ asset('img/pencil.svg') }}" alt="edit">
 
 				</a>
 
@@ -43,15 +43,16 @@
 
 				</a>
 			</div>
-			<div class="card-body">
-				<ul>
+			
+					<p>Nom de famille : {{currentFamily.name}} </p>
+					<p>Nom de famille en japonais : {{currentFamily.jpName}} </p>
 					<p>Code famille :
 						{{currentFamily.code}}</p>
 					<p>Email :
 						{{currentFamily.email}}</p>
-					<div class="detail">
+					<div>
 						{% for member in members %}
-							<p>Enfant 1</p>
+							<p>Enfant  </p>
 							<p>Prénom :
 								{{member.firstName}}
 							</p>

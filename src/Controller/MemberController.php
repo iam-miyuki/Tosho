@@ -28,16 +28,24 @@ final class MemberController extends AbstractController
     #[Route('/new', name:'new-member')]
     public function new(Request $request, EntityManagerInterface $em) : Response
     {  
+        $id = $request->query->get('id');
+        $family = $em->getRepository(Family::class)->find($id);
         $member = new Member();
         $form = $this->createForm(MemberTypeForm::class ,$member);
         $form->handleRequest($request);
         if($form->isSubmitted()&& $form->isValid()){
             $member = $form->getData();
+            $member->setFamily($family);
             $em->persist($member);
             $em->flush();
+            return $this->render('member/success.html.twig',[
+                'member'=>$member,
+                'family'=>$family
+            ]);
         }
         return $this->render('member/form.html.twig',[
-            'form'=>$form
+            'form'=>$form,
+            'id'=>$id
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Family;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,6 +24,13 @@ class FamilyTypeForm extends AbstractType
             ])
             ->add('email',EmailType::class,[
                 'label'=>'Email : '
+            ])
+            ->add('members',CollectionType::class,[
+                'entry_type'=>MemberTypeForm::class,
+                'label'=>'Enfants',
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false, // pour que Doctrine détecte les ajouts/suppressions
             ])
         ;
     }
