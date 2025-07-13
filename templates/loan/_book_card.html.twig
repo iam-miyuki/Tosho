@@ -1,0 +1,24 @@
+<div class="card">
+	<h3>Livre disponible</h3>
+	<p>Pour prêter ce livre, veuillez d'abord choisir une famille dans l'onglet 'chercher par famille'</p>
+	<div class="card-body">
+		<div class="book-image"></div>
+		<div class="detail book-details">
+			<p>Code : {{ book.bookCode }}</p>
+			<p>Titre : {{ book.title }}</p>
+			<p>Auteur : {{ book.author }}</p>
+			<p>Statut : {{ book.bookStatus.value }}</p>
+			<p>Bâtiment : <span class="location">{{ book.location.value }}</span></p>
+		</div>
+	</div>
+</div>
+
+
+
+{# <div class="detail book-details">
+	<p>Code : {{ book.bookCode }}</p>
+	<p>Titre : {{ book.title }}</p>
+	<p>Auteur : {{ book.author }}</p>
+	<p>Statut : {{ book.bookStatus.value }}</p>
+	<p>Emplacement : <span class="location">{{ book.location.value }}</span></p>
+</div> #}

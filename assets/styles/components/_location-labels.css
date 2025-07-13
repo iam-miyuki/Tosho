@@ -1,0 +1,22 @@
+.location {
+  display: inline-block;
+  border: 2px solid var(--color-text);
+  padding: 0.2rem 1rem;
+  
+  border-radius: 10px;
+  font-weight: bold;
+  color: var(--color-text);
+  text-align: center;
+}
+.location.cameleon{
+  background-color: var(--color-cameleon);
+}
+.location.f{
+  background-color: var(--color-f);
+}
+.location.badet{
+  background-color: var(--color-badet);
+}
+.location.mba{
+  background-color: var(--color-mba);
+}

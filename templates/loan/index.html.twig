@@ -6,15 +6,65 @@
 		<img src="{{ asset('img/child-book.svg') }}" alt="book">
 	</div>
 
+	<div class="tab-container">
+		<div class="tabs">
+			<a href="{{ path('loan', {tab: 'family'}) }}" class="tab family-tab {{ tab == 'family' ? 'active' : '' }}">Chercher par famille</a>
+			<a href="{{ path('loan', {tab: 'book'}) }}" class="tab book-tab {{ tab == 'book' ? 'active' : '' }}">Chercher par livre</a>
+		</div>
+
+		<div class="tab-content family-tab {{ tab == 'family' ? 'active' : '' }}">
+			{% include 'loan/_search_family_tab.html.twig' %}
+		</div>
+
+		<div class="tab-content book-tab {{ tab == 'book' ? 'active' : '' }}">
+			{% include 'loan/_search_book_tab.html.twig' %}
+		</div>
+	</div>
+{% endblock %}
+
+
+{# {% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="page-title">
+		<h3>Prêts & Retours</h3>
+		<img src="{{ asset('img/child-book.svg') }}" alt="book">
+	</div>
+
+	<div class="tab-container">
+		<div class="tabs">
+			<a href="{{ path('loan', {tab: 'family'}) }}" class="tab family-tab {{ tab == 'family' ? 'active' : '' }}">Chercher par famille</a>
+			<a href="{{ path('loan', {tab: 'book'}) }}" class="tab book-tab {{ tab == 'book' ? 'active' : '' }}">Chercher par livre</a>
+		</div>
+
+		<div class="tab-content family-tab {{ tab == 'family' ? 'active' : '' }}">
+			{% include 'loan/_search_family_tab.html.twig' %}
+		</div>
+
+		<div class="tab-content book-tab {{ tab == 'book' ? 'active' : '' }}">
+			{% include 'loan/_search_book_tab.html.twig' %}
+		</div>
+	</div>
+{% endblock %} #}
+
+
+{# {% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="page-title">
+		<h3>Prêts & Retours</h3>
+		<img src="{{ asset('img/child-book.svg') }}" alt="book">
+	</div>
+
 	<div>
 		<div
 			class="tab-container">
-			{# label de tabs #}
+		
 			<div class="tabs">
 				<a href="{{ path('loan', {tab: 'family'}) }}" class="tab family-tab {{ tab == 'family' ? 'active' : '' }}" data="family">Chercher par famille</a>
 				<a href="{{ path('loan', {tab: 'book'}) }}" class="tab book-tab {{ tab == 'book' ? 'active' : '' }}" data="book">Chercher par livre</a>
 			</div>
-			{# Rechercher une famille #}
+			
 			<div class="tab-content family-tab {{ tab == 'family' ? 'active' : '' }}">
 
 
@@ -27,11 +77,13 @@
 				</form>
 
 
-				{% if searchedFamilies %}
-					{% if searchedFamilies|length > 0 %}
+				{% if searchedFamilies is not null and searchedFamilies is defined %}
+					<div class="section-title">
 						<h4>Résultats de recherche :
 						</h4>
-						<ul class="result-list">
+					</div>
+					{% if searchedFamilies|length > 0 %}
+						<ul class="resultat-list">
 							{% for family in searchedFamilies %}
 								<li>
 									<a href="{{ path('loan-by-family', {familyId: family.id}) }}">
@@ -46,12 +98,14 @@
 						<p>Aucune famille trouvée !
 						</p>
 					{% endif %}
-
 				{% endif %}
+
 
 				{% if currentFamily %}
 					<h2>Famille
-						{{ currentFamily.name|upper }} / {{currentFamily.jpName}}</h2>
+						{{ currentFamily.name|upper }}
+						/
+						{{currentFamily.jpName}}</h2>
 
 					<div>
 						<h3>Ajouter un nouveau prêt</h3>
@@ -92,7 +146,9 @@
 												<p>Statut :
 													{{ loan.loanStatus.value }}</p>
 												<p>Emprunté par : famille
-													{{ loan.family.name | upper }} / {{loan.family.jpName}}</p>
+													{{ loan.family.name | upper }}
+													/
+													{{loan.family.jpName}}</p>
 												<p>Emplacement :
 													<span class="location">{{ loan.book.location.value }}</span>
 												</p>
@@ -110,7 +166,7 @@
 					{% endif %}
 				{% endif %}
 			</div>
-			{# Chercher un livre #}
+			
 			<div class="tab-content book-tab {{ tab == 'book' ? 'active' : '' }}">
 				<form action="" method="POST">
 					<h3>Chercher par livre</h3>
@@ -142,7 +198,10 @@
 									<p>Statut :
 										{{ currentBookLoan.loanStatus.value }}</p>
 									<p>Emprunté par : famille
-										{{ currentBookLoan.family.name | upper }} / {{currentBookLoan.family.jpName}} </p>
+										{{ currentBookLoan.family.name | upper }}
+										/
+										{{currentBookLoan.family.jpName}}
+									</p>
 									<p>Bâtiment :
 										<span class="location">{{ currentBookLoan.book.location.value }}</span>
 									</p>
@@ -168,10 +227,7 @@
 									<p>Bâtiment :
 										<span class="location">{{ currentBook.location.value }}</span>
 									</p>
-									
-									
-									
-									
+
 
 								</div>
 							</div>
@@ -184,4 +240,6 @@
 			</div>
 		</div>
 
-	{% endblock %}
+	{% endblock %} #}
+
+

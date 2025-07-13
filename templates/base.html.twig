@@ -8,11 +8,9 @@
 		</title>
 		<!-- Import Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-
-		{% block stylesheets %}{% endblock %}
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet"> {% block stylesheets %}{% endblock %}
 
 		{% block javascripts %}
 			{% block importmap %}
@@ -29,13 +27,13 @@
 				</div>
 				<nav>
 					<h2>Gérez les prêts de livres en toute simplicité</h2>
-					<ul>
-						<li><a href="">Home</a></li>
+					<ul class="menu menu-librarien">
+						<li><a href=""><img src="{{ asset('img/home.svg') }}" alt="home"></a></li>
 						<li><a href="">Prêts & Retours</a></li>
 						<li><a href="">Inventaire</a></li>
 						<li><a href="">Mon compte</a></li>
+						<li><a href="">Se déconnecter</a></li>
 					</ul>
-
 				</nav>
 			</div>
 		{% endblock %}
@@ -43,13 +41,13 @@
 		{% block body %}{% endblock %}
 
 		{% block footer %}
-		<div class="footer">
-			<hr>
+			<div class="footer">
+				<hr>
 				<div class="footer-content">
 					<img src="{{ asset('img/logo-small.svg') }}" alt="logo">
 					<p>Application de gestion des prêts des livres pour école japonaise</p>
 				</div>
-		</div>
+			</div>
 		{% endblock %}
 	</body>
 </html>

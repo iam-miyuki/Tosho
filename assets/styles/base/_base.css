@@ -1,0 +1,25 @@
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border-color: var(--color-text);
+  text-align: center;
+  font-family: var(--font-main);
+  margin-top: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+h1 {
+  font-family: var(--font-sub);
+  font-size: var(--font-m);
+}
+
+
+li {
+  list-style: none;
+}
+
+a{
+  text-decoration: none;
+  color: var(--color-text);
+}

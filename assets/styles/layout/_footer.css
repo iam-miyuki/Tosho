@@ -1,0 +1,14 @@
+.footer-content p{
+  font-family: var(--font-sub);
+  font-weight: 600;
+  font-size: var(--font-xs);
+}
+.footer-content img{
+  width: 7rem;
+  height: auto;
+}
+
+hr{
+  color: var(--color-text);
+  margin: 2rem 0;
+}
