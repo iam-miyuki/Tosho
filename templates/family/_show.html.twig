@@ -1,0 +1,35 @@
+{# templates/family/_show.html.twig #}
+{% if currentFamily is defined %}
+    
+    <h3>{{ currentFamily.name|upper }} / {{ currentFamily.jpName }}</h3>
+
+    <div>
+        <a href="{{ path('edit-family', { id: currentFamily.id }) }}" class="edit">
+            <img src="{{ asset('img/pencil.svg') }}" alt="edit">
+        </a>
+
+        <a href="{{ path('delete-family', { id: currentFamily.id }) }}" class="delete" 
+           onclick="return confirm('Voulez-vous vraiment supprimer cette famille ?');">
+            <img src="{{ asset('img/trush.svg') }}" alt="delete">
+        </a>
+    </div>
+
+    <p>Nom de famille : {{ currentFamily.name }}</p>
+    <p>Nom de famille en japonais : {{ currentFamily.jpName }}</p>
+    <p>Code famille : {{ currentFamily.code }}</p>
+    <p>Email : {{ currentFamily.email }}</p>
+
+    <div>
+        {% if members is not empty %}
+            <h4>Membres :</h4>
+            {% for member in members %}
+                <div class="member">
+                    <p>Prénom : {{ member.firstName }}</p>
+                    <p>Prénom en japonais : {{ member.jpFirstName }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucun membre dans cette famille.</p>
+        {% endif %}
+    </div>
+{% endif %}

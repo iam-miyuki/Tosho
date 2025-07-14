@@ -26,7 +26,7 @@ form button {
   
   border: 1.8px solid var(--color-text);
   border-radius: 2rem;
-  background-color: var(--color-primary);
+  background-color: var(--color-btn);
   color: var(--color-text);
   font-weight:600 ;
   cursor: pointer;

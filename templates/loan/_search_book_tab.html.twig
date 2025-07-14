@@ -1,5 +1,5 @@
 <form action="" method="POST">
-	<h3>Chercher par livre</h3>
+	<h3 class="form-title">Entrez un code livre</h3>
 	<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
 	<button type="submit">Rechercher</button>
 </form>
@@ -12,27 +12,3 @@
 	{% endif %}
 {% endif %}
 
-
-
-
-
-{# <form action="" method="POST">
-	<h3>Chercher par livre</h3>
-	<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
-	<button type="submit">Rechercher</button>
-</form>
-
-{% if currentBook is defined and currentBook is not null %}
-	{% if currentBookLoan is defined and currentBookLoan is not null %}
-		{% include 'loan/_loan_card.html.twig' with { loan: currentBookLoan } %}
-	{% else %}
-		<div class="card">
-			<h3>Livre disponible</h3>
-			<p>Pour prêter ce livre, veuillez d'abord choisir une famille dans l'onglet "Chercher par famille".</p>
-			<div class="card-body">
-				<div class="book-image"></div>
-				{% include 'loan/_book_card.html.twig' with { book: currentBook } %}
-			</div>
-		</div>
-	{% endif %}
-{% endif %} #}

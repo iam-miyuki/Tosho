@@ -8,7 +8,7 @@
   height: auto;
 }
 
-hr{
+#footer hr{
   color: var(--color-text);
   margin: 2rem 0;
 }

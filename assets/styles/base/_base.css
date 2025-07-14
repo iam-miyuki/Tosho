@@ -7,11 +7,12 @@ body {
   margin-top: 1rem;
   margin-left: 0;
   margin-right: 0;
+  
 }
 
 h1 {
   font-family: var(--font-sub);
-  font-size: var(--font-m);
+  font-size: var(--font-s);
 }
 
 

@@ -23,8 +23,8 @@
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
   padding-left: 3rem;
   padding-right: 3rem;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 #header nav h2 {
@@ -34,19 +34,44 @@
 #header .menu {
   display: flex;
   margin: 0;
-  column-gap: 2rem;
+  column-gap: 6rem;
   padding: 0;
+  align-items: center;
+
 }
 
-#header .menu li {
-  text-align: center;
-  line-height: 3rem;
+#header .menu .menu-item {
+ display: flex;
   padding: 0;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 30px;
+  
 }
 
 #header .menu img{
+  display: none;
   width: 30px;
+  
 }
+
+#header .menu-text{
+  font-size: var(--font-xs);
+  white-space: nowrap;
+  
+}
+
+#header .menu-item:hover img{
+  display: block;
+  
+}
+
+#header .menu-item:hover .menu-text{
+  display: none;
+  
+}
+
 
 
 

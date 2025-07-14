@@ -21,26 +21,3 @@
 </div>
 
 
-
-
-{# <div class="card">
-	<div class="card-header">
-		<a href="{{ path('return-book', { id: loan.id }) }}" class="return-book">
-			<img src="{{ asset('img/close.svg') }}" alt="rendre">
-			<span>Rendre</span>
-		</a>
-	</div>
-	<div class="card-body">
-		<div class="book-image"></div>
-		<div class="detail book-details">
-			<p>Code : {{ loan.book.bookCode }}</p>
-			<p>Titre : {{ loan.book.title }}</p>
-			<p>Auteur : {{ loan.book.author }}</p>
-			<p>Date d’emprunt : {{ loan.loanDate|date('d/m/Y') }}</p>
-			<p>Date de retour prévu : {{ loan.expectedReturnDate|date('d/m/Y') }}</p>
-			<p>Statut : {{ loan.loanStatus.value }}</p>
-			<p>Emprunté par : famille {{ loan.family.name | upper }} / {{ loan.family.jpName }}</p>
-			<p>Emplacement : <span class="location">{{ loan.book.location.value }}</span></p>
-		</div>
-	</div>
-</div> #}

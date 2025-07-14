@@ -1,55 +1,103 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des livres
+{% block body %}
+    <div class="page-title">
+        <h3>Gestion des livres</h3>
+        <img src="{{ asset('img/books.svg') }}" alt="books">
+    </div>
+
+    <div class="tab-container">
+        <div class="tabs">
+            <a href="{{ path('book', {tab: 'search'}) }}" class="tab left-tab book-tab {{ tab == 'search' ? 'active' : '' }}">
+                <div class="tab-icon"></div>Chercher un livre
+            </a>
+            <a href="{{ path('book', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+                <div class="tab-icon"></div>Ajouter un livre
+            </a>
+        </div>
+
+        <div class="tab-content left-tab book-tab {{ tab == 'search' ? 'active' : '' }}">
+            {% include 'book/search.html.twig' %}
+			
+        </div>
+
+        {# <div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+            {% include 'book/form.html.twig' with {'form': form} %}
+        </div> #}
+    </div>
+{% endblock %}
+
+
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Gestion des familles
 {% endblock %}
 
 {% block body %}
-	<form action="" method="POST">
-		<h3>Chercher par livre</h3>
-		<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
-		<button type="submit">Rechercher</button>
-	</form>
-	{% if currentBook is defined and currentBook is not null %}
+<div class="page-title">
+	<h3>Gestion des familles</h3>
+	<img src="{{ asset('img/family.svg') }}" alt="book">
+</div>
+<form action="" method="POST">
+	<h3 class="form-title">Entrez un nom de famille</h3>
+	<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
+	<button type="submit">Rechercher</button>
+</form>
 
-		<div class="card">
-			<div class="card-header">
-				<a href="{{ path('edit-book', { id: currentBook.id }) }}" class="edit"><img src="{{ asset('img/pencil.svg') }}" alt="edit">
-					
-				</a>
-			
-            
-				<a href="{{ path('delete-book', { id: currentBook.id }) }}" class="delete"><img src="{{ asset('img/trush.svg') }}" alt="delete">
-					
-				</a>
-			</div>
-			<div class="card-body">
-				<div class="book-image"></div>
-				<div class="detail book-details">
-					<p>Code :
-						{{ currentBook.bookCode }}</p>
-					<p>Titre :
-						{{ currentBook.title }}</p>
-					<p>Auteur :
-						{{ currentBook.author }}</p>
-					{# <p>Date d’emprunt :
-															{{ currentBookLoan.loanDate|date('d/m/Y') }}</p>
-														<p>Date de retour prévu :
-															{{ currentBookLoan.expectedReturnDate|date('d/m/Y') }}</p> #}
-					<p>Statut :
-						{{ currentBook.bookStatus.value }}</p>
-					{# <p>Emprunté par : famille
-															{{ currentBook.family.name }}</p> #}
-					<p>Emplacement :
-						<span class="location">{{ currentBook.location.value }}</span>
-					</p>
-				</div>
-			</div>
+{% if searchedFamilies is defined %}
+	<ul>
+		{% for family in searchedFamilies %}
+			<li>
+				<a href="{{ path('show-family', {id: family.id}) }}">
 
+					{{family.name| upper}}
+					/
+					{{family.jpName}}
+				</a>
+			</li>
+
+		{% endfor %}
+	</ul>
+{% endif %}
+{% if currentFamily is defined %}
+	<h3>
+		{{currentFamily.name | upper}}
+		/
+		{{currentFamily.jpName}}</h3>
+	<div>
+		<div>
+			<a href="{{ path('edit-family', { id: currentFamily.id }) }}" class="edit"><img src="{{ asset('img/pencil.svg') }}" alt="edit">
+
+			</a>
+
+
+			<a href="{{ path('delete-family', { id: currentFamily.id }) }}" class="delete"><img src="{{ asset('img/trush.svg') }}" alt="delete">
+
+			</a>
 		</div>
+		<p>Nom de famille :
+			{{currentFamily.name}}
+		</p>
+		<p>Nom de famille en japonais :
+			{{currentFamily.jpName}}
+		</p>
+		<p>Code famille :
+			{{currentFamily.code}}</p>
+		<p>Email :
+			{{currentFamily.email}}</p>
+		<div>
+			{% for member in members %}
+				<p>Enfant
+				</p>
+				<p>Prénom :
+					{{member.firstName}}
+				</p>
+				<p>Prénom en japonias :
+					{{member.jpFirstName}}
+				</p>
+			{% endfor %}
+		</div>
+	</ul>
+</div></div>{% endif %}<a href="{{path('new-family')}}">Ajouter une nouvelle famille</a>
+{% endblock %} #}
 
-
-	{% endif %}
-	
-
-
-</div>{% endblock %}

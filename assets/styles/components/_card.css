@@ -1,12 +1,16 @@
 .card {
-  position: relative;
   background: white;
   border-radius: 10px;
   box-shadow: 0 0 0 2px var(--color-text);
-  width: 400px;
+  width: 400px; /* Taille fixe */
   padding: 20px;
-  margin: 20px auto;
   overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+}
+.cards-wrapper {
+  max-width: 100%;
+  padding: 0 1rem;
   
 }
 
@@ -22,10 +26,18 @@
   margin-top: 20px;
 }
 
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+  padding: 1rem 1rem;
+}
 
-.cards-container{
-  display: flex;
-} 
+
+
+
+
 
 .return-book {
   background: none;

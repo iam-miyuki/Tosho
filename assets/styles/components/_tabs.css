@@ -21,8 +21,34 @@
   border-radius: 8px 8px 0 0;
   padding: 1rem 2rem;
   width: 100%;
-  
+ 
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+
+.tab-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-right: 0.5rem;
+}
+
+.family-tab .tab-icon, .search-tab .tab-icon {
+  background-image: url("../../img/search-user.svg");
+}
+
+.book-tab .tab-icon {
+  background-image: url("../../img/search-2.svg");
+}
+
+.new-tab .tab-icon {
+  background-image: url("../../img/plus.svg");
+}
+
+
 .tab:hover{
   background-color:var(--color-btn-hover);
 }
@@ -30,10 +56,10 @@
 .tab.active {
   border-bottom: none;
 }
-.tab.active.family-tab:hover{
+.tab.active.left-tab:hover{
   background-color:var(--color-primary);
 }
-.tab.active.book-tab:hover{
+.tab.active.right-tab:hover{
   background-color:var(--color-badet);
 }
 
@@ -47,6 +73,7 @@
   font-family: var(--font-sub);
   font-weight: 600;
   min-height: 300px;
+  align-items: center;
 }
 .tab-content img{
   width: 30px;
@@ -62,9 +89,11 @@
   flex-direction: column;
   align-items: center;
 }
-.book-tab{
+.right-tab{
   background-color: var(--color-badet);
 }
-.family-tab{
+.left-tab{
   background-color: var(--color-primary);
 }
+
+

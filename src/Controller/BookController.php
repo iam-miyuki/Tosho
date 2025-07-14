@@ -21,24 +21,15 @@ final class BookController extends AbstractController
     {
         $bookCode = $request->request->get('book_code');
         $currentBook = null;
-        if ($bookCode) {
-            $currentBook = $em->getRepository(Book::class)->findOneByBookCode([
-                'bookCode' => $bookCode
-            ]);
-            // return $this->render('book/index.html.twig',[
-            //     'currentBook'=>$currentBook
-            // ]);
-        }
-
+        $defaultTab = $request->query->get('tab');
+        
         return $this->render('book/index.html.twig', [
             'currentBook' => $currentBook,
             'bookToEdit' => null,
-            'bookToDelete' => null
+            'bookToDelete' => null,
+            'tab'=>$defaultTab
         ]);
     }
-
-    
-
 
     #[Route('/edit/{id}', name: 'edit-book')]
     public function edit(int $id, EntityManagerInterface $em): Response
