@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Enum\InventoryStatusEnum;
+use App\Enum\InventoryItemStatusEnum;
 use App\Repository\InventoryItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,8 +20,8 @@ class InventoryItem
     #[ORM\ManyToOne(inversedBy: 'inventoryItems')]
     private ?Inventory $Inventory = null;
 
-    #[ORM\Column(nullable: true, enumType: InventoryStatusEnum::class)]
-    private ?InventoryStatusEnum $Status = null;
+    #[ORM\Column(nullable: true, enumType: InventoryItemStatusEnum::class)]
+    private ?InventoryItemStatusEnum $Status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Note = null;
@@ -55,12 +55,12 @@ class InventoryItem
         return $this;
     }
 
-    public function getStatus(): ?InventoryStatusEnum
+    public function getStatus(): ?InventoryItemStatusEnum
     {
         return $this->Status;
     }
 
-    public function setStatus(?InventoryStatusEnum $Status): static
+    public function setStatus(?InventoryItemStatusEnum $Status): static
     {
         $this->Status = $Status;
 

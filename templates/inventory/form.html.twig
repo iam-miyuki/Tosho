@@ -1,14 +1,12 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Inventory
-{% endblock %}
 {% block body %}
-<h3>Commencer l'inventaire</h3>
+<h3>Créer un nouvel inventaire</h3>
 	{{ form_start(form) }}
 	{{ form_row(form.location) }}
 	{{ form_row(form.note) }}
+	{{ form_row(form.date) }}
 	
-	<button type="submit">Commencer</button>
+	<button type="submit">Créer</button>
 
 	{{ form_end(form) }}
 

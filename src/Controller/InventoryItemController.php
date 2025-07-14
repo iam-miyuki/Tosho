@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Inventory;
 use App\Entity\InventoryItem;
+use App\Enum\InventoryStatusEnum;
 use App\Form\InventoryItemTypeForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +19,10 @@ final class InventoryItemController extends AbstractController
 {
     #[Route('/', name: 'inventory_item')]
     public function index(Request $request, EntityManagerInterface $em): Response
-    {   
-        $id = $request->query->get('id_inventory');
-        $inventory = $em->getRepository(Inventory::class)->find($id);
-        dd($inventory);
-        return $this->render('inventory_item/form.html.twig', [
-            'form' => $form
-        ]);
+    {  
+        $inventories = $em->getRepository(Inventory::class)->findAllByStatus(
+            InventoryStatusEnum::open);
+dd($inventories);
 }
+
 }

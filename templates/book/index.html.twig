@@ -1,103 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="page-title">
-        <h3>Gestion des livres</h3>
-        <img src="{{ asset('img/books.svg') }}" alt="books">
-    </div>
+	<div class="page-title">
+		<h3>Gestion des livres</h3>
+		<img src="{{ asset('img/child-book.svg') }}" alt="book">
+	</div>
 
     <div class="tab-container">
-        <div class="tabs">
-            <a href="{{ path('book', {tab: 'search'}) }}" class="tab left-tab book-tab {{ tab == 'search' ? 'active' : '' }}">
-                <div class="tab-icon"></div>Chercher un livre
-            </a>
-            <a href="{{ path('book', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-                <div class="tab-icon"></div>Ajouter un livre
-            </a>
-        </div>
+	<div class="tabs">
+		<a href="{{ path('book', {tab: 'search'}) }}" class="tab left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+			<div class="tab-icon"></div>Chercher un livre
+		</a>
+		<a href="{{ path('book', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+			<div class="tab-icon"></div>Ajouter un livre
+		</a>
+	</div>
 
-        <div class="tab-content left-tab book-tab {{ tab == 'search' ? 'active' : '' }}">
-            {% include 'book/search.html.twig' %}
-			
-        </div>
+	<div class="tab-content left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+		{% if tab == 'search' %}
+			{% include 'book/search.html.twig' %}
+		{% endif %}
+	</div>
 
-        {# <div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-            {% include 'book/form.html.twig' with {'form': form} %}
-        </div> #}
-    </div>
-{% endblock %}
-
-
-{# {% extends 'base.html.twig' %}
-
-{% block title %}Gestion des familles
-{% endblock %}
-
-{% block body %}
-<div class="page-title">
-	<h3>Gestion des familles</h3>
-	<img src="{{ asset('img/family.svg') }}" alt="book">
+	<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+		{% if tab == 'new' %}
+			{% include 'book/form.html.twig' %}
+		{% endif %}
+	</div>
 </div>
-<form action="" method="POST">
-	<h3 class="form-title">Entrez un nom de famille</h3>
-	<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
-	<button type="submit">Rechercher</button>
-</form>
-
-{% if searchedFamilies is defined %}
-	<ul>
-		{% for family in searchedFamilies %}
-			<li>
-				<a href="{{ path('show-family', {id: family.id}) }}">
-
-					{{family.name| upper}}
-					/
-					{{family.jpName}}
-				</a>
-			</li>
-
-		{% endfor %}
-	</ul>
-{% endif %}
-{% if currentFamily is defined %}
-	<h3>
-		{{currentFamily.name | upper}}
-		/
-		{{currentFamily.jpName}}</h3>
-	<div>
-		<div>
-			<a href="{{ path('edit-family', { id: currentFamily.id }) }}" class="edit"><img src="{{ asset('img/pencil.svg') }}" alt="edit">
-
-			</a>
-
-
-			<a href="{{ path('delete-family', { id: currentFamily.id }) }}" class="delete"><img src="{{ asset('img/trush.svg') }}" alt="delete">
-
-			</a>
-		</div>
-		<p>Nom de famille :
-			{{currentFamily.name}}
-		</p>
-		<p>Nom de famille en japonais :
-			{{currentFamily.jpName}}
-		</p>
-		<p>Code famille :
-			{{currentFamily.code}}</p>
-		<p>Email :
-			{{currentFamily.email}}</p>
-		<div>
-			{% for member in members %}
-				<p>Enfant
-				</p>
-				<p>Prénom :
-					{{member.firstName}}
-				</p>
-				<p>Prénom en japonias :
-					{{member.jpFirstName}}
-				</p>
-			{% endfor %}
-		</div>
-	</ul>
-</div></div>{% endif %}<a href="{{path('new-family')}}">Ajouter une nouvelle famille</a>
-{% endblock %} #}
-
+{% endblock %}

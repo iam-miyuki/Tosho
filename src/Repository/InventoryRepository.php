@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Inventory;
+use App\Enum\InventoryStatusEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +15,15 @@ class InventoryRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Inventory::class);
+    }
+
+     public function findAllByStatus(InventoryStatusEnum $status):array
+    {
+        $qb= $this->createQueryBuilder('i');
+        $qb
+            ->where('i.status= :status')
+            ->setParameter('status', $status->value);
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

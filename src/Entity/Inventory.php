@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\InventoryStatusEnum;
 use App\Enum\LocationEnum;
 use App\Repository\InventoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +34,9 @@ class Inventory
      */
     #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'Inventory')]
     private Collection $inventoryItems;
+
+    #[ORM\Column(nullable: true, enumType: InventoryStatusEnum::class)]
+    private ?InventoryStatusEnum $status = null;
 
     public function __construct()
     {
@@ -118,6 +122,18 @@ class Inventory
                 $inventoryItem->setInventory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?InventoryStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?InventoryStatusEnum $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

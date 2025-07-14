@@ -19,15 +19,21 @@ final class BookController extends AbstractController
     #[Route('/', name: 'book')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
-        $bookCode = $request->request->get('book_code');
+        $currentTab = $request->query->get('tab','search');
+        $bookCode = null;
         $currentBook = null;
-        $defaultTab = $request->query->get('tab');
+        if ($request->isMethod('POST')) {
+        if ($request->request->has('book_code')) {
+            $bookCode = $request->request->get('book_code');
+            $currentBook = $em->getRepository(Book::class)->findOneByBookCode($bookCode);
+        }
         
+    }
         return $this->render('book/index.html.twig', [
             'currentBook' => $currentBook,
             'bookToEdit' => null,
             'bookToDelete' => null,
-            'tab'=>$defaultTab
+            'tab'=>$currentTab
         ]);
     }
 

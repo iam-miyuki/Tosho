@@ -16,10 +16,8 @@ class InventoryItemRepository extends ServiceEntityRepository
         parent::__construct($registry, InventoryItem::class);
     }
 
-//    /**
-//     * @return InventoryItem[] Returns an array of InventoryItem objects
-//     */
-//    public function findByExampleField($value): array
+   
+//  public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('i')
 //            ->andWhere('i.exampleField = :val')

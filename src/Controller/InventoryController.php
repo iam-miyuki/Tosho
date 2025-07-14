@@ -17,30 +17,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class InventoryController extends AbstractController
 {
     #[Route('/', name: 'inventory')]
-    public function index(Request $request): Response
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('inventory/index.html.twig',[
-           
-        ]);
-    }
-
-    #[Route('/new', name: 'new-inventory')]
-    public function new(Request $request, EntityManagerInterface $em): Response
-    {
+        $currentTab = $request->query->get('tab' , 'report');
         $inventory = new Inventory();
         $form = $this->createForm(InventoryTypeForm::class, $inventory);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $inventory->setDate(new \DateTime('now'));
-            $inventory = $form->getData();
-            $em->persist($inventory);
-            $em->flush();
-            return $this->redirectToRoute('inventory_item',[
-                'id_inventory'=>$inventory->getId()
-            ]);
+        if($request->isMethod('POST')){
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $inventory->setDate(new \DateTime('now'));
+                $inventory = $form->getData();
+                $em->persist($inventory);
+                $em->flush();
+                return $this->render('inventory/success.html.twig');
+            }
         }
-        return $this->render('inventory/form.html.twig', [
-            'form' => $form
+        return $this->render('inventory/index.html.twig',[
+           'tab'=>$currentTab,
+           'form' =>$form
         ]);
     }
 }

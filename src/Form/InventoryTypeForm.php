@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -25,6 +26,9 @@ class InventoryTypeForm extends AbstractType
             ->add('note', TextareaType::class,[
                 'label'=>'Commentaire (faculatif) : ',
                 'required' => false
+            ])
+            ->add('date', DateType::class,[
+                'label'=> 'Date d\'inventaire',
             ])
         ;
     }

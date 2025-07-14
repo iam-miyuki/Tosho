@@ -11,7 +11,6 @@
 .cards-wrapper {
   max-width: 100%;
   padding: 0 1rem;
-  
 }
 
 .card-header {
@@ -33,11 +32,6 @@
   justify-items: center;
   padding: 1rem 1rem;
 }
-
-
-
-
-
 
 .return-book {
   background: none;
@@ -70,4 +64,23 @@
   height: 100px;
   background: #ccc;
   border: 1px solid #999;
+}
+
+.info-cards-wrapper{
+  display: flex;
+  justify-content: space-around;
+  gap: 4rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+}
+.info-card{
+  display: inline-block;
+  padding: 2rem;
+  border-radius: 1rem;
+  border: var(--color-text);
+  box-shadow: 0 0 0 2px var(--color-text);
+  width: 8rem;
+  
 }

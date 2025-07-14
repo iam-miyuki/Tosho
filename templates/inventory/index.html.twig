@@ -5,24 +5,26 @@
         <h3>Inventaire</h3>
         <img src="{{ asset('img/books.svg') }}" alt="inventory">
     </div>
+    <div class="tab-container">
+	<div class="tabs">
+		<a href="{{ path('inventory', {tab: 'report'}) }}" class="tab left-tab report-tab {{ tab == 'report' ? 'active' : '' }}">
+			<div class="tab-icon"></div>Rapport inventaire
+		</a>
+		<a href="{{ path('inventory', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+			<div class="tab-icon"></div>Nouvel inventaire
+		</a>
+	</div>
 
-    {# <div class="tab-container">
-        <div class="tabs">
-            <a href="{{ path('family', {tab: 'search'}) }}" class="tab left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
-                <div class="tab-icon"></div>Chercher une famille
-            </a>
-            <a href="{{ path('family', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-                <div class="tab-icon"></div>Ajouter une famille
-            </a>
-        </div>
+	<div class="tab-content left-tab report-tab {{ tab == 'report' ? 'active' : '' }}">
+		{% if tab == 'report' %}
+			{% include 'inventory/report.html.twig' %}
+		{% endif %}
+	</div>
 
-        <div class="tab-content left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
-            {% include 'family/search.html.twig' %}
-			
-        </div>
-
-        <div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-            {% include 'family/form.html.twig' with {'form': form} %}
-        </div>
-    </div> #}
+	<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+		{% if tab == 'new' %}
+			{% include 'inventory/form.html.twig' with {'form': form} %}
+		{% endif %}
+	</div>
+</div>
 {% endblock %}
