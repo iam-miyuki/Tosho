@@ -7,6 +7,7 @@ use App\Enum\LocationEnum;
 use App\Repository\InventoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InventoryRepository::class)]
@@ -17,81 +18,87 @@ class Inventory
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(nullable: true, enumType: InventoryStatusEnum::class)]
+    private ?InventoryStatusEnum $status = null;
+
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $Date = null;
+    private ?\DateTime $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'inventories')]
-    private ?User $User = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Note = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $note = null;
 
     #[ORM\Column(nullable: true, enumType: LocationEnum::class)]
-    private ?LocationEnum $Location = null;
+    private ?LocationEnum $location = null;
 
     /**
      * @var Collection<int, InventoryItem>
      */
-    #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'Inventory')]
+    #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'inventory')]
     private Collection $inventoryItems;
-
-    #[ORM\Column(nullable: true, enumType: InventoryStatusEnum::class)]
-    private ?InventoryStatusEnum $status = null;
 
     public function __construct()
     {
         $this->inventoryItems = new ArrayCollection();
     }
 
+    
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDate(): ?\DateTime
+    
+
+
+    
+
+    
+
+
+    public function getStatus(): ?InventoryStatusEnum
     {
-        return $this->Date;
+        return $this->status;
     }
 
-    public function setDate(?\DateTime $Date): static
+    public function setStatus(?InventoryStatusEnum $status): static
     {
-        $this->Date = $Date;
+        $this->status = $status;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getDate(): ?\DateTime
     {
-        return $this->User;
+        return $this->date;
     }
 
-    public function setUser(?User $User): static
+    public function setDate(?\DateTime $date): static
     {
-        $this->User = $User;
+        $this->date = $date;
 
         return $this;
     }
 
     public function getNote(): ?string
     {
-        return $this->Note;
+        return $this->note;
     }
 
-    public function setNote(?string $Note): static
+    public function setNote(?string $note): static
     {
-        $this->Note = $Note;
+        $this->note = $note;
 
         return $this;
     }
 
     public function getLocation(): ?LocationEnum
     {
-        return $this->Location;
+        return $this->location;
     }
 
-    public function setLocation(?LocationEnum $Location): static
+    public function setLocation(?LocationEnum $location): static
     {
-        $this->Location = $Location;
+        $this->location = $location;
 
         return $this;
     }
@@ -122,18 +129,6 @@ class Inventory
                 $inventoryItem->setInventory(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getStatus(): ?InventoryStatusEnum
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?InventoryStatusEnum $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }

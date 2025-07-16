@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Inventory;
 use App\Enum\InventoryStatusEnum;
+use App\Enum\LocationEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,10 +22,16 @@ class InventoryRepository extends ServiceEntityRepository
     {
         $qb= $this->createQueryBuilder('i');
         $qb
-            ->where('i.status= :status')
-            ->setParameter('status', $status->value);
+            ->andWhere('i.status= :status')
+            
+            ->setParameter('status', $status->value)
+            
+           ;
         return $qb->getQuery()->getResult();
     }
+
+   
+
 
 //    /**
 //     * @return Inventory[] Returns an array of Inventory objects

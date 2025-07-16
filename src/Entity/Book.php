@@ -5,6 +5,7 @@ use App\Enum\BookStatusEnum;
 use App\Enum\LocationEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
@@ -45,24 +46,27 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpAuthor = null;
 
-    /**
-     * @var Collection<int, InventoryItem>
-     */
-    #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'Book')]
-    private Collection $inventoryItems;
+    
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $addedAt = null;
 
-    
+    /**
+     * @var Collection<int, InventoryItem>
+     */
+    #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'book')]
+    private Collection $inventoryItems;
 
-    
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $note = null;
 
     public function __construct()
     {
-        $this->loans = new ArrayCollection();
-        $this->inventoryItems = new ArrayCollection();        
+        $this->inventoryItems = new ArrayCollection();
     }
+
+    
+
 
     
 
@@ -232,6 +236,18 @@ class Book
     public function setAddedAt(?\DateTimeImmutable $addedAt): static
     {
         $this->addedAt = $addedAt;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): static
+    {
+        $this->note = $note;
 
         return $this;
     }

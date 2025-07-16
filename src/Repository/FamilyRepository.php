@@ -22,7 +22,7 @@ class FamilyRepository extends ServiceEntityRepository
         $qb
             ->addSelect('members')
             ->leftJoin('family.members', 'members')
-            ->where('family.name = :familyName')
+            ->andWhere('family.name = :familyName')
             ->setParameter('familyName', $familyName);
         return $qb->getQuery()->getResult();
     }
@@ -33,7 +33,7 @@ class FamilyRepository extends ServiceEntityRepository
         $qb
             ->addSelect('members')
             ->leftJoin('family.members','members')
-            ->where('family.id = :familyId')
+            ->andWhere('family.id = :familyId')
             ->setParameter('familyId', $familyId);
         return $qb->getQuery()->getOneOrNullResult();
     }

@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Family;
 use App\Entity\Member;
-use App\Form\FamilyTypeForm;
-use App\Form\MemberTypeForm;
+use App\Form\FamilyForm;
+use App\Form\MemberForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +31,7 @@ final class MemberController extends AbstractController
         $id = $request->query->get('id');
         $family = $em->getRepository(Family::class)->find($id);
         $member = new Member();
-        $form = $this->createForm(MemberTypeForm::class ,$member);
+        $form = $this->createForm(MemberForm::class ,$member);
         $form->handleRequest($request);
         if($form->isSubmitted()&& $form->isValid()){
             $member = $form->getData();

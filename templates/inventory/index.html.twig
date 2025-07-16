@@ -2,22 +2,22 @@
 
 {% block body %}
     <div class="page-title">
-        <h3>Inventaire</h3>
+        <h3>Gestion des inventaires</h3>
         <img src="{{ asset('img/books.svg') }}" alt="inventory">
     </div>
     <div class="tab-container">
 	<div class="tabs">
-		<a href="{{ path('inventory', {tab: 'report'}) }}" class="tab left-tab report-tab {{ tab == 'report' ? 'active' : '' }}">
-			<div class="tab-icon"></div>Rapport inventaire
+		<a href="{{ path('inventory', {tab: 'search'}) }}" class="tab left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+			<div class="tab-icon"></div>Chercher
 		</a>
 		<a href="{{ path('inventory', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 			<div class="tab-icon"></div>Nouvel inventaire
 		</a>
 	</div>
 
-	<div class="tab-content left-tab report-tab {{ tab == 'report' ? 'active' : '' }}">
-		{% if tab == 'report' %}
-			{% include 'inventory/report.html.twig' %}
+	<div class="tab-content left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+		{% if tab == 'search' %}
+			{% include 'inventory/search-form.html.twig' with {'filterForm' : filterForm } %}
 		{% endif %}
 	</div>
 

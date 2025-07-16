@@ -8,5 +8,6 @@
 @import url('components/_card.css');
 @import url('components/_location-labels.css');
 @import url('components/_result.css');
+@import url('components/_btn_card.css');
 
 @import url('pages/_login.css');

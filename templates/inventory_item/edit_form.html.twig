@@ -1,0 +1,10 @@
+<h3>edit</h3>
+
+<h3>Livre</h3>
+<p> {{currentBook.bookCode}} </p>
+<p> {{currentBook.title}} </p>
+	{{ form_start(form) }}
+	{{ form_row(form.status) }}
+	{{ form_row(form.note) }}
+	<button type="submit">Valider</button>
+{{ form_end(form) }}

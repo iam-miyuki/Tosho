@@ -33,22 +33,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    /**
-     * @var Collection<int, Inventory>
-     */
-    #[ORM\OneToMany(targetEntity: Inventory::class, mappedBy: 'User')]
-    private Collection $inventories;
+    
 
     /**
      * @var Collection<int, Loan>
      */
-    #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'User')]
+    #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'user')]
     private Collection $loans;
+
+    /**
+     * @var Collection<int, InventoryItem>
+     */
+    #[ORM\ManyToMany(targetEntity: InventoryItem::class, mappedBy: 'user')]
+    private Collection $inventoryItems;
 
     public function __construct()
     {
-        $this->inventories = new ArrayCollection();
+        
+        
         $this->loans = new ArrayCollection();
+        $this->inventoryItems = new ArrayCollection();
     }
 
     
@@ -125,35 +129,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Inventory>
-     */
-    public function getInventories(): Collection
-    {
-        return $this->inventories;
-    }
-
-    public function addInventory(Inventory $inventory): static
-    {
-        if (!$this->inventories->contains($inventory)) {
-            $this->inventories->add($inventory);
-            $inventory->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInventory(Inventory $inventory): static
-    {
-        if ($this->inventories->removeElement($inventory)) {
-            // set the owning side to null (unless already changed)
-            if ($inventory->getUser() === $this) {
-                $inventory->setUser(null);
-            }
-        }
-
-        return $this;
-    }
+    
+    
 
     /**
      * @return Collection<int, Loan>
@@ -180,6 +157,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($loan->getUser() === $this) {
                 $loan->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryItem>
+     */
+    public function getInventoryItems(): Collection
+    {
+        return $this->inventoryItems;
+    }
+
+    public function addInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if (!$this->inventoryItems->contains($inventoryItem)) {
+            $this->inventoryItems->add($inventoryItem);
+            $inventoryItem->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if ($this->inventoryItems->removeElement($inventoryItem)) {
+            $inventoryItem->removeUser($this);
         }
 
         return $this;

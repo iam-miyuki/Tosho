@@ -19,7 +19,7 @@ class MemberRepository extends ServiceEntityRepository
     public function findAllByFamily(?Family $family): array
 {
     $qb = $this->createQueryBuilder('m');
-    $qb->where('m.family = :family')
+    $qb->andWhere('m.family = :family')
         ->setParameter('family', $family);
     return $qb->getQuery()->getResult();
 }

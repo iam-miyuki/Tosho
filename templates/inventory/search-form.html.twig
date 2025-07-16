@@ -1,0 +1,10 @@
+{% block body %}
+<h3>Chercher par critère : </h3>
+	{{ form_start(filterForm) }}
+	{{ form_row(filterForm) }}
+	
+	<button type="submit">Chercher</button>
+
+	{{ form_end(filterForm) }}
+
+{% endblock %}

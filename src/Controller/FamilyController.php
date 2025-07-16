@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Family;
 use App\Entity\Member;
-use App\Form\FamilyTypeForm;
+use App\Form\FamilyForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ final class FamilyController extends AbstractController
 public function index(Request $request, EntityManagerInterface $em): Response
 {
     $family = new Family();
-    $form = $this->createForm(FamilyTypeForm::class, $family);
+    $form = $this->createForm(FamilyForm::class, $family);
     $form->handleRequest($request);
 
     $currentTab = $request->query->get('tab','search');
@@ -69,11 +69,12 @@ public function index(Request $request, EntityManagerInterface $em): Response
         $family = $em->getRepository(Family::class)->find($id);
         $members = $em->getRepository(Member::class)->findByFamily($family);
 
-        $form = $this->createForm(FamilyTypeForm::class, $family);
+        $form = $this->createForm(FamilyForm::class, $family);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            dd('modifié !');
             return $this->redirectToRoute('show-family', ['id' => $family->getId()]);
         }
 

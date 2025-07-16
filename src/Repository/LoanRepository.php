@@ -25,7 +25,7 @@ class LoanRepository extends ServiceEntityRepository
         ->addSelect('book')
         ->leftJoin('loan.family', 'family')
         ->leftJoin('loan.book', 'book')
-        ->where('family.name = :name')
+        ->andWhere('family.name = :name')
         ->andWhere("loan.loanStatus != :status") // afficher la liste des prêts non rendu
         ->setParameter('name', $familyName)
         ->setParameter('status', 'Rendu');
@@ -43,7 +43,7 @@ class LoanRepository extends ServiceEntityRepository
         ->addSelect('book')
         ->leftJoin('loan.family', 'family')
         ->leftJoin('loan.book', 'book')
-        ->where('family.id = :id')
+        ->andWhere('family.id = :id')
         ->andWhere("loan.loanStatus != :status") // afficher la liste des prêts non rendu
         ->setParameter('id', $familyId)
         ->setParameter('status', 'Rendu');
