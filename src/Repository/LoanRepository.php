@@ -31,8 +31,6 @@ class LoanRepository extends ServiceEntityRepository
         ->setParameter('status', 'Rendu');
         // dd($qb->getQuery()->getSQL());
         return $qb->getQuery()->getResult();
-
-        // TODO : s'occuper de cas ou il y a deux comptes au même nom, meme s'il n'y a pas de prets en cours
     }
 
     public function findByFamilyId(string $familyId)

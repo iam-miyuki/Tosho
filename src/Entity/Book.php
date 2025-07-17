@@ -28,11 +28,6 @@ class Book
     #[ORM\Column(type:'string', enumType: LocationEnum::class)] 
     private LocationEnum $location;
 
-    #[ORM\Column(type: 'string', enumType: BookStatusEnum::class)]
-    private BookStatusEnum $bookStatus;
-
-    #[ORM\Column(type: 'string',length: 4, unique : true)]
-    private ?string $bookCode = null;
 
     /**
      * @var Collection<int, Loan>
@@ -57,8 +52,12 @@ class Book
     #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'book')]
     private Collection $inventoryItems;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $note = null;
+    #[ORM\Column(nullable: true, enumType: BookStatusEnum::class)]
+    private ?BookStatusEnum $status = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
+
 
     public function __construct()
     {
@@ -120,29 +119,6 @@ class Book
         return $this->location;
     }
 
-    public function setBookStatus(BookStatusEnum $bookStatus)
-    {
-        $this->bookStatus = $bookStatus;
-        return $this;
-    }
-
-    public function getBookStatus(): BookStatusEnum
-    {
-        return $this->bookStatus;
-    }
-
-
-    public function getBookCode(): ?string
-    {
-        return $this->bookCode;
-    }
-
-    public function setBookCode(string $bookCode): static
-    {
-        $this->bookCode = $bookCode;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Loan>
@@ -240,18 +216,28 @@ class Book
         return $this;
     }
 
-    public function getNote(): ?string
+    public function getStatus(): ?BookStatusEnum
     {
-        return $this->note;
+        return $this->status;
     }
 
-    public function setNote(?string $note): static
+    public function setStatus(?BookStatusEnum $status): static
     {
-        $this->note = $note;
+        $this->status = $status;
 
         return $this;
     }
 
-    
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): static
+    {
+        $this->code = $code;
+
+        return $this;
+    }
    
 }

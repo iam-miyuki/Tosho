@@ -22,8 +22,6 @@ class Loan
     #[ORM\ManyToOne(targetEntity: Family::class)]
     private Family $family;
 
-    //TODO : à mettre propriété librarien + setter/getter
-
     #[ORM\Column(type: 'datetime')]
     private DateTime $loanDate;
 

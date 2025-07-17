@@ -20,7 +20,7 @@ class BookRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('book');
         $qb
-            ->andWhere('book.bookCode = :bookCode')
+            ->andWhere('book.code = :bookCode')
             ->setParameter('bookCode', $bookCode);
         return $qb->getQuery()->getOneOrNullResult();
     }

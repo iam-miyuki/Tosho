@@ -17,22 +17,23 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
     public function findAllByFamily(?Family $family): array
-{
-    $qb = $this->createQueryBuilder('m');
-    $qb->andWhere('m.family = :family')
-        ->setParameter('family', $family);
-    return $qb->getQuery()->getResult();
-}
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->andWhere('m.family = :family')
+            ->setParameter('family', $family);
+        return $qb->getQuery()->getResult();
+    }
 
-   
 
-//    public function findOneBySomeField($value): ?Member
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+    //    public function findOneBySomeField($value): ?Member
+    //    {
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

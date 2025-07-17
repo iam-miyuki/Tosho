@@ -91,14 +91,14 @@ final class LoanController extends AbstractController
                 $family = $entityManager->getRepository(Family::class)->find($familyId);
                 $book = $entityManager->getRepository(Book::class)->findOneByBookCode($bookCode);
 
-                if ($family && $book && $book->getBookStatus() != BookStatusEnum::borrowed) {
+                if ($family && $book && $book->getStatus() != BookStatusEnum::borrowed) {
 
                     $loan = new Loan;
                     $loan->setFamily($family);
                     $loan->setBook($book);
                     $loan->setLoanStatus(LoanStatusEnum::inProgress);
                     $loan->setLoanDate(new \DateTime());
-                    $book->setBookStatus(BookStatusEnum::borrowed);
+                    $book->setStatus(BookStatusEnum::borrowed);
                     $entityManager->persist($loan);
                     $entityManager->persist($book);
                     $entityManager->flush();
@@ -106,7 +106,7 @@ final class LoanController extends AbstractController
                         'familyId' => $familyId,
                     ]);
                 }
-                if ($family && $book && $book->getBookStatus() === BookStatusEnum::borrowed) {
+                if ($family && $book && $book->getStatus() === BookStatusEnum::borrowed) {
                     dd('ce livre est déjà emprunté !');
                 } else {
                     dd('aucun livre trouvé !');
@@ -175,17 +175,17 @@ final class LoanController extends AbstractController
         LoanRepository $loanRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        // changer LoanStatus et BookStatus
+        // changer LoanStatus et status
         $loan = $loanRepository->find($id);
         $book = $loan->getBook();
         $familyId = $loan->getFamily()->getId();
         if ($loan) {
             if (
                 $loan->getLoanStatus() != LoanStatusEnum::returned
-                && $book->getBookStatus() != BookStatusEnum::available
+                && $book->getStatus() != BookStatusEnum::available
             ) {
                 $loan->setLoanStatus(LoanStatusEnum::returned);
-                $book->setBookStatus(BookStatusEnum::available);
+                $book->setStatus(BookStatusEnum::available);
                 $loan->setReturnDate(new \DateTime());
                 $entityManager->persist($loan); // mise à jours d'une entité
                 $entityManager->persist($book);

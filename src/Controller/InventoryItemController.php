@@ -91,6 +91,7 @@ final class InventoryItemController extends AbstractController
             $inventoryItem = $form->getData();
             $inventoryItem->setBook($currentBook);
             $inventoryItem->setInventory($currentInventory);
+            // TODO : $inventoryItem->setUser($???);
             $em->persist($inventoryItem);
             $em->flush();
             dd('formule enregistre !');

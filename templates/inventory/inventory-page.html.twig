@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        {# <a href="{{ path('edit-inventory', { id: inventory.id }) }}" class="edit"> #}
+        <a href="{{ path('edit-inventory', { id: inventory.id }) }}" class="edit">
             <img src="{{ asset('img/pencil.svg') }}" alt="edit">
         </a>
 
@@ -17,5 +17,6 @@
 			{{ inventory.note }}</p>
 		<p>Statut :
 			{{ inventory.status.value }}</p>
+		{# TODO : afficher le nombre de livre vérifié, nombre de livre total, nombre de livre signalé #}
 	</div>
 </div>

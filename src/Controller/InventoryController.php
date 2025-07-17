@@ -32,7 +32,7 @@ final class InventoryController extends AbstractController
         $form->handleRequest($request)->createView();
         
         $filterForm = $this->createForm(InventoryFilterForm::class, $inventory);
-        $filterForm->handleRequest($request)->createView();
+        $filterForm->handleRequest($request);
         
         $inventories = null;
         $currentInventory = null;
@@ -64,7 +64,7 @@ final class InventoryController extends AbstractController
         }
         return $this->render('inventory/index.html.twig', [
             'tab' => $currentTab,
-            'form' => $form,
+            'form' => $form->createView(),
             'filterForm' => $filterForm,
             'inventories' => $inventories,
             'currentInventory'=>$currentInventory
@@ -89,14 +89,14 @@ final class InventoryController extends AbstractController
         }
 
         return $this->render('inventory/edit.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'inventory'=>$inventory
         ]);
     }
 
 
 
-    #[Route('/inventory/edit', name: 'edit-inventory')]
+    #[Route('/delete', name: 'delete-inventory')]
     public function delete(
         Request $request, 
         InventoryRepository $inventoryRepository,
