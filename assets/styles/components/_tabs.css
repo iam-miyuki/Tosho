@@ -36,11 +36,11 @@
   margin-right: 0.5rem;
 }
 
-.family-tab .tab-icon, .search-tab .tab-icon {
+.family-tab .tab-icon{
   background-image: url("../../img/search-user.svg");
 }
 
-.book-tab .tab-icon {
+.book-tab .tab-icon, .search-tab .tab-icon {
   background-image: url("../../img/search-2.svg");
 }
 

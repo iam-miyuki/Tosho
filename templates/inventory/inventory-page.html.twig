@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header">
+        {# <a href="{{ path('edit-inventory', { id: inventory.id }) }}" class="edit"> #}
+            <img src="{{ asset('img/pencil.svg') }}" alt="edit">
+        </a>
+
+        {# <a href="{{ path('delete-inventory', { id: inventory.id }) }}" class="delete"> #}
+            <img src="{{ asset('img/trush.svg') }}" alt="delete">
+        </a>
+	</div>
+	<div class="card-body">
+		<p>Date :
+			{{ inventory.date|date('d/m/Y') }}</p>
+		<p>Bâtiment :
+			{{ inventory.location.value }}</p>
+		<p>Note :
+			{{ inventory.note }}</p>
+		<p>Statut :
+			{{ inventory.status.value }}</p>
+	</div>
+</div>

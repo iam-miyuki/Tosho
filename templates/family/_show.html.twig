@@ -8,8 +8,7 @@
             <img src="{{ asset('img/pencil.svg') }}" alt="edit">
         </a>
 
-        <a href="{{ path('delete-family', { id: currentFamily.id }) }}" class="delete" 
-           onclick="return confirm('Voulez-vous vraiment supprimer cette famille ?');">
+        <a href="{{ path('delete-family', { id: currentFamily.id }) }}" class="delete">
             <img src="{{ asset('img/trush.svg') }}" alt="delete">
         </a>
     </div>

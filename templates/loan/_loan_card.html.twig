@@ -15,7 +15,7 @@
 			<p>Date de retour prévu : {{ loan.expectedReturnDate|date('d/m/Y') }}</p>
 			<p>Statut : {{ loan.loanStatus.value }}</p>
 			<p>Famille : {{ loan.family.name|upper }} / {{ loan.family.jpName }}</p>
-			<p>Emplacement : <span class="location">{{ loan.book.location.value }}</span></p>
+			<p>Emplacement : <span class="location location-loan">{{ loan.book.location.value }}</span></p>
 		</div>
 	</div>
 </div>

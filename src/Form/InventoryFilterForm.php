@@ -18,15 +18,21 @@ class InventoryFilterForm extends AbstractType
         $builder
             ->add('status',EnumType::class,[
                 'class'=>InventoryStatusEnum::class,
-                'label'=>'Statut : '
+                'label'=>'Statut : ',
+                'placeholder'=>'Tous les statuts',
+                'required'=>false
             ])
             ->add('date', DateType::class,[
                 'widget'=>'choice',
-                'label'=>'Date : '
+                'label'=>'Date : ',
+                'placeholder'=>' -',
+                'required'=>false
             ])
             ->add('location', EnumType::class,[
                 'class'=>LocationEnum::class,
-                'label'=>'Bâtiment : '
+                'label'=>'Bâtiment : ',
+                'placeholder'=>'Toute les bâtiments',
+                'required'=>false
             ])
         ;
     }

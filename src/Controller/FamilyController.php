@@ -23,7 +23,7 @@ public function index(Request $request, EntityManagerInterface $em): Response
     $form = $this->createForm(FamilyForm::class, $family);
     $form->handleRequest($request);
 
-    $currentTab = $request->query->get('tab','search');
+    $currentTab = $request->query->get('tab','family');
     $searchedFamilies = null;
     $currentFamily = null;
     $members = null;

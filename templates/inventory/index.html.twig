@@ -1,30 +1,60 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="page-title">
-        <h3>Gestion des inventaires</h3>
-        <img src="{{ asset('img/books.svg') }}" alt="inventory">
-    </div>
-    <div class="tab-container">
-	<div class="tabs">
-		<a href="{{ path('inventory', {tab: 'search'}) }}" class="tab left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
-			<div class="tab-icon"></div>Chercher
-		</a>
-		<a href="{{ path('inventory', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-			<div class="tab-icon"></div>Nouvel inventaire
-		</a>
+	<div class="page-title">
+		<h3>Gestion des inventaires</h3>
+		<img src="{{ asset('img/books.svg') }}" alt="inventory">
+	</div>
+	<div class="tab-container">
+		<div class="tabs">
+			<a href="{{ path('inventory', {tab: 'search'}) }}" class="tab left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Chercher
+			</a>
+			<a href="{{ path('inventory', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Nouvel inventaire
+			</a>
+		</div>
+
+		<div class="tab-content left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+			{% if tab == 'search' %}
+				{% include 'inventory/search-form.html.twig' with {'filterForm' : filterForm } %}
+				{% if inventories and inventories|length > 0 and currentInventory is null %}
+
+					<div class="cards-wrapper">
+						{% for inventory in inventories %}
+							<div class="card">
+								<a href="{{ path('inventory', { id: inventory.id }) }}">
+									<div class="card-body">
+										<p>Date :
+											{{ inventory.date|date('d/m/Y') }}</p>
+										<p>Bâtiment :
+											{{ inventory.location.value }}</p>
+										<p>Note :
+											{{ inventory.note }}</p>
+										<p>Statut :
+											{{ inventory.status.value }}</p>
+									</div>
+								</a>
+							</div>
+
+						{% endfor %}
+					</div>
+
+				{% elseif currentInventory and currentInventory is defined %}
+
+					{% include 'inventory/inventory-page.html.twig' with { inventory : currentInventory} %}
+
+				{% endif %}
+
+			{% endif %}
+		</div>
+
+		<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+			{% if tab == 'new' %}
+				{% include 'inventory/form.html.twig' with {'form': form} %}
+			{% endif %}
+		</div>
 	</div>
 
-	<div class="tab-content left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
-		{% if tab == 'search' %}
-			{% include 'inventory/search-form.html.twig' with {'filterForm' : filterForm } %}
-		{% endif %}
-	</div>
 
-	<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-		{% if tab == 'new' %}
-			{% include 'inventory/form.html.twig' with {'form': form} %}
-		{% endif %}
-	</div>
-</div>
 {% endblock %}

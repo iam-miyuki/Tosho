@@ -5,7 +5,7 @@
   border: 2px solid var(--color-text);
   border-radius: 1rem;
   font-weight: 700;
-  
+  background-color: var(--color-btn);
   width: 8rem;
   cursor: pointer;
   font-family: var(--font-sub);
@@ -13,6 +13,7 @@
   box-shadow: 6px 6px 0 var(--color-text); 
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
+
 
 .btn-card:active {
   box-shadow: 2px 2px 0 var(--color-text);

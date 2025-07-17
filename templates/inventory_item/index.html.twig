@@ -21,9 +21,9 @@
 				{% for i in inventories %}
 					<a href="{{path('inventory_item',{ id: i.id })}}">
 						<div class="btn-card">
-							<p>{{i.date|date('d/m/Y')}}
+							<p>Date : {{i.date|date('d/m/Y')}}
 							</p>
-							<p class="location">{{i.location.value}}
+							<p>Bâtiment : <div class="location location-inventory">{{i.location.value}}</div>
 							</p>
 						</div>
 					</a>
@@ -37,6 +37,7 @@
 		</div>
 	{% endif %}
 	{% if currentInventory %}
+
 	<p> {{currentInventory.location.value}} </p>
 	<p> {{currentInventory.note}} </p>
 	<a href="{{path('new_inventory_item',{id: currentInventory.id})}}">Commencer l'inventaire</a>

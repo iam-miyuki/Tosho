@@ -18,43 +18,65 @@ class InventoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Inventory::class);
     }
 
-     public function findAllByStatus(InventoryStatusEnum $status):array
+    public function findAllByStatus(InventoryStatusEnum $status): array
     {
-        $qb= $this->createQueryBuilder('i');
+        $qb = $this->createQueryBuilder('i');
         $qb
             ->andWhere('i.status= :status')
-            
+
             ->setParameter('status', $status->value)
-            
-           ;
+
+        ;
         return $qb->getQuery()->getResult();
     }
 
-   
+    public function findAllWithFilterQuery(
+        ?InventoryStatusEnum $status,
+        ?string $date,
+        ?LocationEnum $location // ? = autoriser les valeurs null
+    ) {
+        $qb = $this->createQueryBuilder('i');
+        if ($status != null) {
+            $qb->andWhere('i.status = :status')
+                ->setParameter('status', $status);
+        }
+        if ($date != null) {
+            $qb->andWhere('i.date = :date')
+                ->setParameter('data', $date);
+        }
+        if ($location != null) {
+
+            $qb->andWhere('i.location = :location')
+                ->setParameter('location', $location);
+        }
+        return $qb->getQuery()->getResult();
+    }
 
 
-//    /**
-//     * @return Inventory[] Returns an array of Inventory objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Inventory
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+    //    /**
+    //     * @return Inventory[] Returns an array of Inventory objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('i')
+    //            ->andWhere('i.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('i.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Inventory
+    //    {
+    //        return $this->createQueryBuilder('i')
+    //            ->andWhere('i.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

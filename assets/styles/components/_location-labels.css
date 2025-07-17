@@ -1,4 +1,4 @@
-.location {
+.location{
   display: inline-block;
   border: 2px solid var(--color-text);
   padding: 0.2rem 1rem;
@@ -8,6 +8,7 @@
   color: var(--color-text);
   text-align: center;
 }
+
 .location.cameleon{
   background-color: var(--color-cameleon);
 }

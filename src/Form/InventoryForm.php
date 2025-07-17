@@ -19,18 +19,21 @@ class InventoryForm extends AbstractType
         $builder
             ->add('location', EnumType::class,[
                 'class'=>LocationEnum::class,
-                'label'=>'Bâtiment : '
+                'label'=>'Bâtiment : ',
+                
             ])
             ->add('note', TextareaType::class,[
                 'label'=>'Commentaire (faculatif) : ',
-                'required' => false
+                
             ])
             ->add('date', DateType::class,[
                 'label'=> 'Date d\'inventaire',
+                
             ])
             ->add('status', EnumType::class,[
                 'class'=>InventoryStatusEnum::class,
-                'label'=>'Statut : '
+                'label'=>'Statut : ',
+                
             ])
         ;
     }
