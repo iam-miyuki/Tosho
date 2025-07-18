@@ -30,15 +30,14 @@ final class RegisterController extends AbstractController
             $user->setPassword($hasher->hashPassword($user, $user->getPassword()));
             $em->persist($user);
             $em->flush();
-            $email = new Email();
-            $email
-                ->to($user->getEmail())
-                ->subject('test email')
-                ->html('<p>Ici on test email</p>');
-            $mailer->send($email);
+            // $email = new Email();
+            // $email
+            //     ->to($user->getEmail())
+            //     ->subject('test email')
+            //     ->html('<p>Ici on test email</p>');
+            // $mailer->send($email);
             return $this->redirectToRoute('app_login');
         }
-
         return $this->render('register/index.html.twig', [
             'registerForm' => $form->createView()
         ]);

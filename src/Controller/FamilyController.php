@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Family;
 use App\Entity\Member;
 use App\Form\FamilyForm;
+use App\Form\SearchFamilyForm;
+use App\Repository\FamilyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,22 +19,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class FamilyController extends AbstractController
 {
     #[Route('/', name: 'family')]
-public function index(Request $request, EntityManagerInterface $em): Response
+public function index(
+    Request $request, 
+    EntityManagerInterface $em,
+    FamilyRepository $familyRepository
+    ): Response
 {
     $family = new Family();
     $form = $this->createForm(FamilyForm::class, $family);
     $form->handleRequest($request);
 
+    $searchForm = $this->createForm(SearchFamilyForm::class, $family);
+    $searchForm->handleRequest($request);
+
     $currentTab = $request->query->get('tab','family');
-    $searchedFamilies = null;
+    $results = null;
     $currentFamily = null;
     $members = null;
     $familyId = $request->query->get('id');
 
     if ($request->isMethod('POST')) {
-        if ($request->request->has('family_name')) {
-            $familyName = $request->request->get('family_name');
-            $searchedFamilies = $em->getRepository(Family::class)->findAllByName($familyName);
+        if ($searchForm->isSubmitted()) {
+            $name = $searchForm->get('search')->getData();
+            $results = $familyRepository->findAllByName($name);
+           
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -46,7 +56,7 @@ public function index(Request $request, EntityManagerInterface $em): Response
     }
 
     if ($familyId) {
-        $currentFamily = $em->getRepository(Family::class)->find($familyId);
+        $currentFamily = $familyRepository->find($familyId);
         if ($currentFamily) {
             $members = $em->getRepository(Member::class)->findAllByFamily($currentFamily);
         }
@@ -54,10 +64,11 @@ public function index(Request $request, EntityManagerInterface $em): Response
 
     return $this->render('family/index.html.twig', [
     'tab' => $currentTab,
-    'searchedFamilies' => $searchedFamilies,
+    'searchedFamilies' => $results,
     'currentFamily' => $currentFamily,
     'members' => $members,
-    'form' => $form,
+    'form' => $form->createView(),
+    'searchForm'=>$searchForm->createView()
 ]);
 }
 

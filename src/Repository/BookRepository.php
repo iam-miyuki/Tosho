@@ -16,12 +16,27 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function findByBookCode(string $bookCode)
+    public function findOneByCode(string $code)
     {
-        $qb = $this->createQueryBuilder('book');
+        $qb = $this->createQueryBuilder('b');
         $qb
-            ->andWhere('book.code = :bookCode')
-            ->setParameter('bookCode', $bookCode);
+            ->andWhere('b.code = :code')
+            ->setParameter('code', $code);
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findAllWithFilterQuery(
+        string $keyword
+    )
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb
+            ->andWhere('b.title LIKE :keyword')
+            ->orWhere('b.author LIKE :keyword')
+            ->orWhere('b.jpTitle LIKE :keyword')
+            ->orWhere('b.jpAuthor LIKE :keyword')
+            ->setParameter('keyword',"%" . $keyword . "%")
+            ;
+        return $qb->getQuery()->getResult();
     }
 }

@@ -1,8 +1,7 @@
-<form action="" method="POST">
-    <h3 class="form-title">Entrez un nom de famille</h3>
-    <input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
-    <button type="submit">Rechercher</button>
-</form> 
+{{ form_start(searchForm) }}
+    {{ form_row(searchForm) }}
+    <button type="submit">Chercher</button>
+{{ form_end(searchForm) }}
 
 {% if searchedFamilies is defined and searchedFamilies is not null %}
     <div class="section-title">

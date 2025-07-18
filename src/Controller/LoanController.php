@@ -8,6 +8,7 @@ use App\Entity\Loan;
 use App\Entity\Family;
 use App\Enum\BookStatusEnum;
 use App\Enum\LoanStatusEnum;
+use App\Form\LoanSearchForm;
 use App\Repository\LoanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,13 @@ final class LoanController extends AbstractController
         $bookCode = $request->request->get('book_code');
         $currentBook = null;
         $currentBookLoan = null;
+
+        // $loan = new Loan;
+        // $loanForm = $this->createForm(LoanForm::class, $loan);
+        // $loanForm->handleRequest($request);
+        // $searchLoanForm = $this->createForm(SearchLoanForm::class, $loan);
+        // $searchLoanForm->handleRequest($request);
+        
 
         if ($request->getMethod() === 'POST') {
             if ($request->request->has('family_name')) {

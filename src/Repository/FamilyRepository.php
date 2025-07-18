@@ -16,14 +16,15 @@ class FamilyRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Family::class);
     }
-    public function findAllByName(string $familyName)
+    public function findAllByName(string $name)
     {
-        $qb = $this->createQueryBuilder('family');
+        $qb = $this->createQueryBuilder('f');
         $qb
             ->addSelect('members')
-            ->leftJoin('family.members', 'members')
-            ->andWhere('family.name = :familyName')
-            ->setParameter('familyName', $familyName);
+            ->leftJoin('f.members', 'members')
+            ->andWhere('f.name LIKE :name')
+            ->orWhere('f.jpName LIKE :name')
+            ->setParameter('name', "%" . $name . "%");
         return $qb->getQuery()->getResult();
     }
 

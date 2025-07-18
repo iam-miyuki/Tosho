@@ -42,7 +42,7 @@ class InventoryRepository extends ServiceEntityRepository
         }
         if ($date != null) {
             $qb->andWhere('i.date = :date')
-                ->setParameter('data', $date);
+                ->setParameter('date', $date);
         }
         if ($location != null) {
 

@@ -18,26 +18,30 @@ class BookForm extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre : '
+                'label' => 'Titre : ',
+                'required'=>false
             ])
             ->add('author', TextType::class, [
-                'label' => 'Auteur : '
+                'label' => 'Auteur : ',
+                'required'=>false
             ])
             ->add('jpTitle', TextType::class, [
-                'label' => 'Titre en japonais'
+                'label' => 'Titre en japonais : ',
+                'required'=>false
             ])
             ->add('jpAuthor', TextType::class, [
-                'label' => 'Auteur en japonais'
+                'label' => 'Auteur en japonais : ',
+                'required'=>false
             ])
             ->add('coverUrl', UrlType::class, [
-                'label' => 'URL Couverture : '
+                'label' => 'URL Couverture : ',
+                'required'=>false
             ])
             ->add('location', EnumType::class, [
                 'class' => LocationEnum::class,
-                'label' => 'Bâtiment : '
-            ])
-            ->add('note', TextareaType::class, [
-                'required' => false
+                'label' => 'Bâtiment : ',
+                'placeholder'=>'Toutes les bâtiments',
+                'required'=>false
             ])
         ;
     }

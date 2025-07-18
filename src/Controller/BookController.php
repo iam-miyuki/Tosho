@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Enum\BookStatusEnum;
+use App\Form\BookFilterForm;
 use App\Form\BookForm;
+use App\Form\FindBookForm;
 use Doctrine\ORM\QueryBuilder;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,39 +21,57 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class BookController extends AbstractController
 {
     #[Route('/', name: 'book')]
-    public function index(Request $request, EntityManagerInterface $em): Response
-    {
-        // TODO : filter by titre, author, bookcode, nom de famille
-        $currentTab = $request->query->get('tab','search');
-        $bookCode = null;
-        $currentBook = null;
+    public function index(
+        Request $request,
+        EntityManagerInterface $em,
+        BookRepository $bookRepository
+    ): Response {
+        $currentTab = $request->query->get('tab', 'search');
         $book = new Book;
         $form = $this->createForm(BookForm::class, $book);
         $form->handleRequest($request);
+        $currentBook = null;
 
+        $filterForm = $this->createForm(BookFilterForm::class, $book);
+        $filterForm->handleRequest($request);
 
+        $findBookForm = $this->createForm(FindBookForm::class, $book);
+        $findBookForm->handleRequest($request);
+
+        $results = null;
 
         if ($request->isMethod('POST')) {
-        if ($request->request->has('book_code')) {
-            $bookCode = $request->request->get('book_code');
-            $currentBook = $em->getRepository(Book::class)->findOneByBookCode($bookCode);
+            if ($currentTab === 'search') {
+                if ($filterForm->isSubmitted()) {
+                    $keyword = $filterForm->get('filter')->getData();
+                    $results = $bookRepository->findAllWithFilterQuery($keyword);
+                    dd($results);
+                }
+                if ($findBookForm->isSubmitted()){
+                    $code = $findBookForm->get('code')->getData();
+                    $currentBook = $bookRepository->findOneByCode($code);
+                    dd($currentBook);
+                }
+            }
+            if ($currentTab === 'new') {
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $book = $form->getData();
+                    $book->setAddedAt(new \DateTimeImmutable());
+                    $book->setStatus(BookStatusEnum::available);
+                    // TODO : $book->setBookCode();
+                    $em->persist($book);
+                    $em->flush();
+                    dd('enregistré !');
+                }
+            }
         }
-        if($form->isSubmitted()&&$form->isValid()){
-            $book = $form->getData();
-            $book->setAddedAt(new \DateTimeImmutable());
-            $book->setStatus(BookStatusEnum::available);
-            // TODO : $book->setBookCode();
-            $em->persist($book);
-            $em->flush();
-            dd('enregistré !');
-        }
-    }
         return $this->render('book/index.html.twig', [
-            'currentBook' => $currentBook,
-            'bookToEdit' => null,
-            'bookToDelete' => null,
-            'tab'=>$currentTab,
-            'bookForm'=>$form->createView()
+            'tab' => $currentTab,
+            'results'=> $results,
+            'currentBook'=>$currentBook,
+            'bookForm' => $form->createView(),
+            'filterForm' => $filterForm->createView(),
+            'findBookForm'=>$findBookForm->createView()
         ]);
     }
 
