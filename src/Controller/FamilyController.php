@@ -93,7 +93,6 @@ public function index(
             'form' => $form,
             'currentFamily' => $family,
             'members' => $members,
-
         ]);
     }
 

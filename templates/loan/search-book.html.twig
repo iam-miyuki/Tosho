@@ -1,8 +1,45 @@
+<form action="" method="POST">
+	<h3 class="form-title">Code livre :
+	</h3>
+	<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
+	<button type="submit">Rechercher</button>
+</form>
+
+<form action="" method="POST">
+	<h3 class="form-title">Titre ou Auteur :
+	</h3>
+	<input id="keyword" name="keyword" type="text" placeholder="Titre ou auteur"/>
+	<button type="submit">Rechercher</button>
+</form>
+
 {% if currentBook is defined and currentBook is not null %}
-	{% if currentBookLoan is defined and currentBookLoan is not null %}
-		{% include 'loan/cards.html.twig' with { loan: currentBookLoan } %}
+	{% if currentLoan %}
+		{% include 'loan/loan-card.html.twig' with { loan: currentLoan } %}
 	{% else %}
-		{% include 'loan/_book_card.html.twig' with { book: currentBook } %}
+		{% include 'loan/book-card.html.twig' with { book: currentBook } %}
 	{% endif %}
 {% endif %}
+{% if books is defined %}
+	<div class="section-title">
+		<h4>Résultats de recherche :
+		</h4>
+	</div>
+	<div class="result-container">
+		{% if  books | length > 0 %}
 
+			<ul class="result-list">
+				{% for book in books %}
+					<li>
+						<a href="{{ path('loan', {book_id: book.id}) }}">
+							{{ book.title }}
+							/
+							{{ book.jpTitle }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>Aucun livre trouvé !</p>
+		{% endif %}
+	</div>
+{% endif %}

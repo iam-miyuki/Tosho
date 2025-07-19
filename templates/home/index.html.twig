@@ -1,8 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello HomeController!
+{% endblock %}
 
 {% block body %}
-<h3>Page d'accueil</h3>
+	<div class="main">
+		<h2>Home - Bibliothécaire</h2>
+		<div class="cards">
+			<a href="{{path('loan')}}">
+				<div class="card">
+					<div class="card-title">Prêts & Retours</div>
+					<img src="{{ asset('img/child-book.svg') }}" alt="loan"/>
+				</div>
+			</a>
+			<a href="{{path('inventory')}}">
+				<div class="card">
+					<div class="card-title">Inventaire</div>
+					<img src="{{ asset('img/books.svg') }}" alt="books"/>
+				</div>
+			</a>
+			<a href="">
+				<div class="card">
+					<div class="card-title">Mon compte</div>
+					<img src="{{ asset('img/profile-3.svg') }}" alt="profile"/>
+				</div>
+			</a>
+		</div>
+	</div>
 
 {% endblock %}

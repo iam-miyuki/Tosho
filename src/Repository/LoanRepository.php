@@ -45,6 +45,6 @@ class LoanRepository extends ServiceEntityRepository
         ->andWhere("l.status = :status") 
         ->setParameter('book', $book)
         ->setParameter('status', LoanStatusEnum::inProgress);
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }
