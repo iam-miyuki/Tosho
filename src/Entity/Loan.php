@@ -31,14 +31,14 @@ class Loan
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $returnDate;
 
-    #[ORM\Column(type: 'string', enumType: LoanStatusEnum::class)]
-    private LoanStatusEnum $loanStatus;
-
     #[ORM\ManyToOne(inversedBy: 'loans')]
     private ?Book $book = null;
 
     #[ORM\ManyToOne(inversedBy: 'loans')]
     private ?User $user = null;
+
+    #[ORM\Column(nullable: true, enumType: LoanStatusEnum::class)]
+    private ?LoanStatusEnum $status = null;
 
     
 
@@ -90,16 +90,7 @@ class Loan
         return $this->returnDate;
     }
 
-    public function setLoanStatus(LoanStatusEnum $loanStatus)
-    {
-        $this->loanStatus = $loanStatus;
-        return $this;
-    }
-
-    public function getLoanStatus(): LoanStatusEnum
-    {
-        return $this->loanStatus;
-    }
+    
 
     public function getBook(): ?Book
     {
@@ -121,6 +112,18 @@ class Loan
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStatus(): ?LoanStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?LoanStatusEnum $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

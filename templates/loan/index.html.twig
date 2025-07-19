@@ -8,19 +8,127 @@
 
 	<div class="tab-container">
 		<div class="tabs">
-			<a href="{{ path('loan', {tab: 'family'}) }}" class="tab left-tab family-tab {{ tab == 'family' ? 'active' : '' }}"><div class="tab-icon"></div>Chercher par famille</a>
-			<a href="{{ path('loan', {tab: 'book'}) }}" class="tab right-tab book-tab {{ tab == 'book' ? 'active' : '' }}"><div class="tab-icon"></div>Chercher par livre</a>
+			<a href="{{ path('loan', {tab: 'family'}) }}" class="tab left-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Chercher par famille</a>
+			<a href="{{ path('loan', {tab: 'book'}) }}" class="tab right-tab book-tab {{ tab == 'book' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Chercher par livre</a>
 		</div>
 
 		<div class="tab-content left-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
-			{% include 'loan/_search_family_tab.html.twig' %}
+			{{ form_start(searchFamilyForm) }}
+			{{ form_row(searchFamilyForm) }}
+			<button type="submit">Chercher</button>
+			{{ form_end(searchFamilyForm) }}
+
+			{% if families is defined and families|length > 0 %}
+				<div class="section-title">
+					<h4>Résultats de recherche :</h4>
+				</div>
+				<div class="result-container">
+					<ul class="result-list">
+						{% for family in families %}
+							<li>
+								<a href="{{ path('loan', { id_family: family.id, tab: 'family' }) }}">
+									{{ family.name|upper }} / {{ family.jpName }}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% elseif families is defined %}
+				<div class="result-container">
+					<p>Aucune famille trouvée !</p>
+				</div>
+			{% endif %}
+
+			{% if currentFamily is defined and currentFamily %}
+				<div class="current-family-container">
+					<hr>
+					<div>
+						<h5 class="account-name">
+							Famille {{ currentFamily.name|upper }} / {{ currentFamily.jpName }}
+						</h5>
+					</div>
+
+					<div class="section-container">
+						<h4 class="name-container section-name yellow">Prêts en cours</h4>
+
+						{% if loans and loans|length > 0 %}
+							<div class="cards-wrapper">
+								<div class="cards-container">
+									{% for loan in loans %}
+										<div class="card">
+											<div class="card-header">
+												<a href="{{ path('return-book', { id: loan.id }) }}" class="return-book">
+													<img src="{{ asset('img/close.svg') }}" alt="rendre">
+													<span>Rendre</span>
+												</a>
+											</div>
+											<div class="card-body">
+												<div class="book-image"></div>
+												<div class="detail book-details">
+													<p>Code : {{ loan.book.code }}</p>
+													<p>Titre : {{ loan.book.title }}</p>
+													<p>Auteur : {{ loan.book.author }}</p>
+													<p>Date d’emprunt : {{ loan.loanDate|date('d/m/Y') }}</p>
+													<p>Date de retour prévu : {{ loan.expectedReturnDate|date('d/m/Y') }}</p>
+													<p>Statut : {{ loan.status.value }}</p>
+													<p>Famille : {{ loan.family.name|upper }} / {{ loan.family.jpName }}</p>
+													<p>Emplacement :
+														<span class="location location-loan">{{ loan.book.location.value }}</span>
+													</p>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						{% else %}
+							<div class="no-result no-loan">
+								<p>Aucun prêt en cours</p>
+								<div class="result-icon empty"></div>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
 		</div>
 
 		<div class="tab-content right-tab book-tab {{ tab == 'book' ? 'active' : '' }}">
-			{% include 'loan/_search_book_tab.html.twig' %}
+			{{ form_start(findBookForm) }}
+			{{ form_row(findBookForm) }}
+			<button type="submit">Chercher</button>
+			{{ form_end(findBookForm) }}
+
+			{{ form_start(searchBookForm) }}
+			{{ form_row(searchBookForm) }}
+			<button type="submit">Chercher</button>
+			{{ form_end(searchBookForm) }}
+
+			{% if books is defined and books|length > 0 %}
+				<div class="section-title">
+					<h4>Livres trouvés :</h4>
+				</div>
+				<div class="result-container">
+					<ul class="result-list">
+						{% for book in books %}
+							<li>{{ book.title }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+
+			{% if book is defined and book %}
+				<div class="section-title">
+					<h4>Livre trouvé : {{ book.title }}</h4>
+				</div>
+				{% if loan %}
+					<p>Ce livre est actuellement prêté à {{ loan.family.name }}</p>
+				{% else %}
+					<p>Ce livre n'est pas actuellement prêté.</p>
+				{% endif %}
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}
-
-
 

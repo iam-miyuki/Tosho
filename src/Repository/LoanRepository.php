@@ -2,10 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Book;
 use App\Entity\Loan;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Family;
+use App\Enum\LoanStatusEnum;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Family>
@@ -17,41 +20,31 @@ class LoanRepository extends ServiceEntityRepository
         parent::__construct($registry, Loan::class);
     }
     
-    public function findByFamilyName(string $familyName)
+    public function findAllWithFamilyAndStatus(Family $family)
     {
-        $qb = $this->createQueryBuilder('loan');
+        $qb = $this->createQueryBuilder('l');
         $qb
-        ->addSelect('family')
-        ->addSelect('book')
-        ->leftJoin('loan.family', 'family')
-        ->leftJoin('loan.book', 'book')
-        ->andWhere('family.name = :name')
-        ->andWhere("loan.loanStatus != :status") // afficher la liste des prêts non rendu
-        ->setParameter('name', $familyName)
-        ->setParameter('status', 'Rendu');
-        // dd($qb->getQuery()->getSQL());
+            ->addSelect('book')
+            ->leftJoin('l.book','book')
+            ->andWhere('l.family = :family')
+            ->andWhere('l.status = :status')
+            ->setParameter('family',$family)
+            ->setParameter('status',LoanStatusEnum::inProgress)
+            ;
         return $qb->getQuery()->getResult();
     }
 
-    public function findByFamilyId(string $familyId)
+    // trouver un loan par livre et statut = en cours
+    public function findWithBookAndStatus(Book $book)
     {
-        $qb = $this->createQueryBuilder('loan');
+        $qb = $this->createQueryBuilder('l');
         $qb
         ->addSelect('family')
-        ->addSelect('book')
-        ->leftJoin('loan.family', 'family')
-        ->leftJoin('loan.book', 'book')
-        ->andWhere('family.id = :id')
-        ->andWhere("loan.loanStatus != :status") // afficher la liste des prêts non rendu
-        ->setParameter('id', $familyId)
-        ->setParameter('status', 'Rendu');
-        // dd($qb->getQuery()->getSQL());
+        ->leftJoin('l.family', 'family')
+        ->andWhere('l.book = :book')
+        ->andWhere("l.status = :status") 
+        ->setParameter('book', $book)
+        ->setParameter('status', LoanStatusEnum::inProgress);
         return $qb->getQuery()->getResult();
     }
-
-    
-
-   
-
-   
 }

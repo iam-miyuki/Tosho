@@ -1,0 +1,8 @@
+{% if currentBook is defined and currentBook is not null %}
+	{% if currentBookLoan is defined and currentBookLoan is not null %}
+		{% include 'loan/cards.html.twig' with { loan: currentBookLoan } %}
+	{% else %}
+		{% include 'loan/_book_card.html.twig' with { book: currentBook } %}
+	{% endif %}
+{% endif %}
+
