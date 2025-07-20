@@ -24,12 +24,9 @@ class InventoryItemForm extends AbstractType
                 'label'=> 'Status'
             ])
             ->add('note', TextareaType::class,[
-                'label'=> 'Commentaire'
+                'label'=> 'Commentaire',
+                'required' =>false
             ])
-            // ->add('book', EntityType::class, [
-            //     'class' => Book::class,
-            //     'choice_label' => 'id',
-            // ])
         ;
     }
 

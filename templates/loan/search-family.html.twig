@@ -55,7 +55,7 @@
 					<div class="cards-container">
 						{% if loans|length > 0 %}
 							{% for loan in loans %}
-								{% include 'loan/_loan_card.html.twig' with { loan: loan } %}
+								{% include 'loan/loan-card.html.twig' with { loan: loan } %}
 							{% endfor %}
 						{% else %}
 							<div class="no-result no-loan">

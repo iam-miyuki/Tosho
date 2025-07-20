@@ -3,7 +3,7 @@
 @import url('layout/_header.css');
 @import url('layout/_footer.css');
 @import url('layout/_container.css');
-@import url('components/_tabs.css');
+@import url('layout/_tabs.css');
 @import url('components/_form.css');
 @import url('components/_card.css');
 @import url('components/_location-labels.css');

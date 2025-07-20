@@ -4,10 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\Inventory;
-use App\Enum\LocationEnum;
 use App\Entity\InventoryItem;
 use App\Enum\InventoryStatusEnum;
 use App\Form\InventoryItemForm;
+use App\Repository\BookRepository;
+use App\Repository\InventoryItemRepository;
 use App\Repository\InventoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,110 +21,119 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted('ROLE_USER')]
 final class InventoryItemController extends AbstractController
 {
-    #[Route('/', name: 'inventory_item')]
-    public function index(Request $request, EntityManagerInterface $em): Response
-    {
-        $inventories = $em->getRepository(Inventory::class)->findAllByStatus(
-            InventoryStatusEnum::open
-        );
+    #[Route('/', name: 'inventory-item')]
+    public function index(
+        Request $request,
+        InventoryRepository $inventoryRepository,
+    ): Response {
+        $inventories = $inventoryRepository->findAllByStatus(InventoryStatusEnum::open);
         $inventoryId = $request->query->get('id');
-        $currentInventory = null;
+
         if ($inventoryId) {
-            $currentInventory = $em->getRepository(Inventory::class)->find($inventoryId);
-            return $this->render('inventory_item/index.html.twig', [
-                'currentInventory' => $currentInventory
+            return $this->redirectToRoute('new-item', [
+                'id' => $inventoryId
             ]);
         }
+
         return $this->render('inventory_item/index.html.twig', [
-            'inventories' => $inventories,
-            'currentInventory' => null
+            'inventories' => $inventories
         ]);
     }
 
-    #[Route('/new', name: 'new_inventory_item')]
-    public function new(Request $request, 
-    EntityManagerInterface $em
-    ): Response
-    {
-        $currentBook = null;
+    #[Route('/search', name: 'search-item')]
+    public function search(
+        Request $request,
+        BookRepository $bookRepository,
+        InventoryRepository $inventoryRepository,
+        InventoryItemRepository $inventoryItemRepository
+    ): Response {
+
         $inventoryId = $request->query->get('id');
-        $currentInventory = $em->getRepository(Inventory::class)->find($inventoryId);
-        $isExist = false;
-        
-        if ($request->isMethod('POST')) {
-            if ($request->request->has('book_code')) {
-                $bookCode = $request->request->get('book_code');
-                $currentBook = $em->getRepository(Book::class)->findOneByBookCode($bookCode);
-                $result = $em->getRepository(InventoryItem::class)->findOneByInventoryAndBook($currentInventory,$currentBook);
-                if($result){
-                    $isExist=true;
-                }
-                if ($currentBook && !$isExist) {
-                    return $this->redirectToRoute('new_inventory_item_form', [
-                        'id' => $inventoryId,
-                        'book' => $currentBook->getId()
-                    ]);
-                } if($currentBook && $isExist){
-                    return $this->redirectToRoute('edit_inventory_item_form',[
-                        'id'=>$inventoryId,
-                        'book'=>$currentBook->getId()
-                    ]);
-                }
+        $inventory = $inventoryRepository->find($inventoryId);
+
+        $currentBook = null;
+        $query = null;
+
+        if ($request->isMethod('POST') && $request->request->has('book_code')) {
+            $code = $request->request->get('book_code');
+            $currentBook = $bookRepository->findOneByCode($code);
+            // vérifier si $currentBook a déjà été ajouté dans cette session
+            $query = $inventoryItemRepository->findOneByInventoryAndBook($inventory, $currentBook);
+
+            if ($query === null) {
+                return $this->redirectToRoute('add-item', [
+                    'id' => $inventoryId,
+                    'book'=>$currentBook->getId()
+                ]);
+            } else {
+                return $this->redirectToRoute('edit-item', [
+                    'id' => $query->getId()
+                ]);
             }
         }
-        return $this->render('inventory_item/new.html.twig', [
-            'currentBook' => null
+        return $this->render('inventory_item/search.html.twig', [
+            'currentInventory' => $inventory,
+            'currentBook' => $currentBook,
+            'query' => $query
         ]);
     }
-    #[Route('/new/form', name: 'new_inventory_item_form')]
-    public function form(Request $request, EntityManagerInterface $em): Response
-    {
-        $inventoryItem = new InventoryItem;
-        $form = $this->createForm(InventoryItemForm::class, $inventoryItem);
-        $form->handleRequest($request); //mapper avec l'entité
-        $inventoryId = $request->query->get('id');
-        $bookId = $request->query->get('book');
-        $currentBook = $em->getRepository(Book::class)->find($bookId);
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            $currentInventory = $em->getRepository(Inventory::class)->find($inventoryId);
-            
-            $inventoryItem = $form->getData();
+    #[Route('/add', name: 'add-item')]
+    public function add(
+        Request $request,
+        InventoryRepository $inventoryRepository,
+        BookRepository $bookRepository,
+        EntityManagerInterface $em
+    ): Response {
+        $inventoryId = $request->query->get('id');
+        $inventory = $inventoryRepository->find($inventoryId);
+        $currentBook = $bookRepository->find($request->query->get('book'));
+
+        $inventoryItem = new InventoryItem();
+        $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
+        $itemForm->handleRequest($request);
+
+        if ($itemForm->isSubmitted() && $itemForm->isValid()) {
+            $inventoryItem = $itemForm->getData();
             $inventoryItem->setBook($currentBook);
-            $inventoryItem->setInventory($currentInventory);
-            // TODO : $inventoryItem->setUser($???);
+            $inventoryItem->setInventory($inventory);
+            // TODO : $inventoryItem->setUser($this->getUser());
             $em->persist($inventoryItem);
             $em->flush();
-            dd('formule enregistre !');
+            return $this->redirectToRoute('search-item',[
+                'id' => $inventoryId
+            ]);
         }
-        return $this->render('inventory_item/form.html.twig', [
-            'form' => $form,
-            'currentBook'=>$currentBook
+        return $this->render('inventory_item/add.html.twig', [
+            'currentInventory'=>$inventory,
+            'currentBook'=>$currentBook,
+            'itemForm'=>$itemForm
         ]);
     }
 
-    #[Route('/edit/form', name: 'edit_inventory_item_form')]
-    public function edit(Request $request, EntityManagerInterface $em): Response
+    #[Route('/edit', name: 'edit-item')]
+    public function edit(
+        Request $request, 
+        InventoryItemRepository $inventoryItemRepository, 
+        EntityManagerInterface $em): Response
     {
+        $inventoryItem = $inventoryItemRepository->find($request->query->get('id'));
 
-        $inventoryId = $request->query->get('id');
-        $bookId = $request->query->get('book');
-        $currentBook = $em->getRepository(Book::class)->find($bookId);
-        $currentInventory = $em->getRepository(Inventory::class)->find($inventoryId);
+        $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
+        $itemForm->handleRequest($request);
 
-        $inventoryItem = $em->getRepository(InventoryItem::class)->findOneByInventoryAndBook($currentInventory,$currentBook);
-        $form = $this->createForm(InventoryItemForm::class, $inventoryItem);
-        $form->handleRequest($request);
-        
-        
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($itemForm->isSubmitted() && $itemForm->isValid()) {
             $em->flush();
-            dd('formule modifié !');
+            $this->addFlash('success', 'L’inventaire a été mis à jour.');
+            return $this->redirectToRoute('search-item',[
+                'id' => $inventoryItem->getInventory()->getId()
+            ]);
         }
-        return $this->render('inventory_item/edit_form.html.twig', [
-            'form' => $form,
-            'currentBook'=>$currentBook,
-            'currentInventory'=>$currentInventory
+
+        return $this->render('inventory_item/edit.html.twig', [
+            'itemForm' => $itemForm,
+            'currentBook' => $inventoryItem->getBook(),
+            'currentInventory' => $inventoryItem->getInventory()
         ]);
     }
 }

@@ -23,9 +23,7 @@ class InventoryRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('i');
         $qb
             ->andWhere('i.status= :status')
-
             ->setParameter('status', $status->value)
-
         ;
         return $qb->getQuery()->getResult();
     }
