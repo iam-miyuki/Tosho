@@ -26,6 +26,9 @@
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+#header .nav-admin{
+  background-color: var(--color-badet);
+}
 
 #header nav h2 {
   margin: 0;

@@ -1,16 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Ajouter l'entrée inventaire{% endblock %}
-
-{% block body %}
-	<div class="page-title">
-		<h3>Ajouter une entrée d’inventaire</h3>
-		<img src="{{ asset('img/books.svg') }}" alt="inventory">
-	</div>
-
-
 	{{ form_start(itemForm) }}
 		{{ form_row(itemForm) }}
 		<button type="submit">Enregistrer</button>
 	{{ form_end(itemForm) }}
-{% endblock %}

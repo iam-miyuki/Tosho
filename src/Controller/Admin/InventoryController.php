@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Inventory;
 use App\Enum\InventoryStatusEnum;
@@ -15,8 +15,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-#[Route(path: '/inventory')]
-#[IsGranted('ROLE_USER')]
+#[Route(path: '/admin/inventory')]
+#[IsGranted('ROLE_ADMIN')]
 final class InventoryController extends AbstractController
 {
     #[Route('/', name: 'inventory')]
@@ -49,7 +49,7 @@ final class InventoryController extends AbstractController
                     $inventory = $form->getData();
                     $em->persist($inventory);
                     $em->flush();
-                    return $this->render('inventory/success.html.twig');
+                    return $this->render('Admin/inventory/success.html.twig');
                 }
             }
             if ($currentTab === 'search') {
@@ -62,7 +62,7 @@ final class InventoryController extends AbstractController
                 }
             }
         }
-        return $this->render('inventory/index.html.twig', [
+        return $this->render('Admin/inventory/index.html.twig', [
             'tab' => $currentTab,
             'form' => $form->createView(),
             'filterForm' => $filterForm,
@@ -88,7 +88,7 @@ final class InventoryController extends AbstractController
             dd('modifié !');
         }
 
-        return $this->render('inventory/edit.html.twig', [
+        return $this->render('Admin/inventory/edit.html.twig', [
             'form' => $form->createView(),
             'inventory'=>$inventory
         ]);
@@ -109,7 +109,7 @@ final class InventoryController extends AbstractController
             $em->remove($inventory);
             $em->flush();
         }
-        return $this->render('inventory/delete.html.twig', [
+        return $this->render('Admin/inventory/delete.html.twig', [
             'inventory'=>$inventory
         ]);
     }

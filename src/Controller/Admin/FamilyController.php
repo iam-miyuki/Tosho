@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Family;
 use App\Entity\Member;
@@ -14,8 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/family')]
-#[IsGranted('ROLE_USER')]
+#[Route('/admin/family')]
+#[IsGranted('ROLE_ADMIN')]
 final class FamilyController extends AbstractController
 {
     #[Route('/', name: 'family')]
@@ -51,7 +51,7 @@ public function index(
             $em->persist($family);
             $em->flush();
 
-            return $this->render('family/success.html.twig');
+            return $this->render('Admin/family/success.html.twig');
         }
     }
 
@@ -62,7 +62,7 @@ public function index(
         }
     }
 
-    return $this->render('family/index.html.twig', [
+    return $this->render('Admin/family/index.html.twig', [
     'tab' => $currentTab,
     'searchedFamilies' => $results,
     'currentFamily' => $currentFamily,
@@ -89,7 +89,7 @@ public function index(
             return $this->redirectToRoute('show-family', ['id' => $family->getId()]);
         }
 
-        return $this->render('family/edit.html.twig', [
+        return $this->render('Admin/family/edit.html.twig', [
             'form' => $form,
             'currentFamily' => $family,
             'members' => $members,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Book;
 use App\Enum\BookStatusEnum;
@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route(path: '/book')]
-#[IsGranted('ROLE_USER')]
+#[Route('/admin/book')]
+#[IsGranted('ROLE_ADMIN')]
 final class BookController extends AbstractController
 {
     #[Route('/', name: 'book')]
@@ -65,7 +65,7 @@ final class BookController extends AbstractController
                 }
             }
         }
-        return $this->render('book/index.html.twig', [
+        return $this->render('Admin/book/index.html.twig', [
             'tab' => $currentTab,
             'results'=> $results,
             'currentBook'=>$currentBook,
@@ -94,7 +94,7 @@ final class BookController extends AbstractController
     {
         $bookToDelete = $em->getRepository(Book::class)->find($id);
         dd($bookToDelete);
-        return $this->render('book/index.html.twig', [
+        return $this->render('Admin/book/index.html.twig', [
             'currentBook' => null,
             'bookToEdit' => null,
             'bookToDelete' => $bookToDelete

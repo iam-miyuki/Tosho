@@ -48,6 +48,10 @@
   background-image: url("../../img/plus.svg");
 }
 
+.status-tab .tab-icon {
+  background-image: url("../../img/search-3.svg");
+}
+
 
 .tab:hover{
   background-color:var(--color-btn-hover);

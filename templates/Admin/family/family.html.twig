@@ -25,7 +25,7 @@
 {% endif %}
 
 {% if currentFamily is defined and currentFamily is not null %}
-    {% include 'family/_show.html.twig' with {
+    {% include 'Admin/family/_show.html.twig' with {
         currentFamily: currentFamily,
         members: members
     } %}

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'Admin/base.html.twig' %}
 
 {% block body %}
 	<div class="page-title">
@@ -18,13 +18,13 @@
 
 	<div class="tab-content left-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
 		{% if tab == 'family' %}
-			{% include 'family/family.html.twig' %}
+			{% include 'Admin/family/family.html.twig' %}
 		{% endif %}
 	</div>
 
 	<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 		{% if tab == 'new' %}
-			{% include 'family/form.html.twig' with {'form': form} %}
+			{% include 'Admin/family/form.html.twig' with {'form': form} %}
 		{% endif %}
 	</div>
 </div>

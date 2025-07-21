@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Book;
-use App\Entity\Inventory;
 use App\Entity\InventoryItem;
+use App\Enum\InventoryItemStatusEnum;
 use App\Enum\InventoryStatusEnum;
+use App\Enum\LocationEnum;
 use App\Form\InventoryItemForm;
 use App\Repository\BookRepository;
 use App\Repository\InventoryItemRepository;
 use App\Repository\InventoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -48,8 +50,34 @@ final class InventoryItemController extends AbstractController
         InventoryItemRepository $inventoryItemRepository
     ): Response {
 
+        $tab = $request->query->get('tab', 'new');
         $inventoryId = $request->query->get('id');
         $inventory = $inventoryRepository->find($inventoryId);
+        $location = $inventory->getLocation();
+        $allBooks = $bookRepository->findAllByLocation($location);
+        $checkedBooks = $inventoryItemRepository->findAllByInventory($inventory);
+       
+        $okItems = $inventoryItemRepository->findAllByInventoryAndStatus(
+            $inventory,
+            InventoryItemStatusEnum::ok
+        );
+        $badLocations = $inventoryItemRepository->findAllByInventoryAndStatus(
+            $inventory,
+            InventoryItemStatusEnum::badLocation
+        );
+
+        $notFounds = $inventoryItemRepository->findAllByInventoryAndStatus(
+            $inventory,
+            InventoryItemStatusEnum::notFound
+        );
+        $others = $inventoryItemRepository->findAllByInventoryAndStatus(
+            $inventory,
+            InventoryItemStatusEnum::other
+        );
+
+        $inventoryItem = new InventoryItem();
+        $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
+        $itemForm->handleRequest($request);
 
         $currentBook = null;
         $query = null;
@@ -59,22 +87,31 @@ final class InventoryItemController extends AbstractController
             $currentBook = $bookRepository->findOneByCode($code);
             // vérifier si $currentBook a déjà été ajouté dans cette session
             $query = $inventoryItemRepository->findOneByInventoryAndBook($inventory, $currentBook);
-
             if ($query === null) {
+
                 return $this->redirectToRoute('add-item', [
                     'id' => $inventoryId,
-                    'book'=>$currentBook->getId()
+                    'book' => $currentBook->getId(),
                 ]);
             } else {
+
                 return $this->redirectToRoute('edit-item', [
-                    'id' => $query->getId()
+                    'id' => $query->getId(),
                 ]);
             }
         }
-        return $this->render('inventory_item/search.html.twig', [
+        return $this->render('inventory_item/tabs.html.twig', [
             'currentInventory' => $inventory,
             'currentBook' => $currentBook,
-            'query' => $query
+            'query' => $query,
+            'total' => $allBooks,
+            'checked' => $checkedBooks,
+            'okItems' => $okItems,
+            'badLocations' => $badLocations,
+            'notFounds' => $notFounds,
+            'others' => $others,
+            'tab' => $tab,
+            'itemForm' => $itemForm->createView()
         ]);
     }
 
@@ -100,23 +137,24 @@ final class InventoryItemController extends AbstractController
             // TODO : $inventoryItem->setUser($this->getUser());
             $em->persist($inventoryItem);
             $em->flush();
-            return $this->redirectToRoute('search-item',[
+            return $this->redirectToRoute('search-item', [
                 'id' => $inventoryId
             ]);
         }
-        return $this->render('inventory_item/add.html.twig', [
-            'currentInventory'=>$inventory,
-            'currentBook'=>$currentBook,
-            'itemForm'=>$itemForm
+        return $this->render('inventory_item/tabs.html.twig', [
+            'currentInventory' => $inventory,
+            'currentBook' => $currentBook,
+            'itemForm' => $itemForm,
+            'tab' => 'search'
         ]);
     }
 
     #[Route('/edit', name: 'edit-item')]
     public function edit(
-        Request $request, 
-        InventoryItemRepository $inventoryItemRepository, 
-        EntityManagerInterface $em): Response
-    {
+        Request $request,
+        InventoryItemRepository $inventoryItemRepository,
+        EntityManagerInterface $em
+    ): Response {
         $inventoryItem = $inventoryItemRepository->find($request->query->get('id'));
 
         $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
@@ -125,15 +163,38 @@ final class InventoryItemController extends AbstractController
         if ($itemForm->isSubmitted() && $itemForm->isValid()) {
             $em->flush();
             $this->addFlash('success', 'L’inventaire a été mis à jour.');
-            return $this->redirectToRoute('search-item',[
+            return $this->redirectToRoute('search-item', [
                 'id' => $inventoryItem->getInventory()->getId()
             ]);
         }
 
-        return $this->render('inventory_item/edit.html.twig', [
+        return $this->render('inventory_item/tabs.html.twig', [
             'itemForm' => $itemForm,
             'currentBook' => $inventoryItem->getBook(),
-            'currentInventory' => $inventoryItem->getInventory()
+            'currentInventory' => $inventoryItem->getInventory(),
+            'tab' => 'search'
+        ]);
+    }
+
+    #[Route('/list', name: 'item-list')]
+    public function listt(
+        Request $request,
+        PaginatorInterface $paginator,
+        BookRepository $bookRepository,
+        InventoryRepository $inventoryRepository
+    ): Response {
+        $inventoryId = $request->query->get('id');
+        $currentInventory = $inventoryRepository->find($inventoryId);
+        $query = $bookRepository->findAllByLocationWithPagination(LocationEnum::cameleon);
+        
+        $results = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1)
+        );
+        
+        return $this->render('inventory_item/books.html.twig', [
+            'pagination' => $results,
+            'currentInventory'=>$currentInventory,
         ]);
     }
 }

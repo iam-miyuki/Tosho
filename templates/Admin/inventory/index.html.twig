@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'Admin/base.html.twig' %}
 
 {% block body %}
 	<div class="page-title">
@@ -17,7 +17,7 @@
 
 		<div class="tab-content left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
 			{% if tab == 'search' %}
-				{% include 'inventory/search-form.html.twig' with {'filterForm' : filterForm } %}
+				{% include 'Admin/inventory/search-form.html.twig' with {'filterForm' : filterForm } %}
 				{% if inventories and inventories|length > 0 and currentInventory is null %}
 
 					<div class="cards-wrapper">
@@ -42,7 +42,7 @@
 
 				{% elseif currentInventory and currentInventory is defined %}
 
-					{% include 'inventory/inventory-page.html.twig' with { inventory : currentInventory} %}
+					{% include 'Admin/inventory/inventory-page.html.twig' with { inventory : currentInventory} %}
 
 				{% endif %}
 
@@ -51,7 +51,7 @@
 
 		<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 			{% if tab == 'new' %}
-				{% include 'inventory/form.html.twig' with {'form': form} %}
+				{% include 'Admin/inventory/form.html.twig' with {'form': form} %}
 			{% endif %}
 		</div>
 	</div>

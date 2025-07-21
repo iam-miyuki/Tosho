@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Family;
 use App\Entity\Member;
@@ -13,14 +13,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route(path: '/member')]
-#[IsGranted('ROLE_USER')]
+#[Route(path: '/admin/member')]
+#[IsGranted('ROLE_ADMIN')]
 final class MemberController extends AbstractController
 {
     #[Route('/', name: 'member')]
     public function index(): Response
     {
-        return $this->render('member/index.html.twig', [
+        return $this->render('Admin/member/success.html.twig', [
             'controller_name' => 'MemberController',
         ]);
     }
@@ -38,12 +38,12 @@ final class MemberController extends AbstractController
             $member->setFamily($family);
             $em->persist($member);
             $em->flush();
-            return $this->render('member/success.html.twig',[
+            return $this->render('Admin/member/success.html.twig',[
                 'member'=>$member,
                 'family'=>$family
             ]);
         }
-        return $this->render('member/form.html.twig',[
+        return $this->render('Admin/member/form.html.twig',[
             'form'=>$form,
             'id'=>$id
         ]);

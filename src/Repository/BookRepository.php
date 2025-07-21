@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Enum\LocationEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,5 +39,22 @@ class BookRepository extends ServiceEntityRepository
             ->setParameter('keyword',"%" . $keyword . "%")
             ;
         return $qb->getQuery()->getResult();
+    }
+
+    public function findAllByLocation(LocationEnum $location){
+        $qb = $this->createQueryBuilder('b');
+        $qb
+        ->andWhere('b.location = :location')
+        ->setParameter('location',$location->value)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+    public function findAllByLocationWithPagination(LocationEnum $location){
+        $qb = $this->createQueryBuilder('b');
+        $qb
+        ->andWhere('b.location = :location')
+        ->setParameter('location',$location->value)
+        ;
+        return $qb->getQuery();
     }
 }

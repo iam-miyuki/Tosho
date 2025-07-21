@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	{% for book in pagination %}
+		
+	
+	<div class="card">
+    <div class="card-header">
+        <a href="{{ path('edit-item', { id: currentInventory.id }) }}" class="edit">
+            <img src="{{ asset('img/pencil.svg') }}" alt="edit">
+        </a>
+
+        {# <a href="{{ path('delete-inventory', { id: inventory.id }) }}" class="delete"> #}
+            <img src="{{ asset('img/trush.svg') }}" alt="delete">
+        </a>
+	</div>
+	<div class="card-body">
+		<h4> {{book.title}} </h4>
+	</div>
+</div>
+{% endfor %}
+
+
+    {{ knp_pagination_rel_links(pagination) }}
+{% endblock %}
