@@ -28,6 +28,7 @@ final class RegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($hasher->hashPassword($user, $user->getPassword()));
+            $user->setRoles(['ROLE_LIBRARIEN']);
             $em->persist($user);
             $em->flush();
             // $email = new Email();

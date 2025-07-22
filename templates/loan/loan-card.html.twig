@@ -11,6 +11,7 @@
 			<p>Code : {{ loan.book.code }}</p>
 			<p>Titre : {{ loan.book.title }}</p>
 			<p>Auteur : {{ loan.book.author }}</p>
+			<p>Bibliothécaire : {{loan.user.email}} </p>
 			<p>Date d’emprunt : {{ loan.loanDate|date('d/m/Y') }}</p>
 			<p>Date de retour prévu : {{ loan.expectedReturnDate|date('d/m/Y') }}</p>
 			<p>Statut : {{ loan.status.value }}</p>

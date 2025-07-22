@@ -110,6 +110,7 @@ final class LoanController extends AbstractController
                     $loan->setBook($book);
                     $loan->setStatus(LoanStatusEnum::inProgress);
                     $loan->setLoanDate(new \DateTime());
+                    $loan->setUser($this->getUser());
                     $book->setStatus(BookStatusEnum::borrowed);
                     $em->persist($loan);
                     $em->persist($book);
@@ -172,6 +173,7 @@ final class LoanController extends AbstractController
                 $loan->setStatus(LoanStatusEnum::returned);
                 $book->setStatus(BookStatusEnum::available);
                 $loan->setReturnDate(new \DateTime());
+                $loan->setUser($this->getUser());
                 $em->persist($loan);
                 $em->persist($book);
                 $em->flush();

@@ -33,7 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    
 
     /**
      * @var Collection<int, Loan>
@@ -46,6 +45,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\ManyToMany(targetEntity: InventoryItem::class, mappedBy: 'user')]
     private Collection $inventoryItems;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jpLastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jpFirstName = null;
 
     public function __construct()
     {
@@ -185,6 +196,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->inventoryItems->removeElement($inventoryItem)) {
             $inventoryItem->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getJpLastName(): ?string
+    {
+        return $this->jpLastName;
+    }
+
+    public function setJpLastName(?string $jpLastName): static
+    {
+        $this->jpLastName = $jpLastName;
+
+        return $this;
+    }
+
+    public function getJpFirstName(): ?string
+    {
+        return $this->jpFirstName;
+    }
+
+    public function setJpFirstName(?string $jpFirstName): static
+    {
+        $this->jpFirstName = $jpFirstName;
 
         return $this;
     }

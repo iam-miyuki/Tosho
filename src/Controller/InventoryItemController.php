@@ -104,7 +104,7 @@ final class InventoryItemController extends AbstractController
             $inventoryItem = $addForm->getData();
             $inventoryItem->setBook($currentBook);
             $inventoryItem->setInventory($inventory);
-            // TODO : $inventoryItem->setUser($this->getUser());
+            $inventoryItem->setUser($this->getUser());
             $em->persist($inventoryItem);
             $em->flush();
             return $this->redirectToRoute('search-item', [
