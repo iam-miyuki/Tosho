@@ -6,32 +6,25 @@
 		<img src="{{ asset('img/books.svg') }}" alt="book">
 	</div>
 
-	<div>
-		<p>Date :
-			{{ currentInventory.date|date('d/m/Y') }}</p>
-		<p>Bâtiment :
-			<span class="location location-inventory">{{ currentInventory.location.value }}</span>
-		</p>
-		{% if currentInventory.note is not null %}
-			<p>Commentaire :
-				{{ currentInventory.note }}</p>
-		{% endif %}
-	</div>
-
-	<div class="tab-container">
-		<div class="tabs">
-			<a href="{{ path('search-item',{id: currentInventory.id ,tab: 'new'}) }}" class="tab left-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-				<div class="tab-icon"></div>Ajouter un livre</a>
-			<a href="{{ path('search-item', {id: currentInventory.id, tab: 'status'}) }}" class="tab right-tab status-tab {{ tab == 'status' ? 'active' : '' }}">
-				<div class="tab-icon"></div>État de l'inventaire</a>
+	<div class="border-container">
+		<div>
+			<p>Date :
+				{{ currentInventory.date|date('d/m/Y') }}</p>
+			<p>Bâtiment :
+				<span class="location location-inventory">{{ currentInventory.location.value }}</span>
+			</p>
+			{% if currentInventory.note is not null %}
+				<p>Commentaire :
+					{{ currentInventory.note }}</p>
+			{% endif %}
 		</div>
-
-		<div class="tab-content left-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-			{% include 'inventory_item/search.html.twig' %}
+		<div>
+			<h3>Chercher un livre</h3>
+			{% include "inventory_item/search.html.twig" %}
 		</div>
-
-		<div class="tab-content right-tab status-tab {{ tab == 'status' ? 'active' : '' }}">
-			{% include 'inventory_item/status.html.twig' %}
+		<div>
+			<a href="{{path('inventory-status',{id: currentInventory.id})}}">Voir le détail</a>
 		</div>
 	</div>
+
 {% endblock %}
