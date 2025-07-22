@@ -117,7 +117,6 @@ class Inventory
             $this->inventoryItems->add($inventoryItem);
             $inventoryItem->setInventory($this);
         }
-
         return $this;
     }
 

@@ -52,7 +52,7 @@ final class InventoryItemController extends AbstractController
         $tab = $request->query->get('tab', 'new');
         $inventoryId = $request->query->get('id');
         $inventory = $inventoryRepository->find($inventoryId);
-
+        
         if($tab==='status'){
             return $this->redirectToRoute('inventory-status',[
                 'id'=>$inventoryId
@@ -79,9 +79,9 @@ final class InventoryItemController extends AbstractController
                 ]);
             }
         }
-        return $this->render('inventory_item/tabs.html.twig', [
+        return $this->render('inventory_item/search.html.twig', [
             'currentInventory' => $inventory,
-            'currentBook' => $currentBook
+            'currentBook' => $currentBook,
         ]);
     }
 
@@ -104,14 +104,15 @@ final class InventoryItemController extends AbstractController
             $inventoryItem = $addForm->getData();
             $inventoryItem->setBook($currentBook);
             $inventoryItem->setInventory($inventory);
-            $inventoryItem->setUser($this->getUser());
+            $inventoryItem->setCreatedAt(new \DateTimeImmutable());
+            $inventoryItem->addUser($this->getUser());
             $em->persist($inventoryItem);
             $em->flush();
             return $this->redirectToRoute('search-item', [
                 'id' => $inventoryId
             ]);
         }
-        return $this->render('inventory_item/tabs.html.twig', [
+        return $this->render('inventory_item/search.html.twig', [
             'currentInventory' => $inventory,
             'currentBook' => $currentBook,
             'addForm' => $addForm->createView(),
@@ -131,13 +132,15 @@ final class InventoryItemController extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $inventoryItem->setModifiedAt(new \DateTimeImmutable());
+            $inventoryItem->addUser($this->getUser());
             $em->flush();
             return $this->redirectToRoute('search-item', [
                 'id' => $inventoryItem->getInventory()->getId()
             ]);
         }
 
-        return $this->render('inventory_item/tabs.html.twig', [
+        return $this->render('inventory_item/search.html.twig', [
             'editForm' => $editForm->createView(),
             'currentBook' => $inventoryItem->getBook(),
             'currentInventory' => $inventoryItem->getInventory(),
@@ -153,16 +156,19 @@ final class InventoryItemController extends AbstractController
         InventoryRepository $inventoryRepository
     ): Response {
         $inventoryId = $request->query->get('id');
+        $books = $bookRepository->findAllByLocation(LocationEnum::cameleon);
         $currentInventory = $inventoryRepository->find($inventoryId);
-        $query = $bookRepository->findAllByLocationWithPagination(LocationEnum::cameleon);
+        dd($currentInventory);
+        $checkedBooks = $currentInventory->getInventoryItems();
+        dd($checkedBooks);
         
-        $results = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1)
-        );
+        // $results = $paginator->paginate(
+        //     $books,
+        //     $request->query->getInt('page', 1)
+        // );
         
         return $this->render('inventory_item/books.html.twig', [
-            'pagination' => $results,
+            // 'pagination' => $results,
             'currentInventory'=>$currentInventory,
         ]);
     }

@@ -1,19 +1,38 @@
 <h3>Filtrer ma recherche</h3>
 
 {{ form_start(filterForm) }}
-    {{ form_row(filterForm) }}
-    <button type="submit">Chrecher</button>
+{{ form_row(filterForm) }}
+<button type="submit">Chrecher</button>
 {{ form_end(filterForm) }}
 
 {{ form_start(findBookForm) }}
-    {{ form_row(findBookForm) }}
-    <button type="submit">Chrecher</button>
+{{ form_row(findBookForm) }}
+<button type="submit">Chrecher</button>
 {{ form_end(findBookForm) }}
 
+{% if books is defined and books is not null %}
+	<div class="section-title">
+		<h4>Résultats de recherche :</h4>
+	</div>
+	<div class="result-container">
+		{% if books|length > 0 %}
+			<ul class="result-list">
+				{% for book in books %}
+					<li>
+						<a href="{{ path('book', {id: book.id}) }}">
+							{{ book.title }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>Aucun livre trouvée !</p>
+		{% endif %}
+	</div>
+{% endif %}
 
-
-
-
-
+{% if currentBook is defined and currentBook is not null %}
+{% include "Admin/book/book.html.twig" %}
+{% endif %}
 
 

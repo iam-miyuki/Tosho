@@ -1,0 +1,21 @@
+<div class="card">
+<div class="card-header">
+        <a href="{{ path('edit-book', { id: currentBook.id }) }}" class="edit">
+            <img src="{{ asset('img/pencil.svg') }}" alt="edit">
+        </a>
+
+        <a href="{{ path('delete-book', { id: currentBook.id }) }}" class="delete">
+            <img src="{{ asset('img/trush.svg') }}" alt="delete">
+        </a>
+	</div>
+	<div class="card-body">
+		<div class="book-image"></div>
+		<div class="detail book-details">
+			<p>Code : {{ currentBook.code }}</p>
+			<p>Titre : {{ currentBook.title }}</p>
+			<p>Auteur : {{ currentBook.author }}</p>
+			<p>Statut : {{ currentBook.status.value }}</p>
+			<p>Bâtiment : <span class="location">{{ currentBook.location.value }}</span></p>
+		</div>
+	</div>
+</div>

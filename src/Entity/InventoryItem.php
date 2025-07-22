@@ -29,8 +29,6 @@ class InventoryItem
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $note = null;
 
-    
-
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 

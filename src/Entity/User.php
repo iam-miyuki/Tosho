@@ -58,6 +58,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpFirstName = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isActive = null;
+
     public function __construct()
     {
         
@@ -244,6 +247,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setJpFirstName(?string $jpFirstName): static
     {
         $this->jpFirstName = $jpFirstName;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): static
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

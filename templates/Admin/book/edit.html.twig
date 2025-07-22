@@ -1,0 +1,12 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}Modifier
+{% endblock %}
+{% block body %}
+<h3>Modifier</h3>
+	{{ form_start(bookForm) }}
+	{{ form_row(bookForm) }}
+	<button type="submit">Modifier</button>
+{{ form_end(bookForm) }}
+	
+{% endblock %}

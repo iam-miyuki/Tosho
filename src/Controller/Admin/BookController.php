@@ -44,12 +44,22 @@ final class BookController extends AbstractController
                 if ($filterForm->isSubmitted()) {
                     $keyword = $filterForm->get('filter')->getData();
                     $results = $bookRepository->findAllWithFilterQuery($keyword);
-                    dd($results);
+                    return $this->render('Admin/book/index.html.twig', [
+                        'books' => $results,
+                        'filterForm' => $filterForm->createView(),
+                        'findBookForm' => $findBookForm->createView(),
+                        'tab' => 'search',
+                    ]);
                 }
-                if ($findBookForm->isSubmitted()){
+                if ($findBookForm->isSubmitted()) {
                     $code = $findBookForm->get('code')->getData();
                     $currentBook = $bookRepository->findOneByCode($code);
-                    dd($currentBook);
+                    return $this->render('Admin/book/index.html.twig', [
+                        'currentBook' => $currentBook,
+                        'filterForm' => $filterForm->createView(),
+                        'findBookForm' => $findBookForm->createView(),
+                        'tab' => 'search'
+                    ]);
                 }
             }
             if ($currentTab === 'new') {
@@ -60,43 +70,70 @@ final class BookController extends AbstractController
                     // TODO : $book->setBookCode();
                     $em->persist($book);
                     $em->flush();
-                    dd('enregistré !');
+                    return $this->redirectToRoute('book');
                 }
             }
         }
+        if ($request->query->get('id')) {
+            $id = $request->query->get('id');
+            $currentBook = $bookRepository->find($id);
+            return $this->render('Admin/book/index.html.twig', [
+                'currentBook' => $currentBook,
+                'tab' => 'search',
+                'filterForm' => $filterForm->createView(),
+                'findBookForm' => $findBookForm->createView(),
+            ]);
+        }
+
         return $this->render('Admin/book/index.html.twig', [
             'tab' => $currentTab,
-            'results'=> $results,
-            'currentBook'=>$currentBook,
+            'books' => $results,
+            'currentBook' => $currentBook,
             'bookForm' => $form->createView(),
             'filterForm' => $filterForm->createView(),
-            'findBookForm'=>$findBookForm->createView()
+            'findBookForm' => $findBookForm->createView()
         ]);
     }
 
-
-
     #[Route('/edit/{id}', name: 'edit-book')]
-    public function edit(int $id, EntityManagerInterface $em): Response
+    public function edit(
+        int $id, 
+        Request $request,
+        EntityManagerInterface $em): Response
     {
-        $bookToEdit = $em->getRepository(Book::class)->find($id);
-        dd($bookToEdit);
-        return $this->render('book/index.html.twig', [
-            'currentBook' => null,
-            'bookToEdit' => $bookToEdit,
-            'bookToDelete' => null
+
+        $book = $em->getRepository(Book::class)->find($id);
+        $form = $this->createForm(BookForm::class, $book);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            dd('modifié !');
+            return $this->redirectToRoute('book',[
+                'id'=>$id,
+                'tab'=>'search'
+                
+            ]);
+        }
+        return $this->render('Admin/book/edit.html.twig', [
+            'book' => $book,
+            'tab'=>'search',
+            'bookForm' => $form->createView(),
+            
         ]);
     }
 
     #[Route('/delete/{id}', name: 'delete-book')]
     public function delete(int $id, EntityManagerInterface $em): Response
     {
-        $bookToDelete = $em->getRepository(Book::class)->find($id);
-        dd($bookToDelete);
-        return $this->render('Admin/book/index.html.twig', [
-            'currentBook' => null,
-            'bookToEdit' => null,
-            'bookToDelete' => $bookToDelete
+        $book = $em->getRepository(Book::class)->find($id);
+        if ($book) {
+            $em->remove($book);
+            $em->flush();
+            dd('supprimé !');
+        }
+        return $this->render('Admin/book/delete.html.twig', [
+           'book'=>$book,
+           'tab'=>'search'
         ]);
     }
 }

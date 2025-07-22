@@ -51,7 +51,9 @@ public function index(
             $em->persist($family);
             $em->flush();
 
-            return $this->render('Admin/family/success.html.twig');
+            return $this->render('Admin/family/success.html.twig',[
+                'family'=>$family
+            ]);
         }
     }
 
@@ -73,8 +75,8 @@ public function index(
 }
 
 
-// TODO : modifier id
-    #[Route('/edit/{id}', name: 'edit-family', requirements: ['id' => '\d+'])]
+
+    #[Route('/edit/{id}', name: 'edit-family')]
     public function edit(int $id, Request $request, EntityManagerInterface $em): Response
     {
         $family = $em->getRepository(Family::class)->find($id);
@@ -96,7 +98,7 @@ public function index(
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'delete-family', requirements: ['id' => '\d+'])]
+    #[Route('/delete/{id}', name: 'delete-family')]
     public function delete(int $id, EntityManagerInterface $em): Response
     {
         $family = $em->getRepository(Family::class)->find($id);
