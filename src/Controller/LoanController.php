@@ -10,6 +10,7 @@ use App\Repository\BookRepository;
 use App\Repository\LoanRepository;
 use App\Repository\FamilyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,7 +41,7 @@ final class LoanController extends AbstractController
             if ($request->request->has('family_name')) {
                 $name = $request->request->get('family_name');
                 $results = $familyRepository->findAllByName($name);
-                if($results){
+                if ($results) {
                     return $this->render('loan/index.html.twig', [
                         'families' => $results,
                         'tab' => 'family'
@@ -53,9 +54,9 @@ final class LoanController extends AbstractController
             if ($request->request->has('book_code')) {
                 $code = $request->request->get('book_code');
                 $book = $bookRepository->findOneByCode($code);
-                if($book){
-                    return $this->redirectToRoute('loan-by-book',[
-                        'id'=>$book->getId()
+                if ($book) {
+                    return $this->redirectToRoute('loan-by-book', [
+                        'id' => $book->getId()
                     ]);
                 } else {
                     dd('aucun livre trouvé !');
@@ -65,7 +66,7 @@ final class LoanController extends AbstractController
             if ($request->request->has('keyword')) {
                 $keyword = $request->request->get('keyword');
                 $books = $bookRepository->findAllWithFilterQuery($keyword);
-                if($books){
+                if ($books) {
                     return $this->render('loan/index.html.twig', [
                         'books' => $books,
                         'tab' => 'book'
@@ -75,6 +76,20 @@ final class LoanController extends AbstractController
                 }
             }
         }
+        if ($request->query->has('book')) {
+            $bookId = $request->query->get('book');
+            $loanFamilies = null;
+            if ($request->request->has('loan_family')) {
+                $name = $request->request->get('loan_family');
+                $loanFamilies = $familyRepository->findAllByName($name);
+            }
+            return $this->render('loan/index.html.twig', [
+                'bookId' => $bookId,
+                'tab' => 'family',
+                'loanFamilies' => $loanFamilies
+            ]);
+        }
+
         return $this->render('loan/index.html.twig', [
             'tab' => $tab,
             'currentFamily' => $currentFamily,
@@ -124,6 +139,28 @@ final class LoanController extends AbstractController
                 } else {
                     dd('aucun livre trouvé !');
                 }
+            }
+        }
+
+        if ($request->query->has('id') && $request->query->has('book')) {
+            $familyId = $request->query->get('id');
+            $bookId = $request->query->get('book');
+            $book = $bookRepository->find($bookId);
+            $family = $familyRepository->find($family);
+            if ($book && $family) {
+                $loan = new Loan;
+                $loan->setFamily($family);
+                $loan->setBook($book);
+                $loan->setStatus(LoanStatusEnum::inProgress);
+                $loan->setLoanDate(new \DateTime());
+                $loan->setUser($this->getUser());
+                $book->setStatus(BookStatusEnum::borrowed);
+                $em->persist($loan);
+                $em->persist($book);
+                $em->flush();
+                return $this->redirectToRoute('loan-by-family', [
+                    'id' => $familyId,
+                ]);
             }
         }
 

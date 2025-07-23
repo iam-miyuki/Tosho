@@ -1,8 +1,43 @@
-<form action="{{path('loan')}}" method="POST">
-	<h3 class= "form-title">Entrez un nom de famille</h3>
-	<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
-	<button type="submit">Rechercher</button>
-</form>
+{% if bookId is defined and bookId is not null %}
+	<form action="{{path('loan',{book:bookId})}}" method="POST">
+		<h3 class="form-title">Chosissez une famille au quelle prêter ce livre</h3>
+		<input type="text" id="loan_family" name="loan_family" placeholder="Nom de famille…"/>
+		<button type="submit">Rechercher</button>
+	</form>
+	{% if loanFamilies is defined and loanFamilies is not null %}
+		<div class="section-title">
+			<h4>Résultats de recherche :
+			</h4>
+		</div>
+		<div class="result-container">
+			{% if loanFamilies|length > 0 %}
+				<ul class="result-list">
+					{% for family in loanFamilies %}
+						
+							<li>
+								{{ family.name|upper }}
+								/
+								{{ family.jpName }}
+							<a href="{{ path('loan-by-family', {id: family.id,book:bookId}) }}">
+								Prêter à cette famille</a>
+							</li>
+						
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>Aucune famille trouvée !</p>
+			{% endif %}
+		</div>
+	{% endif %}
+{% else %}
+
+	<form action="{{path('loan')}}" method="POST">
+		<h3 class="form-title">Entrez un nom de famille</h3>
+		<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
+		<button type="submit">Rechercher</button>
+	</form>
+
+{% endif %}
 
 {% if families is defined and families is not null %}
 	<div class="section-title">
@@ -31,15 +66,15 @@
 {% if currentFamily is defined and currentFamily is not null %}
 
 	<div class="current-family-container">
-	<hr>
-		<div >
+		<hr>
+		<div>
 			<h5 class="account-name">Famille
 				{{ currentFamily.name|upper }}
 				/
 				{{ currentFamily.jpName }}</h5>
 		</div>
 		<div class="section-container">
-		
+
 			<h4 class="name-container section-name blue">Nouveau prêt</h4>
 			<form method="POST" action="">
 				<label for="book_code">Code du livre :</label>
@@ -48,7 +83,7 @@
 			</form>
 		</div>
 		<div class="section-container">
-		
+
 			<h4 class="name-container section-name yellow">Prêts en cours</h4>
 			{% if loans is defined %}
 				<div class="cards-wrapper">
@@ -66,6 +101,6 @@
 					</div>
 				</div>
 			</div>
-	</div>
+		</div>
 	{% endif %}
 {% endif %}
