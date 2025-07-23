@@ -21,10 +21,10 @@ class InventoryItemRepository extends ServiceEntityRepository
 
     public function findOneByInventoryAndBook(Inventory $inventory, Book $book,): ?InventoryItem
     {
-        $qb = $this->createQueryBuilder('i');
+        $qb = $this->createQueryBuilder('ii');
         $qb
-            ->andWhere('i.inventory = :inventory')
-            ->andWhere('i.book = :book')
+            ->andWhere('ii.inventory = :inventory')
+            ->andWhere('ii.book = :book')
             ->setParameter('inventory', $inventory)
             ->setParameter('book', $book)
         ;
@@ -33,9 +33,11 @@ class InventoryItemRepository extends ServiceEntityRepository
 
     public function findAllByInventory(Inventory $inventory)
     {
-        $qb = $this->createQueryBuilder('i');
+        $qb = $this->createQueryBuilder('ii');
         $qb
-            ->andWhere('i.inventory = :inventory')
+            ->addSelect('book')
+            ->leftJoin('ii.book','book')
+            ->andWhere('ii.inventory = :inventory')
             ->setParameter('inventory', $inventory)
         ;
         return $qb->getQuery()->getResult();
@@ -43,10 +45,10 @@ class InventoryItemRepository extends ServiceEntityRepository
 
     public function findAllByInventoryAndStatus(Inventory $inventory, InventoryItemStatusEnum $status)
     {
-        $qb = $this->createQueryBuilder('i');
+        $qb = $this->createQueryBuilder('ii');
         $qb
-            ->andWhere('i.inventory = :inventory')
-            ->andWhere('i.status = :status')
+            ->andWhere('ii.inventory = :inventory')
+            ->andWhere('ii.status = :status')
             ->setParameter('inventory', $inventory)
             ->setParameter('status',$status->value)
         ;

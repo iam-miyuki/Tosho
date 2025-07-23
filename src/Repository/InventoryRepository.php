@@ -50,6 +50,18 @@ class InventoryRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findWithItems($id)
+    {
+        $qb = $this->createQueryBuilder('i');
+        $qb
+            ->addSelect('inventoryItems')
+            ->leftJoin('i.inventoryItems','inventoryItems')
+            ->where('i.id = :id')
+            ->setParameter('id',$id)
+            ;
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 
 
 

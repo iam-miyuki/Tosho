@@ -13,7 +13,7 @@
 	<div class="btn-card-wrapper">
 		{% if inventories and inventories|length > 0 %}
 			{% for i in inventories %}
-				<a href="{{ path('search-item', { id: i.id }) }}">
+				<a href="{{ path('search-item', { inventory: i.id }) }}">
 					<div class="btn-card">
 						<p>Date : {{ i.date|date('d/m/Y') }}</p>
 						<p>Bâtiment : 
