@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Book;
 use App\Enum\BookStatusEnum;
+use App\Enum\LocationEnum;
 use App\Form\BookFilterForm;
 use App\Form\BookForm;
 use App\Form\FindBookForm;
@@ -31,6 +32,12 @@ final class BookController extends AbstractController
         $form->handleRequest($request);
         $currentBook = null;
 
+        $all = $bookRepository->findAll();
+        $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
+        $f = $bookRepository->findAllByLocation(LocationEnum::f);
+        $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
+        $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
+
         $filterForm = $this->createForm(BookFilterForm::class, $book);
         $filterForm->handleRequest($request);
 
@@ -49,6 +56,11 @@ final class BookController extends AbstractController
                         'filterForm' => $filterForm->createView(),
                         'findBookForm' => $findBookForm->createView(),
                         'tab' => 'search',
+                        'all' => $all,
+                        'cameleon' => $cameleon,
+                        'f' => $f,
+                        'mba' => $mba,
+                        'badet' => $badet
                     ]);
                 }
                 if ($findBookForm->isSubmitted()) {
@@ -58,7 +70,12 @@ final class BookController extends AbstractController
                         'currentBook' => $currentBook,
                         'filterForm' => $filterForm->createView(),
                         'findBookForm' => $findBookForm->createView(),
-                        'tab' => 'search'
+                        'tab' => 'search',
+                        'all' => $all,
+                        'cameleon' => $cameleon,
+                        'f' => $f,
+                        'mba' => $mba,
+                        'badet' => $badet
                     ]);
                 }
             }
@@ -82,6 +99,11 @@ final class BookController extends AbstractController
                 'tab' => 'search',
                 'filterForm' => $filterForm->createView(),
                 'findBookForm' => $findBookForm->createView(),
+                'all' => $all,
+                'cameleon' => $cameleon,
+                'f' => $f,
+                'mba' => $mba,
+                'badet' => $badet
             ]);
         }
 
@@ -91,16 +113,23 @@ final class BookController extends AbstractController
             'currentBook' => $currentBook,
             'bookForm' => $form->createView(),
             'filterForm' => $filterForm->createView(),
-            'findBookForm' => $findBookForm->createView()
+            'findBookForm' => $findBookForm->createView(),
+            'all' => $all,
+            'cameleon' => $cameleon,
+            'f' => $f,
+            'mba' => $mba,
+            'badet' => $badet
         ]);
     }
 
     #[Route('/edit/{id}', name: 'edit-book')]
     public function edit(
-        int $id, 
+        int $id,
         Request $request,
-        EntityManagerInterface $em): Response
-    {
+        EntityManagerInterface $em
+    ): Response {
+
+
 
         $book = $em->getRepository(Book::class)->find($id);
         $form = $this->createForm(BookForm::class, $book);
@@ -108,17 +137,17 @@ final class BookController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             dd('modifié !');
-            return $this->redirectToRoute('book',[
-                'id'=>$id,
-                'tab'=>'search'
-                
+            return $this->redirectToRoute('book', [
+                'id' => $id,
+                'tab' => 'search'
+
             ]);
         }
         return $this->render('Admin/book/edit.html.twig', [
             'book' => $book,
-            'tab'=>'search',
+            'tab' => 'search',
             'bookForm' => $form->createView(),
-            
+
         ]);
     }
 
@@ -132,8 +161,8 @@ final class BookController extends AbstractController
             dd('supprimé !');
         }
         return $this->render('Admin/book/delete.html.twig', [
-           'book'=>$book,
-           'tab'=>'search'
+            'book' => $book,
+            'tab' => 'search'
         ]);
     }
 }

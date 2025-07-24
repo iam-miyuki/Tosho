@@ -54,8 +54,10 @@ class InventoryRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('i');
         $qb
-            ->addSelect('inventoryItems')
-            ->leftJoin('i.inventoryItems','inventoryItems')
+            ->addSelect('ii')
+            ->addSelect('book') // pour avoir accès aux elements dans book
+            ->leftJoin('i.inventoryItems','ii')
+            ->leftJoin('ii.book','book')
             ->where('i.id = :id')
             ->setParameter('id',$id)
             ;

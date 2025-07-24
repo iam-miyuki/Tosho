@@ -47,6 +47,8 @@ class InventoryItemRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('ii');
         $qb
+            ->addSelect('user')
+            ->leftJoin('ii.user','user')
             ->andWhere('ii.inventory = :inventory')
             ->andWhere('ii.status = :status')
             ->setParameter('inventory', $inventory)
@@ -54,6 +56,18 @@ class InventoryItemRepository extends ServiceEntityRepository
         ;
         return $qb->getQuery()->getResult();
     }
+
+    public function findAllByInventoryAndNotOkStatus(Inventory $inventory): array
+{
+    $qb = $this->createQueryBuilder('ii');
+    $qb
+        ->andWhere('ii.inventory = :inventory')
+        ->andWhere('ii.status != :ok')
+        ->setParameter('inventory', $inventory)
+        ->setParameter('ok', InventoryItemStatusEnum::ok);
+
+    return $qb->getQuery()->getResult();
+}
 
 
     //  public function findByExampleField($value): array

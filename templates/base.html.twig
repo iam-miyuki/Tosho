@@ -29,7 +29,6 @@
 				</div>
 				<nav>
 					<h2>Gérez les prêts de livres en toute simplicité</h2>
-					{# TODO : gérér menu admin et menu bibliothécaire #}
 					<ul class="menu menu-librarien">
 						<li class="menu-item"><a href="{{ path('home') }}"><img src="{{ asset('img/home.svg') }}" alt="home"><span class="menu-text">Home</span></a></li>
 						<li class="menu-item"><a href="{{ path('loan') }}"><img src="{{ asset('img/child-book.svg') }}" alt="loan"><span class="menu-text">Prêts & Retours</span></a></li>
@@ -43,6 +42,7 @@
 					</ul>
 				</nav> 
 				{% if is_granted('ROLE_ADMIN') %}<a href="{{path('admin_home')}}">Espace Admin</a>{% endif %}
+				{# <a href="{{ path('switch_locale') }}">en</a> #}
 			</div>
 		{% endblock %}
 

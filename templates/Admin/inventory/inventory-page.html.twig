@@ -1,22 +1,53 @@
-<div class="card">
-    <div class="card-header">
-        <a href="{{ path('edit-inventory', { id: inventory.id }) }}" class="edit">
-            <img src="{{ asset('img/pencil.svg') }}" alt="edit">
-        </a>
+<h3>Chercher par critère :
+</h3>
+{{ form_start(itemFilterForm) }}
+{{ form_row(itemFilterForm) }}
 
-        {# <a href="{{ path('delete-inventory', { id: inventory.id }) }}" class="delete"> #}
-            <img src="{{ asset('img/trush.svg') }}" alt="delete">
-        </a>
-	</div>
-	<div class="card-body">
-		<p>Date :
-			{{ inventory.date|date('d/m/Y') }}</p>
-		<p>Bâtiment :
-			{{ inventory.location.value }}</p>
-		<p>Note :
-			{{ inventory.note }}</p>
-		<p>Statut :
-			{{ inventory.status.value }}</p>
-		{# TODO : afficher le nombre de livre vérifié, nombre de livre total, nombre de livre signalé #}
-	</div>
+<button type="submit">Chercher</button>
+
+{{ form_end(itemFilterForm) }}
+
+
+<h4>Inventaire du
+	{{ currentInventory.date|date('d/m/Y') }}
+	du bâtiment
+	{{currentInventory.location.value}}
+</h4>
+
+{% if items is not empty %}
+	<div class="card">
+        <ul class="inventory-items">
+            {% for item in items %}
+            <div class="card-header">
+				<a href="{{ path('edit-item-admin', { item: item.id }) }}" class="edit">
+					<img src="{{ asset('img/pencil.svg') }}" alt="edit">
+				</a>
+                </div>
+                <div class="card-body">
+                
+                <li>Vérifié le : {{item.createdAt|date('d/m/Y')}} </li>
+                <li>Modifié le : {{item.modifiedAt|date('d/m/Y')}} </li>
+                <li>Réalisé par : {{item.user[item.user|length - 1].email}} </li>
+                <li>Code livre :
+                    {{item.book.code}}
+                </li>
+                <li>Titre :
+                    {{item.book.title}}
+                </li>
+                <li>Auteur :
+                    {{item.book.author}}</li>
+                <li>Batîment :
+                    {{item.book.location.value}}
+                </li>
+                <li>Statut :{{ item.status.value }}</li>
+                <li>Commentaire : {{ item.note}} </li>
 </div>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+	<p>Aucun élément dans cet inventaire.</p>
+{% endif %}
+
+
+

@@ -19,6 +19,15 @@ class LoanRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Loan::class);
     }
+
+    public function findAllByStatus(LoanStatusEnum $status)
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb
+            ->where('l.status = :status')
+            ->setParameter('status',$status);
+        return $qb->getQuery()->getResult();
+    }
     
     public function findAllWithFamilyAndStatus(Family $family)
     {

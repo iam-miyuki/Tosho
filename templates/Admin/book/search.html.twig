@@ -1,3 +1,19 @@
+<div>
+	<p>Total livres :
+		{{all|length}}
+	</p>
+	<p>dont :
+	</p>
+	<p>Caméléon :
+		{{cameleon|length}}</p>
+	<p>MBA :
+		{{mba|length}}</p>
+	<p>F :
+		{{f|length}}</p>
+	<p>Badet :
+		{{badet|length}}</p>
+</div>
+
 <h3>Filtrer ma recherche</h3>
 
 {{ form_start(filterForm) }}
@@ -32,7 +48,5 @@
 {% endif %}
 
 {% if currentBook is defined and currentBook is not null %}
-{% include "Admin/book/book.html.twig" %}
+	{% include "Admin/book/book.html.twig" %}
 {% endif %}
-
-

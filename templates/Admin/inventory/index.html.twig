@@ -15,46 +15,30 @@
 			</a>
 		</div>
 
+		{# tab 'search' #}
 		<div class="tab-content left-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
 			{% if tab == 'search' %}
 				{% include 'Admin/inventory/search-form.html.twig' with {'filterForm' : filterForm } %}
-				{% if inventories and inventories|length > 0 and currentInventory is null %}
+				{% if inventories is defined and inventories is not null %}
+					{% if inventories and inventories|length > 0  %}
+						{% include "Admin/inventory/inventory-list.html.twig" with {currentInventory : currentInventory}  %}
+					{% endif %}
 
-					<div class="cards-wrapper">
-						{% for inventory in inventories %}
-							<div class="card">
-								<a href="{{ path('inventory', { id: inventory.id }) }}">
-									<div class="card-body">
-										<p>Date :
-											{{ inventory.date|date('d/m/Y') }}</p>
-										<p>Bâtiment :
-											{{ inventory.location.value }}</p>
-										<p>Note :
-											{{ inventory.note }}</p>
-										<p>Statut :
-											{{ inventory.status.value }}</p>
-									</div>
-								</a>
-							</div>
-
-						{% endfor %}
-					</div>
-
-				{% elseif currentInventory and currentInventory is defined %}
-
-					{% include 'Admin/inventory/inventory-page.html.twig' with { inventory : currentInventory} %}
 
 				{% endif %}
-
+				{% if currentInventory %}
+					{% include "Admin/inventory/inventory-page.html.twig" %}
+				{% endif %}
 			{% endif %}
+			{# TODO : afficher la page de détail avec form filter de inventoryitems #}
+
 		</div>
 
+		{# tab 'new' #}
 		<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 			{% if tab == 'new' %}
 				{% include 'Admin/inventory/form.html.twig' with {'form': form} %}
 			{% endif %}
 		</div>
 	</div>
-
-
 {% endblock %}

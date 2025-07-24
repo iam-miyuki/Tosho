@@ -6,7 +6,10 @@ use App\Enum\LoanStatusEnum;
 use App\Repository\LoanRepository;
 use DateInterval;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+
+use function Symfony\Component\Clock\now;
 
 #[ORM\Entity(repositoryClass: LoanRepository::class)]
 class Loan
@@ -88,8 +91,6 @@ class Loan
         return $this->returnDate;
     }
 
-    
-
     public function getBook(): ?Book
     {
         return $this->book;
@@ -121,6 +122,12 @@ class Loan
 
     public function setStatus(?LoanStatusEnum $status): static
     {
+        if($this->getStatus()===LoanStatusEnum::inProgress){
+            if($this->getExpectedReturnDate() < new DateTimeImmutable('now')){
+                $this->status = LoanStatusEnum::overdue;
+                return $this;
+            }
+        }
         $this->status = $status;
 
         return $this;

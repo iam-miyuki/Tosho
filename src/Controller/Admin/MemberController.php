@@ -6,6 +6,7 @@ use App\Entity\Family;
 use App\Entity\Member;
 use App\Form\FamilyForm;
 use App\Form\MemberForm;
+use App\Repository\MemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,4 +49,23 @@ final class MemberController extends AbstractController
             'id'=>$id
         ]);
     }
+    #[Route('/delete', name:'delete-member')]
+    public function delete(
+        Request $request,
+        MemberRepository $memberRepository, 
+        EntityManagerInterface $em) : Response
+    {  
+        $id = $request->query->get('id');
+        $familyId = $request->query->get('family');
+        $member = $memberRepository->find($id);
+        if ($member) {
+            $em->remove($member);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('edit-family',[
+            'id'=>$familyId
+        ]);
+    }
+
 }

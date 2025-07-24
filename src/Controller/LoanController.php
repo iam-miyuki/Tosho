@@ -17,17 +17,25 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route(path: '/loan')]
+// #[Route(
+//     path: '/{_locale}/loan',
+//     requirements: [
+//         '_locale' => 'en|fr',
+//     ],
+// )]
 #[IsGranted('ROLE_USER')]
 final class LoanController extends AbstractController
 {
     #[Route('/', name: 'loan')]
     public function index(
         Request $request,
+        LoanRepository $loanRepository,
         FamilyRepository $familyRepository,
         BookRepository $bookRepository
     ): Response {
 
+        $activeLoans = $loanRepository->findAllByStatus(LoanStatusEnum::inProgress);
+        $overdueLoans = $loanRepository->findAllByStatus(LoanStatusEnum::overdue);
         $tab = $request->query->get('tab', 'family');
         $currentFamily = null;
         $results = null;
@@ -76,6 +84,7 @@ final class LoanController extends AbstractController
                 }
             }
         }
+        // livre séléctionné
         if ($request->query->has('book')) {
             $bookId = $request->query->get('book');
             $loanFamilies = null;

@@ -8,10 +8,13 @@
 	{{ form_row(form.name) }}
 	{{ form_row(form.jpName) }}
 	{{ form_row(form.email) }}
-		
-	{{ form_row(form.members) }}
-
-
+{% for memberForm in form.members %}
+    {{ form_row(memberForm) }}
+    <a href="{{ path('delete-member', { id: memberForm.vars.data.id, family: currentFamily.id }) }}" class="delete">
+        <img src="{{ asset('img/trush.svg') }}" alt="delete">
+    </a>
+{% endfor %}
+	
 <a href="{{path('new-member',{id: currentFamily.id})}}">Ajouter un enfant</a>
 	<button type="submit">Modifier</button>
 {{ form_end(form) }}
