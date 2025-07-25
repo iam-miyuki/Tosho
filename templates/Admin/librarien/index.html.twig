@@ -1,9 +1,37 @@
 {% extends 'Admin/base.html.twig' %}
 
-{% block title %}Hello LibrarienController!{% endblock %}
-
 {% block body %}
-{% for l in librariens %}
-    <p> {{l.email}} </p>
-{% endfor %}
+	<div class="page-title">
+		<h3>Gestion des bibliothécaires</h3>
+		<img src="{{ asset('img/user1.svg') }}" alt="librarien">
+	</div>
+
+	{% for l in librariens %}
+		<div class="card">
+			<div class="card-header">
+				<a href="{{ path('delete-librarien', { id: l.id }) }}" class="delete">
+					<img src="{{ asset('img/trush.svg') }}" alt="delete">
+				</a>
+			</div>
+			<div class="card-body">
+				<p>Email :
+					{{l.email}}
+				</p>
+				<p>Nom  :
+					{{l.firstName}}
+					{{l.lastName}}
+				</p>
+				<p>Nom (jp) :
+					{{l.jpFirstName}}
+					{{l.jpLastName}}</p>
+
+			</div>
+		<div class="active-status">
+			Statut :
+			<button class="active-btn {{ l.isActive ? 'btn-green' : 'btn-red' }}" type="button" data-href="{{ path('change-status', { id: l.id }) }}">
+				{{ l.isActive ? 'Activé' : 'Désactivé' }}
+			</button>
+		</div>
+		</div>
+	{% endfor %}
 {% endblock %}

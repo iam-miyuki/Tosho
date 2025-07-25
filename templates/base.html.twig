@@ -24,8 +24,6 @@
 				<div class="header-top">
 					<a href="{{ path('home') }}"><img src="{{ asset('img/logo-big.svg') }}" alt="logo"></a>
 					<h1>Application de gestion des prêts des livres pour école japonaise</h1>
-					
-					
 				</div>
 				<nav>
 					<h2>Gérez les prêts de livres en toute simplicité</h2>
@@ -41,7 +39,7 @@
 						<li class="menu-item"><a href="{{ path('app_logout') }}"><img src="{{ asset('img/logout.svg') }}" alt="logout"><span class="menu-text">Logout</span></a></li>
 					</ul>
 				</nav> 
-				{% if is_granted('ROLE_ADMIN') %}<a href="{{path('admin_home')}}">Espace Admin</a>{% endif %}
+				{% if is_granted('ROLE_ADMIN') %}<div class="switch admin"><a href="{{path('admin_home')}}">Espace Admin</a></div>{% endif %}
 				{# <a href="{{ path('switch_locale') }}">en</a> #}
 			</div>
 		{% endblock %}

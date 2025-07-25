@@ -5,7 +5,10 @@
 
 {% block body %}
 	<div class="main">
-		<h2>Home - Bibliothécaire</h2>
+		<div class="page-title">
+		<h3>Home</h3>
+		<img src="{{ asset('img/home.svg') }}" alt="book">
+	</div>
 		<div class="cards">
 			<a href="{{path('loan')}}">
 				<div class="card">
@@ -19,12 +22,14 @@
 					<img src="{{ asset('img/books.svg') }}" alt="books"/>
 				</div>
 			</a>
-			<a href="">
+			{% if is_granted('ROLE_LIBRARIEN') %}
+			<a href="{{path('account')}}">
 				<div class="card">
 					<div class="card-title">Mon compte</div>
 					<img src="{{ asset('img/profile-3.svg') }}" alt="profile"/>
 				</div>
 			</a>
+			{% endif %}
 		</div>
 	</div>
 

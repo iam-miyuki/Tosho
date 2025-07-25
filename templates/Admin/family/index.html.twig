@@ -8,21 +8,21 @@
 
     <div class="tab-container">
 	<div class="tabs">
-		<a href="{{ path('family', {tab: 'family'}) }}" class="tab left-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+		<a href="{{ path('family', {tab: 'family'}) }}" class="tab left-tab admin-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
 			<div class="tab-icon"></div>Chercher une famille
 		</a>
-		<a href="{{ path('family', {tab: 'new'}) }}" class="tab right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+		<a href="{{ path('family', {tab: 'new'}) }}" class="tab right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 			<div class="tab-icon"></div>Ajouter une famille
 		</a>
 	</div>
 
-	<div class="tab-content left-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+	<div class="tab-content left-tab admin-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
 		{% if tab == 'family' %}
 			{% include 'Admin/family/family.html.twig' %}
 		{% endif %}
 	</div>
 
-	<div class="tab-content right-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+	<div class="tab-content right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 		{% if tab == 'new' %}
 			{% include 'Admin/family/form.html.twig' with {'form': form} %}
 		{% endif %}

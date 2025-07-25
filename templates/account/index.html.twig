@@ -1,7 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}Mon comte{% endblock %}
 
 {% block body %}
-<p> {{user.email}} </p>
+
+<div class="page-title">
+		<h3>Mon compte </h3>
+		<img src="{{ asset('img/profile-3.svg') }}" alt="book">
+	</div>
+    
+<div >
+    <a href="{{ path('edit-account', { id: user.id }) }}" class="edit">
+                <img src="{{ asset('img/pencil.svg') }}" alt="edit">
+            </a>
+    <p> Nom :  {{user.firstName}}</p>
+    <p> Prénom : {{user.lastName}} </p>
+    <p> Nom en japonais : {{ user.jpFirstName}}</p>
+    <p> Prénom en japonais : {{user.jpLastName}} </p>
+    <p> Email : {{user.email}} </p>
+</div>
 {% endblock %}

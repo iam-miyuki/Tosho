@@ -21,11 +21,11 @@
   border-radius: 8px 8px 0 0;
   padding: 1rem 2rem;
   width: 100%;
- 
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
+
 
 .tab-icon {
   display: inline-block;
@@ -53,18 +53,8 @@
 }
 
 
-.tab:hover{
-  background-color:var(--color-btn-hover);
-}
-
 .tab.active {
   border-bottom: none;
-}
-.tab.active.left-tab:hover{
-  background-color:var(--color-primary);
-}
-.tab.active.right-tab:hover{
-  background-color:var(--color-badet);
 }
 
 .tab-content {
@@ -93,11 +83,33 @@
   flex-direction: column;
   align-items: center;
 }
-.right-tab{
+.librarien-tab.right-tab{
   background-color: var(--color-badet);
 }
-.left-tab{
+.librarien-tab.left-tab{
   background-color: var(--color-primary);
 }
 
+.admin-tab.left-tab{
+  background-color: var(--color-badet);
+}
+.admin-tab.right-tab{
+  background-color: var(--color-primary);
+}
 
+.tab.librarien-tab:hover, .tab.admin-tab:hover{
+  background-color: var(--color-btn-hover);
+}
+
+.tab.librarien-tab.left-tab.active:hover{
+  background-color: var(--color-primary);
+}
+.tab.librarien-tab.right-tab.active:hover{
+  background-color: var(--color-badet);
+}
+.tab.admin-tab.left-tab.active:hover{
+  background-color: var(--color-badet);
+}
+.tab.admin-tab.right-tab.active:hover{
+  background-color: var(--color-primary);
+}
