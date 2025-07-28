@@ -16,3 +16,7 @@
 .switch.librarien{
     background-color: var(--color-primary);
 }
+
+.switch:hover{
+    background-color: var(--color-btn-hover);
+}

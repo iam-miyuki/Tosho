@@ -1,4 +1,4 @@
- #header .header-top {
+ .header .header-top {
   display: flex;
   justify-content: space-between;
   padding-left: 3rem;
@@ -7,12 +7,12 @@
   padding-bottom: 1rem;
 }
 
-#header .header-top img{
+.header .header-top img{
   height: auto;
   width: 11rem;
 }
 
-#header nav {
+.header nav {
   display: flex;
   justify-content: space-between;
   align-items: center; 
@@ -26,15 +26,15 @@
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-#header .nav-admin{
+.header .nav-admin{
   background-color: var(--color-badet);
 }
 
-#header nav h2 {
+.header nav h2 {
   margin: 0;
 }
 
-#header .menu {
+.header .menu {
   display: flex;
   margin: 0;
   column-gap: 6rem;
@@ -43,7 +43,7 @@
 
 }
 
-#header .menu .menu-item {
+.header .menu .menu-item {
  display: flex;
   padding: 0;
   align-items: center;
@@ -53,24 +53,24 @@
   
 }
 
-#header .menu img{
+.header .menu img{
   display: none;
   width: 30px;
   
 }
 
-#header .menu-text{
+.header .menu-text{
   font-size: var(--font-xs);
   white-space: nowrap;
   
 }
 
-#header .menu-item:hover img{
+.header .menu-item:hover img{
   display: block;
   
 }
 
-#header .menu-item:hover .menu-text{
+.header .menu-item:hover .menu-text{
   display: none;
   
 }

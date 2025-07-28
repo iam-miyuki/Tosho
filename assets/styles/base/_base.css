@@ -14,12 +14,16 @@ h1 {
   font-size: var(--font-s);
 }
 
-
 li {
   list-style: none;
+  padding: 0.5rem;
+  text-align: start;
 }
 
 a{
   text-decoration: none;
   color: var(--color-text);
+}
+.page-wrapper{
+  min-height: 100vh;
 }

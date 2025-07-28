@@ -1,30 +1,52 @@
-<div>
-	<p>Total livres :
-		{{all|length}}
-	</p>
-	<p>dont :
-	</p>
-	<p>Caméléon :
-		{{cameleon|length}}</p>
-	<p>MBA :
-		{{mba|length}}</p>
-	<p>F :
-		{{f|length}}</p>
-	<p>Badet :
-		{{badet|length}}</p>
+<div class="card-form-wrapper">
+	<div class="count">
+		<h4>Total livres :
+			{{all|length}}
+		</h4>
+		
+		<div class="count-wrapper">
+			<div class="location cameleon">Caméléon : {{cameleon|length}}</div>
+				 
+			<div class="location mba">MBA : {{mba|length}}</div>
+				
+			<div class="location f">F : {{f|length}}</div>
+				
+			<div class="location badet">Badet : {{badet|length}}</div>
+				
+		</div>
+		
+	</div>
+	
+	<div class="forms-wrapper">
+		<div>
+			<h4>Chercher par un code livre</h4>
+			{{ form_start(findBookForm) }}
+			  {{ form_widget(findBookForm.code, {
+				'attr': {
+				  'class': 'search-input' ,
+				  'placeholder':'Code livre'
+				}
+			  }) }}
+			  <button type="submit" class="btn">Chercher</button>
+			{{ form_end(findBookForm) }}
+		</div>
+		<div>
+			<h4>Chercher par un titre ou un auteur</h4>
+	
+			{{ form_start(filterForm) }}
+			  {{ form_widget(filterForm.filter, {
+				'attr': {
+				  'class': 'search-input' ,
+				  'placeholder':'Un titre ou un auteur...'
+				}
+			  }) }}
+			  <button type="submit" class="btn">Chercher</button>
+			{{ form_end(filterForm) }}
+		</div>
+	</div>
 </div>
 
-<h3>Filtrer ma recherche</h3>
 
-{{ form_start(filterForm) }}
-{{ form_row(filterForm) }}
-<button type="submit">Chrecher</button>
-{{ form_end(filterForm) }}
-
-{{ form_start(findBookForm) }}
-{{ form_row(findBookForm) }}
-<button type="submit">Chrecher</button>
-{{ form_end(findBookForm) }}
 
 {% if books is defined and books is not null %}
 	<div class="section-title">

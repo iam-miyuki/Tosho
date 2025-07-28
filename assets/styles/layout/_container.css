@@ -27,6 +27,7 @@ margin-top:2rem;
  
 }
 
+
 .section-name.blue{
   background: var(--color-cameleon);
 }
@@ -46,4 +47,8 @@ margin-top:2rem;
 
 .container{
   margin: 1rem;
+}
+.count-wrapper{
+  display: flex;
+  paddi
 }

@@ -19,7 +19,6 @@ class BookFilterForm extends AbstractType
     {
         $builder
             ->add('filter', TextType::class, [
-                'label' => 'Chercher par titre, auteur...',
                 'mapped' => false //pour le chaps qui n'est pas lié à l'entité Book il faut ajouter cette ligne
             ]);
     }

@@ -4,34 +4,41 @@
 {% endblock %}
 
 {% block body %}
-	<div>
-		<h2>Home - Admin</h2>
+	<div class="home-container">
+		<h3>Home - Admin</h3>
 		<div class="home-cards-wrapper">
-			<a href="{{path('book')}}">
-				<div class="card">
-					<div class="card-title">Gestion des livres</div>
-					<img src="{{ asset('img/child-book.svg') }}" alt="loan"/>
-				</div>
-			</a>
-			<a href="{{path('family')}}">
-				<div class="card">
-					<div class="card-title">Gestion des familles</div>
-					<img src="{{ asset('img/family.svg') }}" alt="books"/>
-				</div>
-			</a>
-            <a href="{{path('inventory')}}">
-				<div class="card">
-					<div class="card-title">Gestion des inventaires</div>
-					<img src="{{ asset('img/books.svg') }}" alt="books"/>
-				</div>
-			</a>
-            <a href="">
-				<div class="card">
-					<div class="card-title">Gestion des bibliothécaires</div>
-					<img src="{{ asset('img/user1.svg') }}" alt="books"/>
-				</div>
-			</a>
+			<div>
+				<a href="{{path('book')}}">
+					<div class="card home-card">
+						<div class="card-title">Gestion des livres</div>
+						<img src="{{ asset('img/child-book.svg') }}" alt="loan"/>
+					</div>
+				</a>
+			</div>
+			<div>
+				<a href="{{path('family')}}">
+					<div class="card home-card">
+						<div class="card-title">Gestion des familles</div>
+						<img src="{{ asset('img/family.svg') }}" alt="books"/>
+					</div>
+				</a>
+			</div>
+			<div>
+				<a href="{{path('inventory')}}">
+					<div class="card home-card">
+						<div class="card-title">Gestion des inventaires</div>
+						<img src="{{ asset('img/books.svg') }}" alt="books"/>
+					</div>
+				</a>
+			</div>
+			<div>
+				<a href="{{path('librarien')}}">
+					<div class="card home-card">
+						<div class="card-title">Gestion des bibliothécaires</div>
+						<img src="{{ asset('img/user1.svg') }}" alt="books"/>
+					</div>
+				</a>
+			</div>
 		</div>
 	</div>
-
-{% endblock %}
+</div>{% endblock %}

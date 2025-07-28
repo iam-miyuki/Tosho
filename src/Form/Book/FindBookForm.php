@@ -13,9 +13,7 @@ class FindBookForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('code', TextType::class, [
-                'label' => 'Code livre : '
-            ])
+            ->add('code', TextType::class)
         ;
     }
 

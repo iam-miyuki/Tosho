@@ -6,9 +6,10 @@
   box-sizing: border-box;
   position: relative;
   width: 350px;
-  height: 170px;
   padding-top:1rem;
+  padding-bottom: 1.5rem;
   margin:2rem;
+
 }
 .cards-wrapper {
   max-width: 100%;
@@ -86,3 +87,19 @@
   width: 8rem;
   
 }
+.card-title{
+  font-weight: 600;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+.home-cards-wrapper{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.home-card:hover {
+  transform: translateY(-6px);
+  background-color: var(--color-btn-hover);
+}
+
