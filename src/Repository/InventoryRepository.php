@@ -43,7 +43,6 @@ class InventoryRepository extends ServiceEntityRepository
                 ->setParameter('date', $date);
         }
         if ($location != null) {
-
             $qb->andWhere('i.location = :location')
                 ->setParameter('location', $location);
         }
@@ -56,10 +55,10 @@ class InventoryRepository extends ServiceEntityRepository
         $qb
             ->addSelect('ii')
             ->addSelect('book') // pour avoir accès aux elements dans book
-            ->leftJoin('i.inventoryItems','ii')
-            ->leftJoin('ii.book','book')
+            ->leftJoin('i.inventoryItems', 'ii')
+            ->leftJoin('ii.book', 'book')
             ->where('i.id = :id')
-            ->setParameter('id',$id)
+            ->setParameter('id', $id)
             ;
         return $qb->getQuery()->getOneOrNullResult();
     }

@@ -33,7 +33,7 @@ class FamilyRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('family');
         $qb
             ->addSelect('members')
-            ->leftJoin('family.members','members')
+            ->leftJoin('family.members', 'members')
             ->andWhere('family.id = :familyId')
             ->setParameter('familyId', $familyId);
         return $qb->getQuery()->getOneOrNullResult();

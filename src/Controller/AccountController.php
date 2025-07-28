@@ -23,20 +23,20 @@ final class AccountController extends AbstractController
             'user' => $user,
         ]);
     }
-    #[Route('/edit/{id}',name:'edit-account')]
+    #[Route('/edit/{id}', name:'edit-account')]
     public function edit(
         User $user, // autowiring
         Request $request,
         EntityManagerInterface $em
-    ) : Response {
-        $form = $this->createForm(AccountForm::class,$user);
+    ): Response {
+        $form = $this->createForm(AccountForm::class, $user);
         $form->handleRequest($request);
-        if($form->isSubmitted()){
+        if ($form->isSubmitted()) {
             $em->flush();
             dd('enregistré ! ');
         }
-        return $this->render('account/edit.html.twig',[
-            'form'=>$form->createView()
+        return $this->render('account/edit.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 

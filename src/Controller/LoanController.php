@@ -44,7 +44,6 @@ final class LoanController extends AbstractController
         $currentLoan = null;
 
         if ($request->isMethod('POST')) {
-
             // chercher par famille
             if ($request->request->has('family_name')) {
                 $name = $request->request->get('family_name');
@@ -128,8 +127,7 @@ final class LoanController extends AbstractController
                 $book = $bookRepository->findOneByCode($code);
 
                 if ($family && $book && $book->getStatus() != BookStatusEnum::borrowed) {
-
-                    $loan = new Loan;
+                    $loan = new Loan();
                     $loan->setFamily($family);
                     $loan->setBook($book);
                     $loan->setStatus(LoanStatusEnum::inProgress);
@@ -155,9 +153,9 @@ final class LoanController extends AbstractController
             $familyId = $request->query->get('id');
             $bookId = $request->query->get('book');
             $book = $bookRepository->find($bookId);
-            $family = $familyRepository->find($family);
+            $family = $familyRepository->find($familyId);
             if ($book && $family) {
-                $loan = new Loan;
+                $loan = new Loan();
                 $loan->setFamily($family);
                 $loan->setBook($book);
                 $loan->setStatus(LoanStatusEnum::inProgress);
@@ -227,7 +225,7 @@ final class LoanController extends AbstractController
                     'id' => $familyId
                 ]);
             } else {
-                // TODO 
+                // TODO
                 dd('déjà rendu !');
             }
         } else {

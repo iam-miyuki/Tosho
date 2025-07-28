@@ -60,14 +60,14 @@ class BookRepository extends ServiceEntityRepository
         return $qb->getQuery();
     }
 
-    public function findNoInventory(int $id,LocationEnum $location) 
+    public function findNoInventory(int $id, LocationEnum $location)
     {
         $qb = $this->createQueryBuilder('b')
             ->leftJoin(InventoryItem::class, 'ii', 'WITH', 'ii.book = b AND ii.inventory = :inventory')
             ->where('ii.book IS NULL')
             ->andWhere('b.location = :location')
             ->setParameter('inventory', $id)
-            ->setParameter('location',$location->value)
+            ->setParameter('location', $location->value)
         ;
         return $qb->getQuery()->getResult();
     }

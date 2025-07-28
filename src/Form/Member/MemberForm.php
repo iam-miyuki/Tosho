@@ -15,11 +15,11 @@ class MemberForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName',TextType::class,[
-                'label'=>'Prénom : '
+            ->add('firstName', TextType::class, [
+                'label' => 'Prénom : '
             ])
-            ->add('jpFirstName', TextType::class,[
-                'label'=>'Prénom en japonais : '
+            ->add('jpFirstName', TextType::class, [
+                'label' => 'Prénom en japonais : '
             ])
         ;
     }

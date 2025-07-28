@@ -1,12 +1,14 @@
 .card {
-  background: white;
+  background: var(--color-cards);
   border-radius: 10px;
-  box-shadow: 0 0 0 2px var(--color-text);
-  width: 400px; /* Taille fixe */
-  padding: 20px;
+  box-shadow: 0 0 0 2px var(--color-text); 
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
+  width: 350px;
+  height: 170px;
+  padding-top:1rem;
+  margin:2rem;
 }
 .cards-wrapper {
   max-width: 100%;

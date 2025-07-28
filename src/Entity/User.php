@@ -63,13 +63,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        
-        
+
+
         $this->loans = new ArrayCollection();
         $this->inventoryItems = new ArrayCollection();
     }
 
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -143,8 +143,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    
-    
+
+
 
     /**
      * @return Collection<int, Loan>
@@ -262,6 +262,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    
 }

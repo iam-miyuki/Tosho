@@ -13,9 +13,9 @@ class SearchFamilyForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('search', TextType::class,[
-                'label'=>'Nom de famille : ',
-                'mapped'=>false
+            ->add('search', TextType::class, [
+                'label' => 'Nom de famille : ',
+                'mapped' => false
             ])
         ;
     }

@@ -16,23 +16,23 @@ class InventoryFilterForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('status',EnumType::class,[
-                'class'=>InventoryStatusEnum::class,
-                'label'=>'Statut : ',
-                'placeholder'=>'Tous les statuts',
-                'required'=>false
+            ->add('status', EnumType::class, [
+                'class' => InventoryStatusEnum::class,
+                'label' => 'Statut : ',
+                'placeholder' => 'Tous les statuts',
+                'required' => false
             ])
-            ->add('date', DateType::class,[
-                'widget'=>'choice',
-                'label'=>'Date : ',
-                'placeholder'=>' -',
-                'required'=>false
+            ->add('date', DateType::class, [
+                'widget' => 'choice',
+                'label' => 'Date : ',
+                'placeholder' => ' -',
+                'required' => false
             ])
-            ->add('location', EnumType::class,[
-                'class'=>LocationEnum::class,
-                'label'=>'Bâtiment : ',
-                'placeholder'=>'Toute les bâtiments',
-                'required'=>false
+            ->add('location', EnumType::class, [
+                'class' => LocationEnum::class,
+                'label' => 'Bâtiment : ',
+                'placeholder' => 'Toute les bâtiments',
+                'required' => false
             ])
         ;
     }

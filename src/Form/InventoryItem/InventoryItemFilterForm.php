@@ -19,9 +19,9 @@ class InventoryItemFilterForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('status',EnumType::class,[
-                'class'=>InventoryItemStatusEnum::class,
-                'label'=>'Statut : '
+            ->add('status', EnumType::class, [
+                'class' => InventoryItemStatusEnum::class,
+                'label' => 'Statut : '
             ])
         ;
     }

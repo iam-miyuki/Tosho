@@ -41,7 +41,7 @@ class Loan
     #[ORM\Column(nullable: true, enumType: LoanStatusEnum::class)]
     private ?LoanStatusEnum $status = null;
 
-    
+
 
     public function getId(): int
     {
@@ -61,7 +61,7 @@ class Loan
     public function setLoanDate(DateTime $loanDate)
     {
         $this->loanDate = clone $loanDate; // clone : stocker $loanDate permet de modifier sans perdre la date d'emprunt
-        $this->setExpectedReturnDate($loanDate); 
+        $this->setExpectedReturnDate($loanDate);
         return $this;
     }
 
@@ -122,8 +122,8 @@ class Loan
 
     public function setStatus(?LoanStatusEnum $status): static
     {
-        if($this->getStatus()===LoanStatusEnum::inProgress){
-            if($this->getExpectedReturnDate() < new DateTimeImmutable('now')){
+        if ($this->getStatus() === LoanStatusEnum::inProgress) {
+            if ($this->getExpectedReturnDate() < new DateTimeImmutable('now')) {
                 $this->status = LoanStatusEnum::overdue;
                 return $this;
             }
@@ -132,6 +132,4 @@ class Loan
 
         return $this;
     }
-
-   
 }

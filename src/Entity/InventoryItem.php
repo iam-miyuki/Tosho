@@ -46,7 +46,7 @@ class InventoryItem
         $this->user = new ArrayCollection();
     }
 
-   
+
 
     public function getId(): ?int
     {
@@ -101,7 +101,7 @@ class InventoryItem
         return $this;
     }
 
-    
+
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -150,6 +150,4 @@ class InventoryItem
 
         return $this;
     }
-
-    
 }

@@ -16,9 +16,9 @@ class LibrarienForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            
-            ->add('isActive',CheckboxType::class,[
-                'label'=>'Activer/Désactiver'
+
+            ->add('isActive', CheckboxType::class, [
+                'label' => 'Activer/Désactiver'
             ])
         ;
     }
@@ -29,6 +29,4 @@ class LibrarienForm extends AbstractType
             'data_class' => User::class,
         ]);
     }
-
-    
 }

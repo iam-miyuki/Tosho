@@ -17,23 +17,23 @@ class InventoryForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('location', EnumType::class,[
-                'class'=>LocationEnum::class,
-                'label'=>'Bâtiment : ',
-                
+            ->add('location', EnumType::class, [
+                'class' => LocationEnum::class,
+                'label' => 'Bâtiment : ',
+
             ])
-            ->add('note', TextareaType::class,[
-                'label'=>'Commentaire (faculatif) : ',
-                
+            ->add('note', TextareaType::class, [
+                'label' => 'Commentaire (faculatif) : ',
+
             ])
-            ->add('date', DateType::class,[
-                'label'=> 'Date d\'inventaire',
-                
+            ->add('date', DateType::class, [
+                'label' => 'Date d\'inventaire',
+
             ])
-            ->add('status', EnumType::class,[
-                'class'=>InventoryStatusEnum::class,
-                'label'=>'Statut : ',
-                
+            ->add('status', EnumType::class, [
+                'class' => InventoryStatusEnum::class,
+                'label' => 'Statut : ',
+
             ])
         ;
     }

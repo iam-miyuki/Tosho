@@ -15,21 +15,21 @@ class AccountForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName',TextType::class,[
-                'label'=>'Nom : ',
-                'require'=>false
+            ->add('firstName', TextType::class, [
+                'label' => 'Nom : ',
+                'require' => false
             ])
-            ->add('lastName',TextType::class,[
-                'label'=>'Prénom : ',
-                'require'=>false
+            ->add('lastName', TextType::class, [
+                'label' => 'Prénom : ',
+                'require' => false
             ])
-            ->add('jpLastName',TextType::class,[
-                'label'=>'Nom en japonais : ',
-                'require'=>false
+            ->add('jpLastName', TextType::class, [
+                'label' => 'Nom en japonais : ',
+                'require' => false
             ])
-            ->add('jpFirstName',TextType::class,[
-                'label'=>'Prénom en japonais : ',
-                'require'=>false
+            ->add('jpFirstName', TextType::class, [
+                'label' => 'Prénom en japonais : ',
+                'require' => false
             ])
         ;
     }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use App\Enum\BookStatusEnum;
 use App\Enum\LocationEnum;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,7 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
-class Book 
+class Book
 {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
@@ -25,7 +26,7 @@ class Book
     #[ORM\Column(type:'string')]
     private string $coverUrl;
 
-    #[ORM\Column(type:'string', enumType: LocationEnum::class)] 
+    #[ORM\Column(type:'string', enumType: LocationEnum::class)]
     private LocationEnum $location;
 
 
@@ -41,7 +42,7 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpAuthor = null;
 
-    
+
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $addedAt = null;
@@ -51,10 +52,8 @@ class Book
      */
     #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'book')]
     private Collection $inventoryItems;
-
     #[ORM\Column(nullable: true, enumType: BookStatusEnum::class)]
     private ?BookStatusEnum $status = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $code = null;
 
@@ -64,15 +63,15 @@ class Book
         $this->inventoryItems = new ArrayCollection();
     }
 
-    
 
 
-    
+
+
 
     public function getId(): int
     {
         return $this->id;
-    }   
+    }
 
 
     public function setTitle(string $title)
@@ -224,7 +223,6 @@ class Book
     public function setStatus(?BookStatusEnum $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -236,8 +234,6 @@ class Book
     public function setCode(?string $code): static
     {
         $this->code = $code;
-
         return $this;
     }
-   
 }

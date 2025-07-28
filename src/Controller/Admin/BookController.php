@@ -27,7 +27,7 @@ final class BookController extends AbstractController
         BookRepository $bookRepository
     ): Response {
         $currentTab = $request->query->get('tab', 'search');
-        $book = new Book;
+        $book = new Book();
         $form = $this->createForm(BookForm::class, $book);
         $form->handleRequest($request);
         $currentBook = null;

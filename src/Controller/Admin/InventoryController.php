@@ -19,7 +19,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
 #[Route(path: '/admin/inventory')]
 #[IsGranted('ROLE_ADMIN')]
 final class InventoryController extends AbstractController
@@ -37,7 +36,7 @@ final class InventoryController extends AbstractController
         $form = $this->createForm(InventoryForm::class, $inventory);
         $form->handleRequest($request);
 
-        
+
 
         $filterForm = $this->createForm(InventoryFilterForm::class, $inventory);
         $filterForm->handleRequest($request);
@@ -95,7 +94,7 @@ final class InventoryController extends AbstractController
         InventoryRepository $inventoryRepository,
         InventoryItemRepository $inventoryItemRepository
     ): Response {
-        $inventoryItem = new InventoryItem;
+        $inventoryItem = new InventoryItem();
         $itemFilterForm = $this->createForm(InventoryItemFilterForm::class, $inventoryItem);
         $itemFilterForm->handleRequest($request);
         $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
@@ -117,7 +116,7 @@ final class InventoryController extends AbstractController
             'notOkItems' => $notOkItems,
             'tab' => 'search',
             'itemFilterForm' => $itemFilterForm->createView(),
-            'itemForm'=>$itemForm->createView()
+            'itemForm' => $itemForm->createView()
         ]);
     }
 
@@ -180,8 +179,8 @@ final class InventoryController extends AbstractController
             $inventoryItem->addUser($this->getUser());
             $inventoryItem->setModifiedAt(new DateTimeImmutable());
             $em->flush();
-            return $this->redirectToRoute('inventory-search-items',[
-                'id'=>$inventory->getId()
+            return $this->redirectToRoute('inventory-search-items', [
+                'id' => $inventory->getId()
             ]);
         }
         return $this->render('Admin/inventory/edit-item.html.twig', [

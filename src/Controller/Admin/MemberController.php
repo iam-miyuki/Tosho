@@ -27,34 +27,34 @@ final class MemberController extends AbstractController
     }
 
     #[Route('/new', name:'new-member')]
-    public function new(Request $request, EntityManagerInterface $em) : Response
-    {  
+    public function new(Request $request, EntityManagerInterface $em): Response
+    {
         $id = $request->query->get('id');
         $family = $em->getRepository(Family::class)->find($id);
         $member = new Member();
-        $form = $this->createForm(MemberForm::class ,$member);
+        $form = $this->createForm(MemberForm::class, $member);
         $form->handleRequest($request);
-        if($form->isSubmitted()&& $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $member = $form->getData();
             $member->setFamily($family);
             $em->persist($member);
             $em->flush();
-            return $this->render('Admin/member/success.html.twig',[
-                'member'=>$member,
-                'family'=>$family
+            return $this->render('Admin/member/success.html.twig', [
+                'member' => $member,
+                'family' => $family
             ]);
         }
-        return $this->render('Admin/member/form.html.twig',[
-            'form'=>$form,
-            'id'=>$id
+        return $this->render('Admin/member/form.html.twig', [
+            'form' => $form,
+            'id' => $id
         ]);
     }
     #[Route('/delete', name:'delete-member')]
     public function delete(
         Request $request,
-        MemberRepository $memberRepository, 
-        EntityManagerInterface $em) : Response
-    {  
+        MemberRepository $memberRepository,
+        EntityManagerInterface $em
+    ): Response {
         $id = $request->query->get('id');
         $familyId = $request->query->get('family');
         $member = $memberRepository->find($id);
@@ -63,9 +63,8 @@ final class MemberController extends AbstractController
             $em->flush();
         }
 
-        return $this->redirectToRoute('edit-family',[
-            'id'=>$familyId
+        return $this->redirectToRoute('edit-family', [
+            'id' => $familyId
         ]);
     }
-
 }

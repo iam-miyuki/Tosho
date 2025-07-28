@@ -41,7 +41,7 @@ class Family
         $this->members = new ArrayCollection();
     }
 
-    
+
 
     public function getId(): ?int //soit null soit int
     {
@@ -126,7 +126,7 @@ class Family
         return $this;
     }
 
-    
+
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -139,7 +139,4 @@ class Family
 
         return $this;
     }
-
-
-    
 }

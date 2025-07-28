@@ -54,7 +54,7 @@ final class LibrarienController extends AbstractController
         $em->flush();
 
         return $this->json([
-            'isActive' =>$user->isActive()
+            'isActive' => $user->isActive()
         ]);
     }
 }

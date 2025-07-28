@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 final class LocaleListener
 {
-     private string $defaultLocale;
+    private string $defaultLocale;
 
     public function __construct(string $defaultLocale = 'fr')
     {

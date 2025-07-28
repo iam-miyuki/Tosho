@@ -7,7 +7,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
 #[Route(path: '/home')]
 #[IsGranted('ROLE_USER')]
 final class HomeController extends AbstractController

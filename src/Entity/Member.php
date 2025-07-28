@@ -21,12 +21,12 @@ class Member
     #[ORM\ManyToOne(inversedBy: 'members')]
     private ?family $family = null;
 
-    
+
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpFirstName = null;
 
-    
+
 
 
     public function getId(): ?int
@@ -34,7 +34,7 @@ class Member
         return $this->id;
     }
 
-    
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -61,7 +61,7 @@ class Member
         return $this;
     }
 
-    
+
 
     public function getJpFirstName(): ?string
     {
@@ -74,5 +74,4 @@ class Member
 
         return $this;
     }
-
 }

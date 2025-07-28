@@ -211,7 +211,7 @@ final class InventoryItemController extends AbstractController
             'allBooks' => $allBooksByLocation,
             'checkedItems' => $checkedItems,
             'noCheckedBooks' => $noCheckedBooks,
-            'inventory'=>$inventory
+            'inventory' => $inventory
         ]);
     }
 }
