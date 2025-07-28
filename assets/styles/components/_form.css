@@ -48,7 +48,10 @@ form button:active {
 }
 .forms-wrapper{
   display: flex;
-  gap: 3rem;
+  justify-content: space-around;
+  margin-top: 2rem;
   margin-left: auto;
   margin-right: auto;
+  width: max-content;
+  gap: 5rem;
 }

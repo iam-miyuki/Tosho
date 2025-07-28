@@ -3,10 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Form\LibrarienForm;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -19,7 +17,6 @@ final class LibrarienController extends AbstractController
 {
     #[Route('/', name: 'librarien')]
     public function all(
-        Request $request,
         UserRepository $userRepository
     ): Response {
         $roles = 'ROLE_LIBRARIEN';
@@ -28,26 +25,23 @@ final class LibrarienController extends AbstractController
             'librariens' => $librariens
         ]);
     }
-    #[Route('/delete', name: 'delete-librarien')]
+    #[Route('/delete/{id}', name: 'delete-librarien')]
     public function delete(
-        Request $request,
-        UserRepository $userRepository,
+        User $user,
         EntityManagerInterface $em
     ): Response {
-        $id = $request->query->get('id');
-        $librarien = $userRepository->find($id);
-        if ($librarien) {
-            $em->remove($librarien);
+        if ($user) {
+            $em->remove($user);
             $em->flush();
             dd('supprimé !');
         }
         return $this->render('admin/librarien/index.html.twig', [
-            'currentLibrarien' => $librarien
+            'currentLibrarien' => $user
         ]);
     }
     #[Route('/change-status/{id}', name: 'change-status')]
     public function change(
-        User $user,
+        User $user, //ParamConverter : faire le lien entre le paramètre dans l'url(id) et l'entité sans faire de requette
         EntityManagerInterface $em
     ): JsonResponse {
         $user->setIsActive(!$user->isActive());

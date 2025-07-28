@@ -6,3 +6,5 @@ parameters:
         - public/
         - src/
         - tests/
+includes:
+  - phpstan-baseline.neon

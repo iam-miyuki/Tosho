@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Family;
 use DateTime;
 use App\Entity\Loan;
 use App\Enum\BookStatusEnum;
@@ -108,8 +109,9 @@ final class LoanController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/family', name: 'loan-by-family')]
+    #[Route(path: '/family/{id}', name: 'loan-by-family')]
     public function family(
+        Family $family,
         Request $request,
         FamilyRepository $familyRepository,
         LoanRepository $loanRepository,
@@ -117,14 +119,15 @@ final class LoanController extends AbstractController
         EntityManagerInterface $em
     ): Response {
 
-        $familyId = $request->query->get('id');
-        $family = $familyRepository->find($familyId);
+        // dd($family);
+        
         $loans = $loanRepository->findAllWithFamilyAndStatus($family);
 
         if ($request->isMethod('POST')) {
             if ($request->request->has('book_code')) {
                 $code = $request->request->get('book_code');
                 $book = $bookRepository->findOneByCode($code);
+                
 
                 if ($family && $book && $book->getStatus() != BookStatusEnum::borrowed) {
                     $loan = new Loan();
@@ -138,10 +141,11 @@ final class LoanController extends AbstractController
                     $em->persist($book);
                     $em->flush();
                     return $this->redirectToRoute('loan-by-family', [
-                        'id' => $familyId,
+                        'id' => $family->getId(),
                     ]);
                 }
                 if ($family && $book && $book->getStatus() === BookStatusEnum::borrowed) {
+                    // TODO 
                     dd('ce livre est déjà emprunté !');
                 } else {
                     dd('aucun livre trouvé !');
