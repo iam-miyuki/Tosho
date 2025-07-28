@@ -12,7 +12,7 @@
             <ul class="result-list">
                 {% for family in searchedFamilies %}
                     <li>
-                        <a href="{{ path('family', {id: family.id}) }}">
+                        <a href="{{ path('show-family', {id: family.id}) }}">
                             {{ family.name|upper }} / {{ family.jpName }}
                         </a>
                     </li>

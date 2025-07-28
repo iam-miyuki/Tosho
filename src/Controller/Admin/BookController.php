@@ -91,21 +91,7 @@ final class BookController extends AbstractController
                 }
             }
         }
-        if ($request->query->get('id')) {
-            $id = $request->query->get('id');
-            $currentBook = $bookRepository->find($id);
-            return $this->render('Admin/book/index.html.twig', [
-                'currentBook' => $currentBook,
-                'tab' => 'search',
-                'filterForm' => $filterForm->createView(),
-                'findBookForm' => $findBookForm->createView(),
-                'all' => $all,
-                'cameleon' => $cameleon,
-                'f' => $f,
-                'mba' => $mba,
-                'badet' => $badet
-            ]);
-        }
+        
 
         return $this->render('Admin/book/index.html.twig', [
             'tab' => $currentTab,
@@ -122,47 +108,81 @@ final class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'edit-book')]
-    public function edit(
-        int $id,
+     #[Route('/{id}', name: 'show-book')]
+    public function show(
+        Book $book,
         Request $request,
-        EntityManagerInterface $em
+        BookRepository $bookRepository
     ): Response {
+        
+        $filterForm = $this->createForm(BookFilterForm::class, $book);
+        $filterForm->handleRequest($request);
 
+        $findBookForm = $this->createForm(FindBookForm::class, $book);
+        $findBookForm->handleRequest($request);
 
+        $all = $bookRepository->findAll();
+        $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
+        $f = $bookRepository->findAllByLocation(LocationEnum::f);
+        $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
+        $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
 
-        $book = $em->getRepository(Book::class)->find($id);
-        $form = $this->createForm(BookForm::class, $book);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            dd('modifié !');
-            return $this->redirectToRoute('book', [
-                'id' => $id,
-                'tab' => 'search'
-
+            return $this->render('Admin/book/index.html.twig', [
+                'currentBook' => $book,
+                'tab' => 'search',
+                'filterForm' => $filterForm->createView(),
+                'findBookForm' => $findBookForm->createView(),
+                'all' => $all,
+                'cameleon' => $cameleon,
+                'f' => $f,
+                'mba' => $mba,
+                'badet' => $badet
             ]);
         }
-        return $this->render('Admin/book/edit.html.twig', [
-            'book' => $book,
-            'tab' => 'search',
-            'bookForm' => $form->createView(),
 
-        ]);
-    }
-
-    #[Route('/delete/{id}', name: 'delete-book')]
-    public function delete(int $id, EntityManagerInterface $em): Response
-    {
-        $book = $em->getRepository(Book::class)->find($id);
-        if ($book) {
-            $em->remove($book);
-            $em->flush();
-            dd('supprimé !');
+        #[Route('/edit/{id}', name: 'edit-book')]
+        public function edit(
+            int $id,
+            Request $request,
+            EntityManagerInterface $em
+        ): Response {
+    
+    
+    
+            $book = $em->getRepository(Book::class)->find($id);
+            $form = $this->createForm(BookForm::class, $book);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->flush();
+                dd('modifié !');
+                return $this->redirectToRoute('book', [
+                    'id' => $id,
+                    'tab' => 'search'
+    
+                ]);
+            }
+            return $this->render('Admin/book/edit.html.twig', [
+                'book' => $book,
+                'tab' => 'search',
+                'bookForm' => $form->createView(),
+    
+            ]);
         }
-        return $this->render('Admin/book/delete.html.twig', [
-            'book' => $book,
-            'tab' => 'search'
-        ]);
+    
+        #[Route('/delete/{id}', name: 'delete-book')]
+        public function delete(int $id, EntityManagerInterface $em): Response
+        {
+            $book = $em->getRepository(Book::class)->find($id);
+            if ($book) {
+                $em->remove($book);
+                $em->flush();
+                dd('supprimé !');
+            }
+            return $this->render('Admin/book/delete.html.twig', [
+                'book' => $book,
+                'tab' => 'search'
+            ]);
+        }
     }
-}
+
+

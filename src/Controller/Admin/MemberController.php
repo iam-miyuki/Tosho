@@ -26,11 +26,13 @@ final class MemberController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name:'new-member')]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    #[Route('/new/{id}', name:'new-member')]
+    public function new(
+        Request $request, 
+        EntityManagerInterface $em,
+        Family $family
+        ): Response
     {
-        $id = $request->query->get('id');
-        $family = $em->getRepository(Family::class)->find($id);
         $member = new Member();
         $form = $this->createForm(MemberForm::class, $member);
         $form->handleRequest($request);
@@ -46,25 +48,22 @@ final class MemberController extends AbstractController
         }
         return $this->render('Admin/member/form.html.twig', [
             'form' => $form,
-            'id' => $id
+            'id' => $family->getId()
         ]);
     }
-    #[Route('/delete', name:'delete-member')]
+    #[Route('/delete/{id}', name:'delete-member')]
     public function delete(
-        Request $request,
-        MemberRepository $memberRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Member $member
     ): Response {
-        $id = $request->query->get('id');
-        $familyId = $request->query->get('family');
-        $member = $memberRepository->find($id);
-        if ($member) {
+        $family = $member->getFamily();
+            if ($member) {
             $em->remove($member);
             $em->flush();
         }
 
         return $this->redirectToRoute('edit-family', [
-            'id' => $familyId
+            'id' => $family->getId()
         ]);
     }
 }

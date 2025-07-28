@@ -10,7 +10,7 @@
 	{{ form_row(form.email) }}
 {% for memberForm in form.members %}
     {{ form_row(memberForm) }}
-    <a href="{{ path('delete-member', { id: memberForm.vars.data.id, family: currentFamily.id }) }}" class="delete">
+    <a href="{{ path('delete-member', { id: memberForm.vars.data.id }) }}" class="delete">
         <img src="{{ asset('img/trush.svg') }}" alt="delete">
     </a>
 {% endfor %}
