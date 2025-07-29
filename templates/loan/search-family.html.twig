@@ -27,15 +27,16 @@
 	</div>
 {% endif %}
 
-{% if currentFamily is defined and currentFamily is not null %}
+
+{% if family is defined and family is not null %}
 
 	<div class="current-family-container">
 		<hr>
 		<div>
 			<h5 class="account-name">Famille
-				{{ currentFamily.name|upper }}
+				{{ family.name|upper }}
 				/
-				{{ currentFamily.jpName }}</h5>
+				{{ family.jpName }}</h5>
 		</div>
 		<div class="section-container">
 
