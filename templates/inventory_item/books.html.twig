@@ -15,7 +15,7 @@
         {% if checkedItems|length >0 %}
 
 			{% for item in checkedItems %}
-				<a href="{{path('edit-item',{item:item.id})}}">
+				<a href="{{path('edit-item',{id:item.id})}}">
                     <p>
                         {{item.book.title}}
                     </p>
@@ -26,7 +26,7 @@
         {% if noCheckedBooks|length >0 %}
 
 			{% for book in noCheckedBooks %}
-				<a href="{{path('add-item',{inventory:inventory.id,book:book.id})}}">
+				<a href="{{path('add-item',{id:inventory.id,book:book.id})}}">
                     <p>
                         {{book.title}}
                     </p>

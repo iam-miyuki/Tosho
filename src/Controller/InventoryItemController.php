@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Inventory;
 use App\Entity\InventoryItem;
 use App\Enum\InventoryItemStatusEnum;
 use App\Enum\InventoryStatusEnum;
@@ -24,33 +25,27 @@ final class InventoryItemController extends AbstractController
 {
     #[Route('/', name: 'inventory-item')]
     public function index(
-        Request $request,
         InventoryRepository $inventoryRepository,
     ): Response {
         $inventories = $inventoryRepository->findAllByStatus(InventoryStatusEnum::open);
-        $inventoryId = $request->query->get('id');
 
-        if ($inventoryId) {
-            return $this->redirectToRoute('new-item', [
-                'id' => $inventoryId
-            ]);
-        }
 
         return $this->render('inventory_item/index.html.twig', [
             'inventories' => $inventories
         ]);
     }
 
-    #[Route('/search', name: 'search-item')]
+    #[Route('/search/{id}', name: 'search-item')]
     public function search(
+        Inventory $inventory,
         Request $request,
         BookRepository $bookRepository,
         InventoryRepository $inventoryRepository,
         InventoryItemRepository $inventoryItemRepository
     ): Response {
 
-        $id = $request->query->get('inventory');
-        $inventory = $inventoryRepository->findWithItems($id); // besoin de récupérer avec inventoryItems
+        $id = $inventory->getId();
+        $currentInventory = $inventoryRepository->findWithItems($id); // besoin de récupérer avec inventoryItems
         $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
 
         $location = $inventory->getLocation();
@@ -68,17 +63,17 @@ final class InventoryItemController extends AbstractController
             $item = $inventoryItemRepository->findOneByInventoryAndBook($inventory, $currentBook);
             if ($item === null) {
                 return $this->redirectToRoute('add-item', [
-                    'inventory' => $id,
+                    'id' => $id,
                     'book' => $currentBook->getId(),
                 ]);
             } else {
                 return $this->redirectToRoute('edit-item', [
-                    'item' => $item->getId(),
+                    'id' => $item->getId(),
                 ]);
             }
         }
         return $this->render('inventory_item/search.html.twig', [
-            'currentInventory' => $inventory,
+            'currentInventory' => $currentInventory,
             'currentBook' => $currentBook,
             'checkedItems' => $checkedItems,
             'noCheckedBooks' => $noCheckedBooks,
@@ -86,21 +81,19 @@ final class InventoryItemController extends AbstractController
         ]);
     }
 
-    #[Route('/add', name: 'add-item')]
+    #[Route('/add/{id}', name: 'add-item')]
     public function add(
+        Inventory $inventory,
         Request $request,
-        InventoryRepository $inventoryRepository,
         InventoryItemRepository $inventoryItemRepository,
         BookRepository $bookRepository,
         EntityManagerInterface $em
     ): Response {
-        $id = $request->query->get('inventory');
-        $inventory = $inventoryRepository->find($id);
         $currentBook = $bookRepository->find($request->query->get('book'));
 
         $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
         $location = $inventory->getLocation();
-        $noCheckedBooks = $bookRepository->findNoInventory($id, $location);
+        $noCheckedBooks = $bookRepository->findNoInventory($inventory->getId(), $location);
         $allBooksByLocation = $bookRepository->findAllByLocation($location);
 
         $inventoryItem = new InventoryItem();
@@ -116,7 +109,7 @@ final class InventoryItemController extends AbstractController
             $em->persist($inventoryItem);
             $em->flush();
             return $this->redirectToRoute('search-item', [
-                'inventory' => $id
+                'id' => $inventory->getId()
             ]);
         }
         return $this->render('inventory_item/search.html.twig', [
@@ -130,21 +123,19 @@ final class InventoryItemController extends AbstractController
         ]);
     }
 
-    #[Route('/edit', name: 'edit-item')]
+    #[Route('/edit/{id}', name: 'edit-item')]
     public function edit(
         Request $request,
+        InventoryItem $inventoryItem,
         InventoryItemRepository $inventoryItemRepository,
         BookRepository $bookRepository,
         EntityManagerInterface $em
     ): Response {
-        $inventoryItemId = $request->query->get('item');
-        $inventoryItem = $inventoryItemRepository->find($inventoryItemId);
         $inventory = $inventoryItem->getInventory();
-        $id = $inventory->getId();
 
         $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
         $location = $inventory->getLocation();
-        $noCheckedBooks = $bookRepository->findNoInventory($id, $location);
+        $noCheckedBooks = $bookRepository->findNoInventory($inventory->getId(), $location);
         $allBooksByLocation = $bookRepository->findAllByLocation($location);
 
         $editForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
@@ -155,7 +146,7 @@ final class InventoryItemController extends AbstractController
             $inventoryItem->addUser($this->getUser());
             $em->flush();
             return $this->redirectToRoute('search-item', [
-                'inventory' => $inventoryItem->getInventory()->getId()
+                'inventory' => $inventory->getId()
             ]);
         }
 

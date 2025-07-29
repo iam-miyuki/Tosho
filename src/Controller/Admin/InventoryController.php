@@ -36,8 +36,6 @@ final class InventoryController extends AbstractController
         $form = $this->createForm(InventoryForm::class, $inventory);
         $form->handleRequest($request);
 
-
-
         $filterForm = $this->createForm(InventoryFilterForm::class, $inventory);
         $filterForm->handleRequest($request);
 
@@ -67,16 +65,6 @@ final class InventoryController extends AbstractController
             }
         }
 
-        if ($request->query->has('id')) {
-            $id = $request->query->get('id');
-            $inventory = $inventoryRepository->findWithItems($id);
-            $items = $inventory->getInventoryItems();
-            $notOkItems = $inventoryItemRepository->findAllByInventoryAndNotOkStatus($inventory);
-            return $this->redirectToRoute('inventory-search-items', [
-                'id' => $id
-            ]);
-        }
-
         return $this->render('Admin/inventory/index.html.twig', [
             'tab' => $currentTab,
             'form' => $form->createView(),
@@ -87,108 +75,103 @@ final class InventoryController extends AbstractController
             'notOkItems' => $notOkItems
         ]);
     }
-
-    #[Route('/search-items', name: 'inventory-search-items')]
-    public function searchItems(
-        Request $request,
-        InventoryRepository $inventoryRepository,
-        InventoryItemRepository $inventoryItemRepository
-    ): Response {
-        $inventoryItem = new InventoryItem();
-        $itemFilterForm = $this->createForm(InventoryItemFilterForm::class, $inventoryItem);
-        $itemFilterForm->handleRequest($request);
-        $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
-        $itemForm->handleRequest($request)->createView();
-
-        $id = $request->query->get('id');
-        $inventory = $inventoryRepository->findWithItems($id);
-        $items = $inventory->getInventoryItems();
-        $notOkItems = $inventoryItemRepository->findAllByInventoryAndNotOkStatus($inventory);
-
-        if ($itemFilterForm->isSubmitted()) {
-            $status = $itemFilterForm->get('status')->getData();
-            $items = $inventoryItemRepository->findAllByInventoryAndStatus($inventory, $status);
-        }
-
-        return $this->render('Admin/inventory/inventory-page.html.twig', [
-            'currentInventory' => $inventory,
-            'items' => $items,
-            'notOkItems' => $notOkItems,
-            'tab' => 'search',
-            'itemFilterForm' => $itemFilterForm->createView(),
-            'itemForm' => $itemForm->createView()
-        ]);
-    }
-
-
-    #[Route('/edit', name: 'edit-inventory')]
-    public function edit(
-        Request $request,
-        InventoryRepository $inventoryRepository,
-        EntityManagerInterface $em
-    ): Response {
-        $inventoryId = $request->query->get('id');
-        $inventory = $inventoryRepository->findWithItems($inventoryId);
-
-        $form = $this->createForm(InventoryForm::class, $inventory);
-        $form->handleRequest($request)->createView();
-
-        if ($form->isSubmitted()) {
-            $em->flush();
-            dd('modifié !');
-        }
-
-        return $this->render('Admin/inventory/edit.html.twig', [
-            'form' => $form->createView(),
-            'inventory' => $inventory
-        ]);
-    }
-
-    #[Route('/delete', name: 'delete-inventory')]
-    public function delete(
-        Request $request,
-        InventoryRepository $inventoryRepository,
-        EntityManagerInterface $em
-    ): Response {
-        $inventoryId = $request->query->get('id');
-        $inventory = $inventoryRepository->find($inventoryId);
-
-        if ($inventory) {
-            $em->remove($inventory);
-            $em->flush();
-        }
-        return $this->redirectToRoute('inventory');
-    }
-
-    #[Route('/edit-item-admin', name: 'edit-item-admin')]
-    public function editIA(
-        Request $request,
+     #[Route('/{id}', name: 'show-inventory')]
+    public function show(
+        Inventory $inventory,
         InventoryItemRepository $inventoryItemRepository,
-        EntityManagerInterface $em
+        Request $request
     ): Response {
-        $id = $request->query->get('item');
-        $inventoryItem = $inventoryItemRepository->find($id);
-        $inventory = $inventoryItem->getInventory();
-        $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
-        $itemForm->handleRequest($request)->createView();
-        $items = $inventory->getInventoryItems();
-        $itemFilterForm = $this->createForm(InventoryItemFilterForm::class, $inventoryItem);
-        $itemFilterForm->handleRequest($request);
+            $items = $inventory->getInventoryItems();
+            $notOkItems = $inventoryItemRepository->findAllByInventoryAndNotOkStatus($inventory);
 
-        if ($itemForm->isSubmitted()) {
-            $inventoryItem->addUser($this->getUser());
-            $inventoryItem->setModifiedAt(new DateTimeImmutable());
-            $em->flush();
-            return $this->redirectToRoute('inventory-search-items', [
-                'id' => $inventory->getId()
+            $inventoryItem = new InventoryItem();
+            $itemFilterForm = $this->createForm(InventoryItemFilterForm::class, $inventoryItem);
+            $itemFilterForm->handleRequest($request);
+
+            $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
+            $itemForm->handleRequest($request)->createView();
+    
+            if ($itemFilterForm->isSubmitted()) {
+                $status = $itemFilterForm->get('status')->getData();
+                $items = $inventoryItemRepository->findAllByInventoryAndStatus($inventory, $status);
+            }
+    
+            return $this->render('Admin/inventory/inventory-page.html.twig', [
+                'currentInventory' => $inventory,
+                'items' => $items,
+                'notOkItems' => $notOkItems,
+                'tab' => 'search',
+                'itemFilterForm' => $itemFilterForm->createView(),
+                'itemForm' => $itemForm->createView()
             ]);
         }
-        return $this->render('Admin/inventory/edit-item.html.twig', [
-            'item' => $inventoryItem,
-            'itemForm' => $itemForm->createView(),
-            'itemFilterForm' => $itemFilterForm->createView(),
-            'currentInventory' => $inventory,
-            'items' => $items,
-        ]);
+    
+    
+        #[Route('/edit/{id}', name: 'edit-inventory')]
+        public function edit(
+            Inventory $inventory,
+            Request $request,
+            EntityManagerInterface $em
+        ): Response {
+            $form = $this->createForm(InventoryForm::class, $inventory);
+            $form->handleRequest($request)->createView();
+    
+            if ($form->isSubmitted()) {
+                $em->flush();
+                dd('modifié !');
+            }
+    
+            return $this->render('Admin/inventory/edit.html.twig', [
+                'form' => $form->createView(),
+                'inventory' => $inventory
+            ]);
+        }
+    
+        #[Route('/delete/{id}', name: 'delete-inventory')]
+        public function delete(
+            Inventory $inventory,
+            EntityManagerInterface $em
+        ): Response {
+        
+            if ($inventory) {
+                $em->remove($inventory);
+                $em->flush();
+            }
+            return $this->redirectToRoute('inventory');
+        }
+    
+        #[Route('/edit-item/{id}', name: 'admin-edit-item')]
+        public function editItem(
+            Request $request,
+            InventoryItem $inventoryItem,
+            EntityManagerInterface $em
+        ): Response {
+            $inventory = $inventoryItem->getInventory();
+
+            $itemForm = $this->createForm(InventoryItemForm::class, $inventoryItem);
+            $itemForm->handleRequest($request)->createView();
+
+            $items = $inventory->getInventoryItems();
+
+            $itemFilterForm = $this->createForm(InventoryItemFilterForm::class, $inventoryItem);
+            $itemFilterForm->handleRequest($request);
+    
+            if ($itemForm->isSubmitted()) {
+                $inventoryItem->addUser($this->getUser());
+                $inventoryItem->setModifiedAt(new DateTimeImmutable());
+                $em->flush();
+                return $this->redirectToRoute('show-inventory', [
+                    'id' => $inventory->getId()
+                ]);
+            }
+            return $this->render('Admin/inventory/edit-item.html.twig', [
+                'item' => $inventoryItem,
+                'itemForm' => $itemForm->createView(),
+                'itemFilterForm' => $itemFilterForm->createView(),
+                'currentInventory' => $inventory,
+                'items' => $items,
+            ]);
+        }
     }
-}
+
+

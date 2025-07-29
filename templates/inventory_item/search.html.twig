@@ -29,7 +29,7 @@
 
 		</div>
 		<div>
-			<form action="{{path('search-item',{inventory: currentInventory.id})}}" method="POST">
+			<form action="{{path('search-item',{id: currentInventory.id})}}" method="POST">
 				<h3 class="form-title">Entrez un code livre</h3>
 				<input id="book_code" name="book_code" type="text" placeholder="Code du livre…" required/>
 				<button type="submit">Rechercher</button>

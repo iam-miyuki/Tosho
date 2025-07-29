@@ -10,7 +10,7 @@
 					<img src="{{ asset('img/trush.svg') }}" alt="delete">
 				</a>
 			</div>
-			<a href="{{ path('inventory-search-items', { id: inventory.id }) }}">
+			<a href="{{ path('show-inventory', { id: inventory.id }) }}">
 				<div class="card-body">
 					<p>Date :
 						{{ inventory.date|date('d/m/Y') }}</p>

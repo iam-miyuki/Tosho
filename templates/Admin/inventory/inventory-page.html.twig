@@ -19,7 +19,7 @@
         <ul class="inventory-items">
             {% for item in items %}
             <div class="card-header">
-				<a href="{{ path('edit-item-admin', { item: item.id }) }}" class="edit">
+				<a href="{{ path('admin-edit-item', { id: item.id }) }}" class="edit">
 					<img src="{{ asset('img/pencil.svg') }}" alt="edit">
 				</a>
                 </div>

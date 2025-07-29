@@ -25,7 +25,7 @@ final class AccountController extends AbstractController
     }
     #[Route('/edit/{id}', name:'edit-account')]
     public function edit(
-        User $user, // autowiring
+        User $user, // param converter
         Request $request,
         EntityManagerInterface $em
     ): Response {

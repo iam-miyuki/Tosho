@@ -146,9 +146,6 @@ final class BookController extends AbstractController
             Request $request,
             EntityManagerInterface $em
         ): Response {
-    
-    
-    
             $book = $em->getRepository(Book::class)->find($id);
             $form = $this->createForm(BookForm::class, $book);
             $form->handleRequest($request);
