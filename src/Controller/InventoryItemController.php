@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Entity\Inventory;
-use App\Entity\InventoryItem;
-use App\Enum\InventoryItemStatusEnum;
-use App\Enum\InventoryStatusEnum;
 use App\Enum\LocationEnum;
+use App\Entity\InventoryItem;
 use App\Form\InventoryItemForm;
+use App\Enum\InventoryStatusEnum;
 use App\Repository\BookRepository;
-use App\Repository\InventoryItemRepository;
+use App\Enum\InventoryItemStatusEnum;
 use App\Repository\InventoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\InventoryItemRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,16 +82,15 @@ final class InventoryItemController extends AbstractController
         ]);
     }
 
-    #[Route('/add/{id}', name: 'add-item')]
+    #[Route('/add/{id}/{book}', name: 'add-item')]
     public function add(
         Inventory $inventory,
+        Book $book,
         Request $request,
         InventoryItemRepository $inventoryItemRepository,
         BookRepository $bookRepository,
         EntityManagerInterface $em
     ): Response {
-        $currentBook = $bookRepository->find($request->query->get('book'));
-
         $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
         $location = $inventory->getLocation();
         $noCheckedBooks = $bookRepository->findNoInventory($inventory->getId(), $location);
@@ -102,7 +102,7 @@ final class InventoryItemController extends AbstractController
 
         if ($addForm->isSubmitted() && $addForm->isValid()) {
             $inventoryItem = $addForm->getData();
-            $inventoryItem->setBook($currentBook);
+            $inventoryItem->setBook($book);
             $inventoryItem->setInventory($inventory);
             $inventoryItem->setCreatedAt(new \DateTimeImmutable());
             $inventoryItem->addUser($this->getUser());
@@ -114,7 +114,7 @@ final class InventoryItemController extends AbstractController
         }
         return $this->render('inventory_item/search.html.twig', [
             'currentInventory' => $inventory,
-            'currentBook' => $currentBook,
+            'currentBook' => $book,
             'addForm' => $addForm->createView(),
             'editForm' => null,
             'checkedItems' => $checkedItems,
@@ -161,9 +161,14 @@ final class InventoryItemController extends AbstractController
         ]);
     }
 
-    #[Route('/list', name: 'item-list')]
+    #[Route(
+        '/list/{id}/{page}',
+        name: 'item-list',
+        requirements: ['page' => '^(all|checked|no-checked)$']
+    )]
     public function list(
-        Request $request,
+        Inventory $inventory,
+        string $page,
         PaginatorInterface $paginator,
         BookRepository $bookRepository,
         InventoryRepository $inventoryRepository,
@@ -172,37 +177,30 @@ final class InventoryItemController extends AbstractController
         $allBooksByLocation = null;
         $checkedItems = null;
         $noCheckedBooks = null;
-        $inventory = null;
+        $inventoryWithItems = $inventoryRepository->findWithItems($inventory->getId());
+        $location = $inventoryWithItems->getLocation();
 
-        if ($request->query->has('all')) {
-            $id = $request->query->get('all');
-            $inventory = $inventoryRepository->findWithItems($id);
-            $location = $inventory->getLocation();
+        if ($page==='all') {
             $allBooksByLocation = $bookRepository->findAllByLocation($location);
         }
-        if ($request->query->has('checked')) {
-            $id = $request->query->get('checked');
-            $inventory = $inventoryRepository->findWithItems($id);
+        if ($page==='checked') {
             $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
         }
-        if ($request->query->has('no_checked')) {
-            $id = $request->query->get('no_checked');
-            $inventory = $inventoryRepository->findWithItems($id);
-            $location = $inventory->getLocation();
-            $noCheckedBooks = $bookRepository->findNoInventory($id, $location);
+        if ($page==='no-checked') {
+            $noCheckedBooks = $bookRepository->findNoInventory($inventory->getId(), $location);
         }
 
         // $results = $paginator->paginate(
         //     $books,
         //     $request->query->getInt('page', 1)
         // );
-
+        
         return $this->render('inventory_item/books.html.twig', [
             // 'pagination' => $results,
             'allBooks' => $allBooksByLocation,
             'checkedItems' => $checkedItems,
             'noCheckedBooks' => $noCheckedBooks,
-            'inventory' => $inventory
+            'inventory' => $inventoryWithItems
         ]);
     }
 }

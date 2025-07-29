@@ -17,13 +17,13 @@
 				<p>Commentaire :
 					{{ currentInventory.note }}</p>
 			{% endif %}
-			<a href="{{path('item-list',{all:currentInventory.id})}}">
+			<a href="{{path('item-list',{id:currentInventory.id,page:'all'})}}">
 				<p>Total livres à verifier : {{allBooksByLocation | length}} </p>
 			</a>
-			<a href="{{path('item-list',{checked:currentInventory.id})}}">
+			<a href="{{path('item-list',{id:currentInventory.id,page:'checked'})}}">
 				<p>Livres vérifiés : {{checkedItems | length }} </p>
 			</a>
-			<a href="{{path('item-list',{no_checked: currentInventory.id})}}">
+			<a href="{{path('item-list',{id: currentInventory.id,page:'no-checked'})}}">
 				<p>Reste à vérifier : {{noCheckedBooks | length}} </p>
 			</a>
 
