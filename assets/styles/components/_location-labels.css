@@ -1,12 +1,13 @@
 .location{
   display: inline-block;
-  border: 2px solid var(--color-text);
-  padding: 0.2rem 1rem;
-  
+  border: 1px solid var(--color-text);
+  padding: 0.3rem 0.5rem;
+  margin-top: 0;
   border-radius: 10px;
   font-weight: bold;
   color: var(--color-text);
   text-align: center;
+  width: 100px;
 }
 
 .location.cameleon{

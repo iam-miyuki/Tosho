@@ -1,12 +1,42 @@
-{% extends 'Admin/base.html.twig' %}
+<div class="card one-card">
+	<div class="card-title">Modifier un livre
+	</div>
+	<div class="card-body">
+		<div class="edit">
+			{{ form_start(bookForm) }}
+			<div class="edit">
+				<div class="edit-item">
+					<p>Titre</p><div class="item-field"> :
+						{{ form_widget(bookForm.title, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Auteur</p><div class="item-field"> :
+						{{ form_widget(bookForm.author, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Titre (JP) </p><div class="item-field"> :
+						{{ form_widget(bookForm.jpTitle, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Auteur (JP)</p><div class="item-field"> :
+						{{ form_widget(bookForm.jpAuthor, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>URL Couverture</p><div class="item-field"> :
+						{{ form_widget(bookForm.coverUrl, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Bâtiment</p><div class="item-field"> :
+						{{ form_widget(bookForm.location, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+			</div>
+			<div class="button-wrapper">
+				<button type="submit">Modifier</button>
+				<button class="cancel">Annuler</button>
+			</div>
+			{{ form_end(bookForm) }}
 
-{% block title %}Modifier
-{% endblock %}
-{% block body %}
-<h3>Modifier</h3>
-	{{ form_start(bookForm) }}
-	{{ form_row(bookForm) }}
-	<button type="submit">Modifier</button>
-{{ form_end(bookForm) }}
-	
-{% endblock %}
+
+		</div>
+	</div>
+</div>

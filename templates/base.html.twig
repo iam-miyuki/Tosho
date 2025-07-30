@@ -29,24 +29,44 @@
 					<nav>
 						<h2>Gérez les prêts de livres en toute simplicité</h2>
 						<ul class="menu menu-librarien">
-							<li class="menu-item"><a href="{{ path('home') }}"><img src="{{ asset('img/home.svg') }}" alt="home"><span class="menu-text">Home</span></a></li>
-							<li class="menu-item"><a href="{{ path('loan') }}"><img src="{{ asset('img/child-book.svg') }}" alt="loan"><span class="menu-text">Prêts & Retours</span></a></li>
-							<li class="menu-item"><a href="{{ path('inventory-item') }}"><img src="{{ asset('img/books.svg') }}" alt="inventory"><span class="menu-text">Inventaire</span></a></li>
+							<li class="menu-item">
+								<a href="{{ path('home') }}"><img src="{{ asset('img/home.svg') }}" alt="home"><span class="menu-text">Home</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="{{ path('loan') }}"><img src="{{ asset('img/child-book.svg') }}" alt="loan"><span class="menu-text">Prêts & Retours</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="{{ path('inventory-item') }}"><img src="{{ asset('img/books.svg') }}" alt="inventory"><span class="menu-text">Inventaire</span>
+								</a>
+							</li>
 							{% if is_granted('ROLE_LIBRARIEN') %}
-				
-							<li class="menu-item"><a href="{{path('account')}}"><img src="{{ asset('img/profile-3.svg') }}" alt="account"><span class="menu-text">Mon compte</span></a></li>
+
+								<li class="menu-item">
+									<a href="{{path('account')}}"><img src="{{ asset('img/profile-3.svg') }}" alt="account"><span class="menu-text">Mon compte</span>
+									</a>
+								</li>
 							{% endif %}
-				
-							<li class="menu-item"><a href="{{ path('app_logout') }}"><img src="{{ asset('img/logout.svg') }}" alt="logout"><span class="menu-text">Logout</span></a></li>
+
+							<li class="menu-item">
+								<a href="{{ path('app_logout') }}"><img src="{{ asset('img/logout.svg') }}" alt="logout"><span class="menu-text">Logout</span>
+								</a>
+							</li>
 						</ul>
 					</nav>
-					{% if is_granted('ROLE_ADMIN') %}<div class="switch admin"><a href="{{path('admin_home')}}">Espace Admin</a></div>{% endif %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<div class="switch admin">
+							<a href="{{path('admin_home')}}">Espace Admin</a>
+						</div>
+					{% endif %}
 					{# <a href="{{ path('switch_locale') }}">en</a> #}
 				</div>
-						{% endblock %}
-				
-						<main>{% block body %}{% endblock %}</main>
-			</div>
+			{% endblock %}
+			<main>
+				{% block body %}{% endblock %}
+			</main>
+		</div>
 
 		{% block footer %}
 			<div class="footer">

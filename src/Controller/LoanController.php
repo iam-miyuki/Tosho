@@ -12,6 +12,7 @@ use App\Repository\BookRepository;
 use App\Repository\LoanRepository;
 use App\Repository\FamilyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Error;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,8 +53,9 @@ final class LoanController extends AbstractController
                         'families' => $results,
                         'tab' => 'family'
                     ]);
-                } else {
-                    dd('aucune famille trouvé !');
+                } 
+                else {
+                    echo('aucune famille trouvé !');
                 }
             }
             // chercher par livre avec code
@@ -65,7 +67,7 @@ final class LoanController extends AbstractController
                         'id' => $book->getId()
                     ]);
                 } else {
-                    dd('aucun livre trouvé !');
+                    echo('aucun livre trouvé !');
                 }
             }
             // chercher par livre avec mot-clé
@@ -78,7 +80,7 @@ final class LoanController extends AbstractController
                         'tab' => 'book'
                     ]);
                 } else {
-                    dd('aucun livre trouvé !');
+                    echo('aucun livre trouvé !');
                 }
             }
         }
@@ -123,7 +125,7 @@ final class LoanController extends AbstractController
                         'tab' => 'book'
                     ]);
                 } else {
-                    dd('aucune famille trouvé !');
+                    echo('aucune famille trouvé !');
                 }
             }
         }
@@ -140,7 +142,7 @@ final class LoanController extends AbstractController
         Family $family,
         EntityManagerInterface $em
     ): Response {
-        $loan = new Loan;
+        $loan = new Loan();
         $loan->setFamily($family);
         $loan->setBook($book);
         $loan->setUser($this->getUser());
@@ -163,16 +165,12 @@ final class LoanController extends AbstractController
         BookRepository $bookRepository,
         EntityManagerInterface $em
     ): Response {
-
-        // dd($family);
-
         $loans = $loanRepository->findAllWithFamilyAndStatus($family);
 
         if ($request->isMethod('POST')) {
             if ($request->request->has('book_code')) {
                 $code = $request->request->get('book_code');
                 $book = $bookRepository->findOneByCode($code);
-
 
                 if ($family && $book && $book->getStatus() != BookStatusEnum::borrowed) {
                     $loan = new Loan();
@@ -191,9 +189,9 @@ final class LoanController extends AbstractController
                 }
                 if ($family && $book && $book->getStatus() === BookStatusEnum::borrowed) {
                     // TODO 
-                    dd('ce livre est déjà emprunté !');
+                    echo('ce livre est déjà emprunté !');
                 } else {
-                    dd('aucun livre trouvé !');
+                    echo('aucun livre trouvé !');
                 }
             }
         }
@@ -210,7 +208,6 @@ final class LoanController extends AbstractController
         Loan $loan,
         EntityManagerInterface $em
     ): Response {
-        // changer LoanStatus et status
         $book = $loan->getBook();
         if ($loan) {
             if (
@@ -228,11 +225,13 @@ final class LoanController extends AbstractController
                     'id' => $loan->getFamily()->getId()
                 ]);
             } else {
-                // TODO
-                dd('déjà rendu !');
+                echo('déjà rendu !');
             }
         } else {
-            dd('non trouvé!');
+            echo('non trouvé!');
         }
+        return $this->render('loan/index.html.twig',[
+            'loan'=>$loan
+        ]);
     }
 }

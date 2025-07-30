@@ -84,14 +84,14 @@
   align-items: center;
 }
 .librarien-tab.right-tab{
-  background-color: var(--color-badet);
+  background-color: var(--color-admin);
 }
 .librarien-tab.left-tab{
   background-color: var(--color-primary);
 }
 
 .admin-tab.left-tab{
-  background-color: var(--color-badet);
+  background-color: var(--color-admin);
 }
 .admin-tab.right-tab{
   background-color: var(--color-primary);
@@ -105,10 +105,10 @@
   background-color: var(--color-primary);
 }
 .tab.librarien-tab.right-tab.active:hover{
-  background-color: var(--color-badet);
+  background-color: var(--color-admin);
 }
 .tab.admin-tab.left-tab.active:hover{
-  background-color: var(--color-badet);
+  background-color: var(--color-admin);
 }
 .tab.admin-tab.right-tab.active:hover{
   background-color: var(--color-primary);

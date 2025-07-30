@@ -3,72 +3,87 @@
 		<h4>Total livres :
 			{{all|length}}
 		</h4>
-		
+
 		<div class="count-wrapper">
-			<div class="location cameleon">Caméléon : {{cameleon|length}}</div>
-				 
-			<div class="location mba">MBA : {{mba|length}}</div>
-				
-			<div class="location f">F : {{f|length}}</div>
-				
-			<div class="location badet">Badet : {{badet|length}}</div>
-				
+			<div class="location cameleon">Caméléon :
+				{{cameleon|length}}</div>
+
+			<div class="location mba">MBA :
+				{{mba|length}}</div>
+
+			<div class="location f">F :
+				{{f|length}}</div>
+
+			<div class="location badet">Badet :
+				{{badet|length}}</div>
+
 		</div>
-		
+
 	</div>
-	
+
 	<div class="forms-wrapper">
 		<div>
-			<h4>Chercher par un code livre</h4>
-			{{ form_start(findBookForm) }}
-			  {{ form_widget(findBookForm.code, {
-				'attr': {
-				  'class': 'search-input' ,
-				  'placeholder':'Code livre'
-				}
-			  }) }}
-			  <button type="submit" class="btn">Chercher</button>
+			<h4>Code livre</h4>
+			{{ form_start(findBookForm, {
+    		'action': path('book'),
+    		'method': 'POST'
+ 			}) }}
+			{{ form_widget(findBookForm.code, {
+      'attr': {
+        'class': 'search-input',
+        'placeholder': 'Code livre'
+      }
+    }) }}
+			<button type="submit" class="btn">Chercher</button>
 			{{ form_end(findBookForm) }}
 		</div>
+
 		<div>
-			<h4>Chercher par un titre ou un auteur</h4>
-	
-			{{ form_start(filterForm) }}
-			  {{ form_widget(filterForm.filter, {
-				'attr': {
-				  'class': 'search-input' ,
-				  'placeholder':'Un titre ou un auteur...'
-				}
-			  }) }}
-			  <button type="submit" class="btn">Chercher</button>
+			<h4>Titre ou Auteur</h4>
+			{{ form_start(filterForm, {
+    'action': path('book'),
+    'method': 'POST'
+  }) }}
+			{{ form_widget(filterForm.filter, {
+      'attr': {
+        'class': 'search-input',
+        'placeholder': 'Un titre ou un auteur...'
+      }
+    }) }}
+			<button type="submit" class="btn">Chercher</button>
 			{{ form_end(filterForm) }}
 		</div>
+
 	</div>
-</div>
 
 
+	{% if books is defined and books is not null %}
+		<div class="section-title">
+			<h4>Résultats de recherche :</h4>
+		</div>
+		<div class="result-container">
+			{% if books|length > 0 %}
+				<ul class="result-list">
+					{% for book in books %}
+						<li>
+							<a href="{{ path('admin-show-book', {id: book.id}) }}">
+								{{ book.title }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>Aucun livre trouvée !</p>
+			{% endif %}
+		</div>
+	{% endif %}
 
-{% if books is defined and books is not null %}
-	<div class="section-title">
-		<h4>Résultats de recherche :</h4>
-	</div>
-	<div class="result-container">
-		{% if books|length > 0 %}
-			<ul class="result-list">
-				{% for book in books %}
-					<li>
-						<a href="{{ path('show-book', {id: book.id}) }}">
-							{{ book.title }}
-						</a>
-					</li>
-				{% endfor %}
-			</ul>
-		{% else %}
-			<p>Aucun livre trouvée !</p>
-		{% endif %}
-	</div>
-{% endif %}
-
-{% if currentBook is defined and currentBook is not null %}
-	{% include "Admin/book/book.html.twig" %}
-{% endif %}
+	{% if currentBook is defined and currentBook is not null %}
+		{% include "Admin/book/book.html.twig" %}
+	{% endif %}
+	{% if bookToEdit is defined and bookToEdit is not null %}
+		{% include "Admin/book/edit.html.twig" %}
+	{% endif %}
+	{% if bookToDelete is defined and bookToEdit is not null %}
+		{% include "Admin/book/delete.html.twig" %}
+	{% endif %}

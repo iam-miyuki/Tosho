@@ -15,9 +15,9 @@
 				<a href="{{ path('app_logout') }}">Se déconnecter</a>
 			</div>
 		{% endif %}
-		<div class="containers">
+		<div>
 
-			<div class="container">
+			<div>
 				<div class="form-title">
 					<h3>Login</h3>
 					<img src="{{ asset('img/login.svg') }}" alt="login">
@@ -29,16 +29,15 @@
 						{% endif %}
 						<div class="form form-mail">
 							<div class="form-label">
-								<label for="username">Email :</label>
+								<label for="username">Email : </label>
 							</div>
-							<div><input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus></div>
+							<div class="input-form"><input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus></div>
 						</div>
 						<div class="form form-pass">
 							<div class="form-label">
-								<label for="password">Mot de passe :
-								</label>
+								<label for="password">Mot de passe : </label>
 							</div>
-							<div><input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required></div>
+							<div class="input-form"><input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required></div>
 						</div>
 					</div>
 					<input
@@ -51,7 +50,7 @@
 										                                            <label for="_remember_me">Remember me</label>
 										                                        </div>
 										                                    #}
-					<button class="btn btn-lg btn-primary" type="submit">
+					<button type="submit">
 						Se connecter
 					</button>
 					<p>Vous n'avez pas encore de compte ?</p>

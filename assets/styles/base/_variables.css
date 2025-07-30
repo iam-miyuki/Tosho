@@ -4,15 +4,16 @@
   --color-btn:#ca91ff;
   --color-text: #1c2176;
   --color-secondary: #b9faff;
-  --color-cameleon: #9bffee;
-  --color-badet: #9bafff;
-  --color-f: #ffa4e5;
+  --color-cameleon: #8affc6;
+  --color-badet:#8fd6ff; 
+  --color-f: #ffabe1;
   --color-mba: #faff9b;
   --color-alert: #ffbabb;
   --color-btn-hover:#9DFF9B ;
   --color-edit: #c9ffba;
   --color-background: #fefefe;
   --color-cards: #ffffff;
+  --color-admin:#9bafff;
 
   /* font-size */
   --font-xs: 0.875rem; 

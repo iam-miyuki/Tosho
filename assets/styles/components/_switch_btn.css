@@ -11,7 +11,7 @@
     display: block;    
 }
 .switch.admin{
-    background-color: var( --color-badet);
+    background-color: var( --color-admin);
 }
 .switch.librarien{
     background-color: var(--color-primary);

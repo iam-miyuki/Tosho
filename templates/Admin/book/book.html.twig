@@ -1,21 +1,46 @@
 <div class="card one-card">
-<div class="card-header">
-        <a href="{{ path('edit-book', { id: currentBook.id }) }}" class="edit">
-            <img src="{{ asset('img/pencil.svg') }}" alt="edit">
-        </a>
+	<div class="card-header">
+		<div class="icon edit-icon">
+			<a href="{{ path('edit-book', { id: currentBook.id }) }}">
+				<span>edit</span>
+			</a>
+		</div>
 
-        <a href="{{ path('delete-book', { id: currentBook.id }) }}" class="delete">
-            <img src="{{ asset('img/trush.svg') }}" alt="delete">
-        </a>
+		<div class="icon delete-icon">
+			<a href="{{ path('delete-book', { id: currentBook.id }) }}">
+				<span>delete</span>
+			</a>
+		</div>
 	</div>
 	<div class="card-body">
 		<div class="book-image"></div>
-		<div class="detail book-details">
-			<p>Code : {{ currentBook.code }}</p>
-			<p>Titre : {{ currentBook.title }}</p>
-			<p>Auteur : {{ currentBook.author }}</p>
-			<p>Statut : {{ currentBook.status.value }}</p>
-			<p>Bâtiment : <span class="location">{{ currentBook.location.value }}</span></p>
+		<div class="detail">
+			<div class="detail-item item-label">
+				<p>Code</p>
+				<p>Titre</p>
+				<p>Auteur</p>
+				<p>Statut</p>
+				<p>Bâtiment</p>
+			</div>
+			<div class="detail-item">
+				<p>
+					:
+					{{ currentBook.code }}</p>
+				<p>
+					:
+					{{ currentBook.title }}</p>
+				<p>
+					:
+					{{ currentBook.author }}</p>
+				<p>
+					:
+					{{ currentBook.status.value }}</p>
+				<p>
+					:
+					<span class="location">
+						{{ currentBook.location.value }}</span>
+				</p>
+			</div>
 		</div>
 	</div>
 </div>

@@ -16,9 +16,9 @@
 				<a href="{{ path('search-item', { id: i.id }) }}">
 					<div class="btn-card">
 						<p>Date : {{ i.date|date('d/m/Y') }}</p>
-						<p>Bâtiment : 
-							<span class="location location-inventory">{{ i.location.value }}</span>
-						</p>
+						<p>Bâtiment : </p>
+							<p class="location location-inventory">{{ i.location.value }}</p>
+						
 					</div>
 				</a>
 			{% endfor %}

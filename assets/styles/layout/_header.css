@@ -27,7 +27,7 @@
   padding-bottom: 0.5rem;
 }
 .header .nav-admin{
-  background-color: var(--color-badet);
+  background-color: var(--color-admin);
 }
 
 .header nav h2 {
