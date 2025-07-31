@@ -81,9 +81,23 @@
 	{% if currentBook is defined and currentBook is not null %}
 		{% include "Admin/book/book.html.twig" %}
 	{% endif %}
+
 	{% if bookToEdit is defined and bookToEdit is not null %}
 		{% include "Admin/book/edit.html.twig" %}
 	{% endif %}
-	{% if bookToDelete is defined and bookToEdit is not null %}
+	{% if bookToDelete is defined and bookToDelete is not null %}
 		{% include "Admin/book/delete.html.twig" %}
+	{% endif %}
+	
+	{% if loanBook is defined and loanBook is not null %}
+		<div class="card one-card alert-card">
+			<div class="card-title">
+				<h4>Ce livre est actuellement emprunté.</h4>
+			</div>
+			<div class="icon-alert"></div>
+			<p>Veuillez le rendre avant de pouvoir le supprimer.</p>
+		</div>
+	{% endif %}
+	{% if successMessage is defined and successMessage is not null %}
+		{% include "Admin/book/success.html.twig" %}
 	{% endif %}

@@ -5,7 +5,7 @@
   --color-text: #1c2176;
   --color-secondary: #b9faff;
   --color-cameleon: #8affc6;
-  --color-badet:#8fd6ff; 
+  --color-badet:#B9FAFF; 
   --color-f: #ffabe1;
   --color-mba: #faff9b;
   --color-alert: #ffbabb;
@@ -14,6 +14,7 @@
   --color-background: #fefefe;
   --color-cards: #ffffff;
   --color-admin:#9bafff;
+  --color-btn-alert:#ff9596;
 
   /* font-size */
   --font-xs: 0.875rem; 

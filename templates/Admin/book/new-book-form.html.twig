@@ -1,8 +1,39 @@
-<h3>Ajouter un livre</h3>
-
-{{ form_start(bookForm) }}
-    {{ form_row(bookForm) }}
-    <button type="submit">Ajouter</button>
-{{ form_end(bookForm) }}
-
-
+<div class="card one-card add-wrapper">
+	<div class="card-title">Ajouter un livre
+	</div>
+	<div class="card-body">
+		
+			{{ form_start(bookForm) }}
+			<div class="edit-form">
+				<div class="edit-item">
+					<p>Titre</p><div class="item-field"> :
+						{{ form_widget(bookForm.title, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Auteur</p><div class="item-field"> :
+						{{ form_widget(bookForm.author, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Titre (JP) </p><div> : {{ form_widget(bookForm.jpTitle, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Auteur (JP)</p><div> :
+						{{ form_widget(bookForm.jpAuthor, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>URL Couverture</p><div> :
+						{{ form_widget(bookForm.coverUrl, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+				<div class="edit-item">
+					<p>Bâtiment</p><div> :
+						{{ form_widget(bookForm.location, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
+			</div>
+			<div class="button-wrapper">
+				<button class="btn-form"type="submit">Ajouter</button>
+				<div class="href-btn"><a href="{{path('book',{tab:'new'})}}">Annuler</a></div>
+			</div>
+			{{ form_end(bookForm) }}		
+	</div>
+</div>
+	

@@ -10,7 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BookForm extends AbstractType
 {
@@ -41,6 +40,7 @@ class BookForm extends AbstractType
                 'class' => LocationEnum::class,
                 'label' => 'Bâtiment : ',
                 'placeholder' => 'Choisissez un batiment',
+                'choice_label' => fn ($choice) => $choice->value,
                 'required' => true
             ])
         ;

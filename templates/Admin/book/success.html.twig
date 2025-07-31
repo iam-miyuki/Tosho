@@ -1,0 +1,16 @@
+<div class="card one-card success-card">
+	<div class="card-title">
+		{{successMessage}}
+	</div>
+	<div class="icon-success"></div>
+	{% if addedBook %}
+		<div class="btn-wrapper">
+			<div class="href-btn">
+				<a href="{{path('book',{tab:'new'})}}">Ajouter</a>
+			</div>
+			<div class="href-btn">
+				<a href="{{path('admin-show-book',{id:addedBook.id})}}">Voir</a>
+			</div>
+		</div>
+	{% endif %}
+</div>

@@ -34,11 +34,8 @@ input[type="text"] {
 }
 form button {
   width: max-content;
-  margin-left: auto;
-  margin-right: auto; 
-  margin-top: 1rem; 
-  margin-bottom: 1rem;
   border: 1.8px solid var(--color-text);
+  margin-top: 1.5rem;
   border-radius: 1.5rem;
   background-color: var(--color-btn);
   color: var(--color-text);
@@ -81,4 +78,18 @@ form button:active {
 .form-container a:hover{
   color: var(--color-btn);
   font-weight: 800;
+}
+
+.form-field {
+  border: none;
+  border-bottom: 1px solid var(--color-text);
+  color: var(--color-text);
+  margin-left: 0.5rem;
+}
+.form-field:focus {
+  outline: none;
+  border-bottom: 2px solid var(--color-text);
+}
+.card.one-card.edit-wrapper{
+  background-color: var(--color-cameleon);
 }

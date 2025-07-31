@@ -31,7 +31,6 @@ final class BookController extends AbstractController
         $form = $this->createForm(BookForm::class, $book);
         $form->handleRequest($request);
         $currentBook = null;
-
         $all = $bookRepository->findAll();
         $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
         $f = $bookRepository->findAllByLocation(LocationEnum::f);
@@ -46,28 +45,32 @@ final class BookController extends AbstractController
 
         $results = null;
 
+        $sharedData = [
+            'bookForm' => $form->createView(),
+            'filterForm' => $filterForm->createView(),
+            'findBookForm' => $findBookForm->createView(),
+            'all' => $all,
+            'cameleon' => $cameleon,
+            'f' => $f,
+            'mba' => $mba,
+            'badet' => $badet,
+        ];
+
         if ($request->isMethod('POST')) {
             if ($currentTab === 'search') {
                 if ($filterForm->isSubmitted()) {
                     $keyword = $filterForm->get('filter')->getData();
                     $results = $bookRepository->findAllWithFilterQuery($keyword);
-                    return $this->render('Admin/book/index.html.twig', [
+                    return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
                         'books' => $results,
-                        'filterForm' => $filterForm->createView(),
-                        'findBookForm' => $findBookForm->createView(),
-                        'tab' => 'search',
-                        'all' => $all,
-                        'cameleon' => $cameleon,
-                        'f' => $f,
-                        'mba' => $mba,
-                        'badet' => $badet
-                    ]);
+                        'tab' => 'search'
+                    ]));
                 }
                 if ($findBookForm->isSubmitted()) {
                     $code = $findBookForm->get('code')->getData();
                     $currentBook = $bookRepository->findOneByCode($code);
-                    return $this->redirectToRoute('admin-show-book',[
-                        'id'=>$currentBook->getId()
+                    return $this->redirectToRoute('admin-show-book', [
+                        'id' => $currentBook->getId()
                     ]);
                 }
             }
@@ -79,15 +82,47 @@ final class BookController extends AbstractController
                     // TODO : $book->setBookCode();
                     $em->persist($book);
                     $em->flush();
-                    return $this->redirectToRoute('book');
+                    return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
+                        'addedBook' => $book,
+                        'tab' => 'new',
+                        'successMessage' => 'Le livre a été ajouté avec succès'
+                    ]));
                 }
             }
         }
+        return $this->render(
+            'Admin/book/index.html.twig',
+            array_merge($sharedData, [
+                'tab' => $currentTab,
+                'books' => $results,
+                'currentBook' => $currentBook,
+                'addedBook' => null
+            ])
+        );
+    }
+
+    #[Route('/{id}', name: 'admin-show-book')]
+    public function show(
+        Book $book,
+        Request $request,
+        BookRepository $bookRepository
+    ): Response {
+
+        $filterForm = $this->createForm(BookFilterForm::class, $book);
+        $filterForm->handleRequest($request);
+
+        $findBookForm = $this->createForm(FindBookForm::class, $book);
+        $findBookForm->handleRequest($request);
+
+        $all = $bookRepository->findAll();
+        $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
+        $f = $bookRepository->findAllByLocation(LocationEnum::f);
+        $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
+        $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
+
         return $this->render('Admin/book/index.html.twig', [
-            'tab' => $currentTab,
-            'books' => $results,
-            'currentBook' => $currentBook,
-            'bookForm' => $form->createView(),
+            'currentBook' => $book,
+            'tab' => 'search',
             'filterForm' => $filterForm->createView(),
             'findBookForm' => $findBookForm->createView(),
             'all' => $all,
@@ -98,13 +133,68 @@ final class BookController extends AbstractController
         ]);
     }
 
-     #[Route('/{id}', name: 'admin-show-book')]
-    public function show(
+    #[Route('/edit/{id}', name: 'edit-book')]
+    public function edit(
         Book $book,
+        Request $request,
+        EntityManagerInterface $em,
+        BookRepository $bookRepository
+    ): Response {
+
+        $filterForm = $this->createForm(BookFilterForm::class, $book);
+        $filterForm->handleRequest($request);
+
+        $findBookForm = $this->createForm(FindBookForm::class, $book);
+        $findBookForm->handleRequest($request);
+
+        $all = $bookRepository->findAll();
+        $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
+        $f = $bookRepository->findAllByLocation(LocationEnum::f);
+        $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
+        $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
+
+
+        $form = $this->createForm(BookForm::class, $book);
+        $form->handleRequest($request);
+
+        $sharedData = [
+            'bookForm' => $form->createView(),
+            'filterForm' => $filterForm->createView(),
+            'findBookForm' => $findBookForm->createView(),
+            'all' => $all,
+            'cameleon' => $cameleon,
+            'f' => $f,
+            'mba' => $mba,
+            'badet' => $badet,
+        ];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->render(
+                'Admin/book/index.html.twig',
+                array_merge($sharedData, [
+                    'modifiedBook' => $book,
+                    'tab' => 'search',
+                    'successMessage'=>'Le livre a été modifié avec succès'
+                ])
+            );
+        }
+        return $this->render(
+            'Admin/book/index.html.twig',
+            array_merge($sharedData, [
+                'bookToEdit' => $book,
+                'tab' => 'search'
+            ])
+        );
+    }
+
+    #[Route('/delete/{id}', name: 'delete-book')]
+    public function delete(
+        Book $book,
+        EntityManagerInterface $em,
         Request $request,
         BookRepository $bookRepository
     ): Response {
-        
         $filterForm = $this->createForm(BookFilterForm::class, $book);
         $filterForm->handleRequest($request);
 
@@ -117,104 +207,53 @@ final class BookController extends AbstractController
         $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
         $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
 
-            return $this->render('Admin/book/index.html.twig', [
-                'currentBook' => $book,
-                'tab' => 'search',
-                'filterForm' => $filterForm->createView(),
-                'findBookForm' => $findBookForm->createView(),
-                'all' => $all,
-                'cameleon' => $cameleon,
-                'f' => $f,
-                'mba' => $mba,
-                'badet' => $badet
-            ]);
+        $sharedData = [
+            'tab' => 'search',
+            'filterForm' => $filterForm->createView(),
+            'findBookForm' => $findBookForm->createView(),
+            'all' => $all,
+            'cameleon' => $cameleon,
+            'f' => $f,
+            'mba' => $mba,
+            'badet' => $badet,
+        ];
+
+        if ($book->getStatus() !== BookStatusEnum::available) {
+            return $this->render(
+                'Admin/book/index.html.twig',
+                array_merge(
+                    $sharedData,
+                    [
+                        'loanBook' => $book,
+                    ]
+                )
+            );
         }
 
-        #[Route('/edit/{id}', name: 'edit-book')]
-        public function edit(
-            Book $book,
-            Request $request,
-            EntityManagerInterface $em,
-            BookRepository $bookRepository
-        ): Response {
+        if ($request->isMethod('POST')) {
+            $em->remove($book);
+            $em->flush();
 
-
-        $filterForm = $this->createForm(BookFilterForm::class, $book);
-        $filterForm->handleRequest($request);
-
-        $findBookForm = $this->createForm(FindBookForm::class, $book);
-        $findBookForm->handleRequest($request);
-
-        $all = $bookRepository->findAll();
-        $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
-        $f = $bookRepository->findAllByLocation(LocationEnum::f);
-        $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
-        $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
-
-
-            $form = $this->createForm(BookForm::class, $book);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em->flush();
-                dd('modifié !');
-                return $this->redirectToRoute('book', [
-                    'id' => $book->getId(),
-                    'tab' => 'search'
-    
-                ]);
-            }
-            return $this->render('Admin/book/index.html.twig', [
-                'bookToEdit' => $book,
-                'tab' => 'search',
-                'bookForm' => $form->createView(),
-                'filterForm' => $filterForm->createView(),
-                'findBookForm' => $findBookForm->createView(),
-                'all' => $all,
-                'cameleon' => $cameleon,
-                'f' => $f,
-                'mba' => $mba,
-                'badet' => $badet
-            ]);
+            return $this->render(
+                'Admin/book/index.html.twig',
+                array_merge(
+                    $sharedData,
+                    [
+                        'deletedBook' => $book,
+                        'successMessage'=>'Le livre a été supprimé avec succès'
+                    ]
+                )
+            );
         }
-    
-        #[Route('/delete/{id}', name: 'delete-book')]
-        public function delete(
-            Book $book, 
-            EntityManagerInterface $em,
-            Request $request,
-            BookRepository $bookRepository
-            ): Response{
 
-                
-        $filterForm = $this->createForm(BookFilterForm::class, $book);
-        $filterForm->handleRequest($request);
-
-        $findBookForm = $this->createForm(FindBookForm::class, $book);
-        $findBookForm->handleRequest($request);
-
-        $all = $bookRepository->findAll();
-        $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
-        $f = $bookRepository->findAllByLocation(LocationEnum::f);
-        $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
-        $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
-
-            if ($book) {
-                $em->remove($book);
-                $em->flush();
-                dd('supprimé !');
-            }
-            return $this->render('Admin/book/index.html.twig', [
-                'bookToDelete' => $book,
-                'tab' => 'search',
-                'filterForm' => $filterForm->createView(),
-                'findBookForm' => $findBookForm->createView(),
-                'all' => $all,
-                'cameleon' => $cameleon,
-                'f' => $f,
-                'mba' => $mba,
-                'badet' => $badet
-            ]);
-        }
+        return $this->render(
+            'Admin/book/index.html.twig',
+            array_merge(
+                $sharedData,
+                [
+                    'bookToDelete' => $book,
+                ]
+            )
+        );
     }
-
-
+}

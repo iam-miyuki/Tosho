@@ -23,8 +23,8 @@ class Book
     #[ORM\Column(type:'string')]
     private string $author;
 
-    #[ORM\Column(type:'string')]
-    private string $coverUrl;
+    #[ORM\Column(type:'string', nullable: true)]
+    private ?string $coverUrl;
 
     #[ORM\Column(type:'string', enumType: LocationEnum::class)]
     private LocationEnum $location;
@@ -41,8 +41,6 @@ class Book
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpAuthor = null;
-
-
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $addedAt = null;
@@ -96,13 +94,13 @@ class Book
         return $this->author;
     }
 
-    public function setCoverUrl(string $coverUrl)
+    public function setCoverUrl(?string $coverUrl)
     {
         $this->coverUrl = $coverUrl;
         return $this;
     }
 
-    public function getCoverUrl(): string
+    public function getCoverUrl(): ?string
     {
         return $this->coverUrl;
     }
