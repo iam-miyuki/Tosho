@@ -93,3 +93,6 @@ form button:active {
 .card.one-card.edit-wrapper{
   background-color: var(--color-cameleon);
 }
+.btn-form{
+  margin-top: 0;
+}
