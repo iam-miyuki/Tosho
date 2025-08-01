@@ -1,17 +1,32 @@
-{% extends 'Admin/base.html.twig' %}
-
-{% block title %}Ajouter un enfant
-{% endblock %}
-{% block body %}
-<h3>Ajouter un enfant</h3>
-
-	{{ form_start(form) }}
-	{{ form_row(form.firstName) }}
-	{{ form_row(form.jpFirstName) }}
-	
-
-	<button type="submit">Ajouter</button>
-
-	{{ form_end(form) }}
-
-{% endblock %}
+<div class="card one-card add-wrapper">
+	<div class="card-title card-title-family">
+		<h4>Famille
+			{{ familyToAdd.name|upper }}
+			/
+			{{ familyToAdd.jpName }}</h4>
+	</div>
+	<div class="card-body">
+		{{ form_start(newMemberForm) }}
+		<div>
+			<div class="edit-item">
+				<p>Prénom d'enfant</p>
+				<div class="item-field">
+					:
+					{{ form_widget(newMemberForm.firstName, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="edit-item">
+				<p>Prénom d'enfant (JP)</p>
+				<div class="item-field">
+					:
+					{{ form_widget(newMemberForm.jpFirstName, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+		</div>
+		<div class="btn-wrapper">
+			<button class="btn-form" type="submit">Ajouter</button>
+			<div class="href-btn">
+				<a href="{{path('show-family',{id:familyToAdd.id})}}">Annuler</a>
+			</div>
+		</div>
+		{{ form_end(newMemberForm) }}
+	</div>
+</div>

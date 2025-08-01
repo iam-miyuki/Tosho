@@ -1,33 +1,48 @@
-{{ form_start(searchForm) }}
-    {{ form_row(searchForm) }}
-    <button type="submit">Chercher</button>
-{{ form_end(searchForm) }}
+<div>
+	<h4>Chercher par nom</h4>
+	{{ form_start(searchForm, {
+    		'action': path('family'),
+    		'method': 'POST'
+ 			}) }}
+	{{ form_widget(searchForm.search, {
+      'attr': {
+        'class': 'search-input',
+        'placeholder':'Nom de famille'
+      }
+    }) }}
+	<button type="submit" class="btn">Chercher</button>
+	{{ form_end(searchForm) }}
+</div>
 
 {% if searchedFamilies is defined and searchedFamilies is not null %}
-    <div class="section-title">
-        <h4>Résultats de recherche :</h4>
-    </div>
-    <div class="result-container">
-        {% if searchedFamilies|length > 0 %}
-            <ul class="result-list">
-                {% for family in searchedFamilies %}
-                    <li>
-                        <a href="{{ path('show-family', {id: family.id}) }}">
-                            {{ family.name|upper }} / {{ family.jpName }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Aucune famille trouvée !</p>
-        {% endif %}
-    </div>
+	<div class="section-title">
+		<h4>Résultats de recherche :</h4>
+	</div>
+	<div class="result-container">
+		{% if searchedFamilies|length > 0 %}
+			<ul class="result-list">
+				{% for family in searchedFamilies %}
+					<li>
+						<a href="{{ path('show-family', {id: family.id}) }}">
+							{{ family.name|upper }}
+							/
+							{{ family.jpName }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>Aucune famille trouvée !</p>
+		{% endif %}
+	</div>
 {% endif %}
 
 {% if currentFamily is defined and currentFamily is not null %}
-    {% include 'Admin/family/_show.html.twig' with {
-        currentFamily: currentFamily,
-        members: members
-    } %}
+	{% include 'Admin/family/_show.html.twig' %}
 {% endif %}
-
+{% if familyToEdit is defined and familyToEdit is not null %}
+	{% include "Admin/family/edit.html.twig" %}
+{% endif %}
+{% if familyToAdd is defined and familyToAdd is not null %}
+	{% include "Admin/member/form.html.twig" %}
+{% endif %}

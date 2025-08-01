@@ -24,7 +24,7 @@
 
 	<div class="tab-content right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 		{% if tab == 'new' %}
-			{% include 'Admin/family/form.html.twig' with {'form': form} %}
+			{% include 'Admin/family/form.html.twig' with {newFamilyForm: newFamilyForm} %}
 		{% endif %}
 	</div>
 </div>

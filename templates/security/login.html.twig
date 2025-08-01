@@ -29,15 +29,15 @@
 						{% endif %}
 						<div class="form form-mail">
 							<div class="form-label">
-								<label for="username">Email : </label>
+								<label for="username">Email  </label>
 							</div>
-							<div class="input-form"><input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus></div>
+							<div class="input-form"> : <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus></div>
 						</div>
 						<div class="form form-pass">
 							<div class="form-label">
-								<label for="password">Mot de passe : </label>
+								<label for="password">Mot de passe  </label>
 							</div>
-							<div class="input-form"><input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required></div>
+							<div class="input-form"> : <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required></div>
 						</div>
 					</div>
 					<input
@@ -53,8 +53,10 @@
 					<button type="submit">
 						Se connecter
 					</button>
-					<p>Vous n'avez pas encore de compte ?</p>
-					<a href="{{ path('app_register')}}">Inscrivez-vous ici
+					<div class="href-wrapper">
+						<p>Vous n'avez pas encore de compte ?</p>
+						<a href="{{ path('app_register')}}">Inscrivez-vous ici
+					</div>
 					</a>
 
 				</div>

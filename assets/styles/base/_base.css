@@ -27,3 +27,6 @@ a{
 .page-wrapper{
   min-height: 100vh;
 }
+.no-display{
+  display: none;
+}

@@ -4,7 +4,7 @@
 	<div class="card-body">
 		
 			{{ form_start(bookForm) }}
-			<div class="edit-form">
+			<div>
 				<div class="edit-item">
 					<p>Titre</p><div class="item-field"> :
 						{{ form_widget(bookForm.title, {'attr': {'class': 'form-field'}}) }}</div>
@@ -26,7 +26,7 @@
 				</div>
 				<div class="edit-item">
 					<p>Bâtiment</p><div> :
-						{{ form_widget(bookForm.location, {'attr': {'class': 'form-field'}}) }}</div>
+						{{ form_widget(bookForm.location, {'attr': {'class': 'form-field enum-field'}}) }}</div>
 				</div>
 			</div>
 			<div class="btn-wrapper">

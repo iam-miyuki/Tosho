@@ -1,22 +1,77 @@
-{% extends 'Admin/base.html.twig' %}
+<div class="card one-card edit-wrapper">
+	<div class="card-title">Modifier
+	</div>
+	<div class="card-body">
 
-{% block title %}Modifier
-{% endblock %}
-{% block body %}
-<h3>Modifier</h3>
-	{{ form_start(form) }}
-	{{ form_row(form.name) }}
-	{{ form_row(form.jpName) }}
-	{{ form_row(form.email) }}
-{% for memberForm in form.members %}
-    {{ form_row(memberForm) }}
-    <a href="{{ path('delete-member', { id: memberForm.vars.data.id }) }}" class="delete">
-        <img src="{{ asset('img/trush.svg') }}" alt="delete">
-    </a>
-{% endfor %}
-	
-<a href="{{path('new-member',{id: currentFamily.id})}}">Ajouter un enfant</a>
-	<button type="submit">Modifier</button>
-{{ form_end(form) }}
-	
-{% endblock %}
+		{{ form_start(form) }}
+		<div>
+			<div class="edit-item">
+				<p>Nom de famille</p>
+				<div class="item-field">
+					:
+					{{ form_widget(form.name, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="edit-item">
+				<p>Nom de famille (JP)
+				</p>
+				<div class="item-field">
+					:
+					{{ form_widget(form.jpName, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="edit-item">
+				<p>Email</p>
+				<div>
+					:
+					{{ form_widget(form.email, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+		</div>
+		{% if form.members is defined and form.members is not null %}
+
+			{% for memberForm in form.members %}
+				<div class="member-wrapper">
+					<div class="edit-item-wrapper">
+						<div class="member-head">
+							<div class="edit-item">
+								<p>Enfant
+									{{loop.index}}</p>
+							</div>
+							<div class="icon delete-icon delete-member">
+								<a href="{{ path('delete-member', { id: memberForm.vars.data.id }) }}">
+									<span>delete</span>
+								</a>
+							</div>
+						</div>
+						<div class="member-form">
+							<div class="edit-item member-edit">
+								<p>Prénom</p>
+								<div class="item-field">
+									:
+									{{ form_widget(memberForm.firstName, {'attr': {'class': 'form-field'}}) }}
+								</div>
+							</div>
+
+							<div class="edit-item member-edit">
+								<p>Prénom (JP)</p>
+								<div class="item-field">
+									:
+									{{ form_widget(memberForm.jpFirstName, {'attr': {'class': 'form-field'}}) }}
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			{% endfor %}
+
+		{% endif %}
+		<div class="btn-wrapper">
+			<button class="btn-form" type="submit">Enregistrer</button>
+			<div class="href-btn">
+				<a href="{{path('show-family',{id:familyToEdit.id})}}">Annuler</a>
+			</div>
+		</div>
+
+	</div>
+	{{ form_end(form) }}</div></div>

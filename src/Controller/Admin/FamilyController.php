@@ -25,7 +25,9 @@ final class FamilyController extends AbstractController
         FamilyRepository $familyRepository,
     ): Response {
         $family = new Family();
-        $form = $this->createForm(FamilyForm::class, $family);
+        $form = $this->createForm(FamilyForm::class, $family, [
+            'include_members' => false, // pour ne pas inclure les membres dans le formulaire de création
+        ]);
         $form->handleRequest($request);
 
         $searchForm = $this->createForm(SearchFamilyForm::class, $family);
@@ -55,7 +57,7 @@ final class FamilyController extends AbstractController
         return $this->render('Admin/family/index.html.twig', [
             'tab' => $currentTab,
             'searchedFamilies' => $results,
-            'form' => $form->createView(),
+            'newFamilyForm' => $form->createView(),
             'searchForm' => $searchForm->createView()
         ]);
     }
@@ -95,16 +97,21 @@ final class FamilyController extends AbstractController
         $form = $this->createForm(FamilyForm::class, $family);
         $form->handleRequest($request);
 
+        $searchForm = $this->createForm(SearchFamilyForm::class, $family);
+        $searchForm->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             dd('modifié !');
             return $this->redirectToRoute('show-family', ['id' => $family->getId()]);
         }
 
-        return $this->render('Admin/family/edit.html.twig', [
+        return $this->render('Admin/family/index.html.twig', [
             'form' => $form,
-            'currentFamily' => $family,
+            'familyToEdit' => $family,
             'members' => $members,
+            'searchForm' => $searchForm->createView(),
+            'tab' => 'family'
         ]);
     }
 

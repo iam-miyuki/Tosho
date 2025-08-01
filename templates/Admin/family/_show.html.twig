@@ -1,32 +1,70 @@
+<div class="card one-card">
+	<div class="card-header">
+		<div class="icon edit-icon">
+			<a href="{{ path('edit-family', { id: currentFamily.id }) }}">
+				<span>edit</span>
+			</a>
+		</div>
+		<div class="icon delete-icon">
+			<a href="{{ path('delete-family', { id: currentFamily.id }) }}">
+				<span>delete</span>
+			</a>
+		</div>
+	</div>
+	<div class="card-title card-title-family">
+		<h3>Famille
+			{{ currentFamily.name|upper }}
+			/
+			{{ currentFamily.jpName }}</h3>
+	</div>
+	<div class="card-body">
+		<div class="detail">
+			<div class="detail-item item-label">
+				<p>Code famille</p>
+				<p>Nom de famille</p>
+				<p>Nom de famille (JP)</p>
+				<p>Email</p>
+				{% if members is defined and members is not null %}
+					{% for member in members %}
+					<p class="member-label">Enfant</p>
+						<p>Prénom</p>
+						<p>Prénom (JP)</p>
+					{% endfor %}
+				{% endif %}
+			</div>
 
-    <h3>{{ currentFamily.name|upper }} / {{ currentFamily.jpName }}</h3>
+			<div class="detail-item">
+				<p>
+					:
+					{{ currentFamily.code }}</p>
+				<p>
+					:
+					{{ currentFamily.name }}</p>
+				<p>
+					:
+					{{ currentFamily.jpName }}</p>
+				<p>
+					:
+					{{ currentFamily.email }}</p>
 
-    <div>
-        <a href="{{ path('edit-family', { id: currentFamily.id }) }}" class="edit">
-            <img src="{{ asset('img/pencil.svg') }}" alt="edit">
-        </a>
+				{% if members is defined and members is not null %}
+					{% for member in members %}
+						<p class="member-index">
+							{{loop.index}}
+						</p>
+						<p>
+							:
+							{{ member.firstName }}</p>
+						<p>
+							:
+							{{ member.jpFirstName }}</p>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="href-btn add-btn">
+		<a href="{{path('new-member',{id:currentFamily.id})}}">+ Ajouter un enfant</a>
+	</div>
 
-        <a href="{{ path('delete-family', { id: currentFamily.id }) }}" class="delete">
-            <img src="{{ asset('img/trush.svg') }}" alt="delete">
-        </a>
-    </div>
-
-    <p>Nom de famille : {{ currentFamily.name }}</p>
-    <p>Nom de famille en japonais : {{ currentFamily.jpName }}</p>
-    <p>Code famille : {{ currentFamily.code }}</p>
-    <p>Email : {{ currentFamily.email }}</p>
-
-    <div>
-        {% if members is not empty %}
-            <h4>Membres :</h4>
-            {% for member in members %}
-                <div class="member">
-                    <p>Prénom : {{ member.firstName }}</p>
-                    <p>Prénom en japonais : {{ member.jpFirstName }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>Aucun membre dans cette famille.</p>
-        {% endif %}
-    </div>
-
+</div>

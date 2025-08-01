@@ -13,14 +13,9 @@
 			</div>
 		</div>
 	{% elseif modifiedBook is defined and modifiedBook is not null %}
-		<div class="btn-wrapper">
 			<div class="href-btn">
 				<a href="{{path('admin-show-book',{id:modifiedBook.id})}}">Voir le livre</a>
 			</div>
-			<div class="href-btn">
-				<a href="{{path('book',{tab:'search'})}}">Retour aux livres</a>
-			</div>
-		</div>
 	{% elseif deletedBook is defined and deletedBook is not null %}
 		<div class="href-btn">
 			<a href="{{path('book',{tab:'search'})}}">Retour aux livres</a>

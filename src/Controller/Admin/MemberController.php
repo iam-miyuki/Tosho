@@ -6,6 +6,7 @@ use App\Entity\Family;
 use App\Entity\Member;
 use App\Form\FamilyForm;
 use App\Form\MemberForm;
+use App\Form\SearchFamilyForm;
 use App\Repository\MemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,19 +37,26 @@ final class MemberController extends AbstractController
         $member = new Member();
         $form = $this->createForm(MemberForm::class, $member);
         $form->handleRequest($request);
+
+        
+        $searchForm = $this->createForm(SearchFamilyForm::class, $family);
+        $searchForm->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $member = $form->getData();
             $member->setFamily($family);
             $em->persist($member);
             $em->flush();
-            return $this->render('Admin/member/success.html.twig', [
-                'member' => $member,
-                'family' => $family
+            return $this->redirectToRoute('show-family',[
+                'id'=>$family->getId()
             ]);
         }
-        return $this->render('Admin/member/form.html.twig', [
-            'form' => $form,
-            'id' => $family->getId()
+        return $this->render('Admin/family/index.html.twig', [
+            'newMemberForm' => $form->createView(),
+            'searchForm'=>$searchForm->createView(),
+            'id' => $family->getId(),
+            'tab'=>'family',
+            'familyToAdd'=>$family
         ]);
     }
     #[Route('/delete/{id}', name:'delete-member')]

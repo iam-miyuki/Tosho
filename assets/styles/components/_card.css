@@ -26,6 +26,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
+  display: flex;
 }
 
 .card-body {
@@ -36,7 +37,9 @@
   margin-left: auto;
   margin-right: auto;
 }
-
+.card-body.family-wrapper{
+  display: block;
+}
 .cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -66,8 +69,7 @@
   display: flex;
 }
 
-
-.detail-item.item-label p:last-child{
+.detail-item.detail-book.item-label p:last-child{
   margin-top: 0.5rem;
 }
 .detail-item{
@@ -128,6 +130,18 @@
   margin-bottom: 1rem;
   font-family: var(--font-main);
 }
+.card-title-family{
+  margin-top: 2rem;
+}
+.title-border{
+  background-color: var(--color-mba);
+  padding: 0.5rem 1rem;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 1rem;
+  border: solid 1px var(--color-text);
+}
 .home-cards-wrapper{
     display: flex;
     justify-content: space-around;
@@ -147,9 +161,7 @@
 .icon span{
   display: none;
 }
-.card-header{
-  display: flex;
-}
+
 .card-header .icon{
   margin-left: 0.5rem;
 }
@@ -166,6 +178,17 @@
   height: 25px;
   background-image: url(../../img/trush.svg);
   background-size: cover;
+}
+.delete-icon.delete-member a{
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-image: url(../../img/trush.svg);
+  background-size: cover;
+}
+.member-head{
+  display: flex;
+  gap: 0.5rem;
 }
 .card-header .edit-icon a:hover{
   width: 28px;
@@ -202,4 +225,10 @@
 }
 .add-wrapper{
   background-color: var(--color-badet);
+}
+.member-label{
+  text-align: right;
+}
+.member-label,.member-index{
+  font-weight: 700;
 }
