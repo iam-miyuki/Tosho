@@ -33,3 +33,6 @@
 		{{ form_end(newFamilyForm) }}
 	</div>
 </div>
+{% if addedFamily is defined and addedFamily is not null %}
+	{% include "Admin/family/success.html.twig"  %}
+{% endif %}

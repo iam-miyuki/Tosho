@@ -48,8 +48,8 @@ final class FamilyController extends AbstractController
                 $em->persist($family);
                 $em->flush();
 
-                return $this->render('Admin/family/success.html.twig', [
-                    'family' => $family
+                return $this->redirectToRoute('show-family',[
+                    'id'=>$family->getId()
                 ]);
             }
         }
