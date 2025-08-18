@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Inventory;
 
 use App\Entity\Inventory;
 use App\Enum\LocationEnum;

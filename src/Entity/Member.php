@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Enum\LocationEnum;
 use App\Repository\MemberRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,14 +18,11 @@ class Member
 
 
     #[ORM\ManyToOne(inversedBy: 'members')]
+    #[ORM\JoinColumn(nullable:false, onDelete:"CASCADE")] // un membre doit toujours appartenir à une famille et quand la famille est supprimé, les membres liés sont supprimés aussi
     private ?family $family = null;
-
-
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpFirstName = null;
-
-
 
 
     public function getId(): ?int

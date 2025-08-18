@@ -1,0 +1,28 @@
+<div class="card one-card alert-card">
+    <div class="card-title">
+        <h4>Voulez-vous vraiment supprimer cette famille ?</h4>
+    </div>
+    <div class="card-body">
+        <div class="detail">
+            <div class="detail-item item-label">
+                <p>Code Famille</p>
+                <p>Nom de famille</p>
+                <p>Nom de famille (JP)</p>
+            </div>
+            <div class="detail-item">
+                <p>: {{ familyToDelete.code }} </p>
+                <p>: {{ familyToDelete.name }}</p>
+                <p>: {{ familyToDelete.jpName }}</p>
+            </div>
+        </div>
+
+    </div>
+        <div class="btn-wrapper">
+            <form method="POST">
+                <button class="btn-form btn-alert"type="submit">Supprimer</button>
+            </form>
+                <div class="href-btn"><a href="{{path('show-family',{id:familyToDelete.id})}}">Annuler</a></div>
+        </div>
+</div>
+
+

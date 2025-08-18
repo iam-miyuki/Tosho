@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Book;
 
 use App\Entity\Book;
 use App\Enum\LocationEnum;

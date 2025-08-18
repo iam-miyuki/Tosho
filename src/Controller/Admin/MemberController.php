@@ -4,10 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Family;
 use App\Entity\Member;
-use App\Form\FamilyForm;
-use App\Form\MemberForm;
-use App\Form\SearchFamilyForm;
-use App\Repository\MemberRepository;
+use App\Form\Member\MemberForm;
+use App\Form\Family\SearchFamilyForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,51 +25,58 @@ final class MemberController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{id}', name:'new-member')]
+    #[Route('/new/{id}', name: 'new-member')]
     public function new(
-        Request $request, 
+        Request $request,
         EntityManagerInterface $em,
         Family $family
-        ): Response
-    {
+    ): Response {
         $member = new Member();
         $form = $this->createForm(MemberForm::class, $member);
         $form->handleRequest($request);
 
-        
-        $searchForm = $this->createForm(SearchFamilyForm::class, $family);
-        $searchForm->handleRequest($request);
-        
+        $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
+        $searchFamilyForm->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $member = $form->getData();
             $member->setFamily($family);
             $em->persist($member);
             $em->flush();
-            return $this->redirectToRoute('show-family',[
-                'id'=>$family->getId()
+            return $this->render('Admin/family/index.html.twig',[
+                'thisFamily'=>$member->getFamily(),
+                'thisMember'=>$member,
+                'successMessage'=>'Ajout d\'enfant avec success',
+                'tab'=>'new'
             ]);
         }
         return $this->render('Admin/family/index.html.twig', [
             'newMemberForm' => $form->createView(),
-            'searchForm'=>$searchForm->createView(),
+            'searchFamilyForm' => $searchFamilyForm->createView(),
             'id' => $family->getId(),
-            'tab'=>'family',
-            'familyToAdd'=>$family
+            'tab' => 'new',
+            'familyToSet' => $family
         ]);
     }
-    #[Route('/delete/{id}', name:'delete-member')]
+    #[Route('/delete/{id}', name: 'delete-member')]
     public function delete(
         EntityManagerInterface $em,
+        Request $request,
         Member $member
     ): Response {
         $family = $member->getFamily();
-            if ($member) {
+        if ($request->isMethod('POST')) {
             $em->remove($member);
             $em->flush();
+            return $this->render('Admin/family/index.html.twig', [
+                'deletedMember' => $member,
+                'tab' => 'family',
+                'successMessage' => 'Suppression de membre avec success !'
+            ]);
         }
-
-        return $this->redirectToRoute('edit-family', [
-            'id' => $family->getId()
+        return $this->render('Admin/family/index.html.twig',[
+            'memberToDelete'=>$member,
+            'tab'=>'family',
         ]);
     }
 }

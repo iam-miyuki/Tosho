@@ -1,7 +1,15 @@
-{% extends 'Admin/base.html.twig' %}
-
-{% block title %}Success
-{% endblock %}
-{% block body %}
-<h4> {{member.firstName}} / {{member.jpFirstName}} a été ajouté dans la famille {{family.name}} / {{family.jpName}} avec success ! </h4>
-{% endblock %}
+<div class="card one-card success-card">
+	<div class="card-title">
+		{{successMessage}}
+    <h4> {{thisMember.firstName}} / {{thisMember.jpFirstName}} a été ajouté à la famille {{thisFamily.name}} / {{thisFamily.jpName}} </h4>
+	</div>
+	<div class="icon-success"></div>
+		<div class="btn-wrapper">
+			<div class="href-btn">
+				<a href="{{path('new-member',{id:thisFamily.id})}}">Ajouter un autre enfant</a>
+			</div>
+            <div class="href-btn">
+				<a href="{{path('show-family',{id:thisFamily.id})}}">Voir la famille</a>
+			</div>
+		</div>
+</div>

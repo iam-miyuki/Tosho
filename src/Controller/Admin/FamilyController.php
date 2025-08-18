@@ -3,10 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Family;
-use App\Form\FamilyForm;
-use App\Form\SearchFamilyForm;
+use App\Entity\Member;
+use App\Form\Family\FamilyForm;
 use App\Repository\FamilyRepository;
 use App\Repository\MemberRepository;
+use App\Form\Family\SearchFamilyForm;
+use App\Form\Member\MemberForm;
+use App\Repository\LoanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,20 +28,20 @@ final class FamilyController extends AbstractController
         FamilyRepository $familyRepository,
     ): Response {
         $family = new Family();
-        $form = $this->createForm(FamilyForm::class, $family, [
-            'include_members' => false, // pour ne pas inclure les membres dans le formulaire de création
+        $form = $this->createForm(FamilyForm::class, $family,[
+            'include_members'=>false // pour ne pas afficher members
         ]);
         $form->handleRequest($request);
 
-        $searchForm = $this->createForm(SearchFamilyForm::class, $family);
-        $searchForm->handleRequest($request);
+        $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
+        $searchFamilyForm->handleRequest($request);
 
         $currentTab = $request->query->get('tab', 'family');
         $results = null;
 
         if ($request->isMethod('POST')) {
-            if ($searchForm->isSubmitted()) {
-                $name = $searchForm->get('search')->getData();
+            if ($searchFamilyForm->isSubmitted()) {
+                $name = $searchFamilyForm->get('search')->getData();
                 $results = $familyRepository->findAllByName($name);
             }
 
@@ -47,9 +50,11 @@ final class FamilyController extends AbstractController
                 $family->setCreatedAt(new \DateTimeImmutable());
                 $em->persist($family);
                 $em->flush();
-
-                return $this->redirectToRoute('show-family',[
-                    'id'=>$family->getId()
+                return $this->render('Admin/family/index.html.twig',[
+                    'addedFamily'=>$family,
+                    'tab'=>'new',
+                    'newFamilyForm'=>$form->createView(),
+                    'successMessage'=>'Ajouter des membres de la famille',
                 ]);
             }
         }
@@ -58,7 +63,7 @@ final class FamilyController extends AbstractController
             'tab' => $currentTab,
             'searchedFamilies' => $results,
             'newFamilyForm' => $form->createView(),
-            'searchForm' => $searchForm->createView()
+            'searchFamilyForm' => $searchFamilyForm->createView()
         ]);
     }
 
@@ -71,8 +76,8 @@ final class FamilyController extends AbstractController
         $form = $this->createForm(FamilyForm::class, $family);
         $form->handleRequest($request);
 
-        $searchForm = $this->createForm(SearchFamilyForm::class, $family);
-        $searchForm->handleRequest($request);
+        $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
+        $searchFamilyForm->handleRequest($request);
 
         if ($family) {
             $members = $memberRepository->findAllByFamily($family);
@@ -82,7 +87,7 @@ final class FamilyController extends AbstractController
             'currentFamily' => $family,
             'members' => $members,
             'form' => $form->createView(),
-            'searchForm' => $searchForm->createView()
+            'searchFamilyForm' => $searchFamilyForm->createView()
         ]);
     }
     #[Route('/edit/{id}', name: 'edit-family')]
@@ -97,8 +102,8 @@ final class FamilyController extends AbstractController
         $form = $this->createForm(FamilyForm::class, $family);
         $form->handleRequest($request);
 
-        $searchForm = $this->createForm(SearchFamilyForm::class, $family);
-        $searchForm->handleRequest($request);
+        $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
+        $searchFamilyForm->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
@@ -110,7 +115,7 @@ final class FamilyController extends AbstractController
             'form' => $form,
             'familyToEdit' => $family,
             'members' => $members,
-            'searchForm' => $searchForm->createView(),
+            'searchFamilyForm' => $searchFamilyForm->createView(),
             'tab' => 'family'
         ]);
     }
@@ -119,12 +124,34 @@ final class FamilyController extends AbstractController
     public function delete(
         Family $family,
         EntityManagerInterface $em,
+        LoanRepository $loanRepository,
+        Request $request
     ): Response {
-        if ($family) {
+        $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
+        $searchFamilyForm->handleRequest($request);
+        if ($loanRepository->findAllWithFamilyAndStatus($family)) {
+            return $this->render('Admin/family/index.html.twig', [
+                'familyHasLoan' => $family,
+                'tab' => 'family',
+                'searchFamilyForm' => $searchFamilyForm
+            ]);
+        }
+        if ($request->isMethod('POST')) {
+
             $em->remove($family);
             $em->flush();
+            return $this->render('Admin/family/index.html.twig', [
+                'deleted' => $family,
+                'tab' => 'family',
+                'searchFamilyForm' => $searchFamilyForm,
+                'successMessage' => 'Suppression de famille avec success !'
+            ]);
         }
 
-        return $this->redirectToRoute('family', ['tab' => 'family']);
+        return $this->render('Admin/family/index.html.twig', [
+            'familyToDelete' => $family,
+            'tab'=>'family',
+            'searchFamilyForm'=>$searchFamilyForm
+        ]);
     }
 }

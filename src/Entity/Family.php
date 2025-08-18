@@ -24,7 +24,7 @@ class Family
     /**
      * @var Collection<int, Member>
      */
-    #[ORM\OneToMany(targetEntity: Member::class, mappedBy: 'family')]
+    #[ORM\OneToMany(targetEntity: Member::class, mappedBy: 'family', cascade:['persist'], orphanRemoval: true)]
     private Collection $members;
 
     #[ORM\Column(length: 255, nullable: true)]

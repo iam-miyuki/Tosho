@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Member;
 
-use App\Entity\family;
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 

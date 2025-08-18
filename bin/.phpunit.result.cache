@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Tests\\LoanControllerTest::testGetLoanIndexPage":7,"App\\Tests\\LoanControllerTest::testSomething":8},"times":{"App\\Tests\\LoanControllerTest::testGetLoanIndexPage":0.367,"App\\Tests\\LoanControllerTest::testSomething":0.002}}

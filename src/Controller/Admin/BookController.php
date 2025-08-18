@@ -3,11 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Book;
-use App\Enum\BookStatusEnum;
 use App\Enum\LocationEnum;
-use App\Form\BookFilterForm;
-use App\Form\BookForm;
-use App\Form\FindBookForm;
+use App\Form\Book\BookForm;
+use App\Enum\BookStatusEnum;
+use App\Form\Book\FindBookForm;
+use App\Form\Book\BookFilterForm;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

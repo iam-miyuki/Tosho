@@ -1,12 +1,18 @@
-{% extends 'Admin/base.html.twig' %}
+<div class="card one-card success-card">
+	<div class="card-title">
+		{{successMessage}}
+	</div>
+	<div class="icon-success"></div>
+	{% if addedFamily is defined and addedFamily is not null %}
+		<div class="btn-wrapper">
+			<div class="href-btn">
+				<a href="{{path('new-member',{id:addedFamily.id})}}">Ajouter un enfant</a>
+			</div>
+		</div>
+	
+	{% endif %}
 
-{% block title %}Success
-{% endblock %}
-{% block body %}
-<h4>La famille {{family.name}} / {{family.jpName}} a été ajouté avec success ! </h4>
-<p>Voulez-vous ajouter des enfants dans cette famille ?</p>
-<a href="{{path('new-member',{id: family.id})}}">Ajouter</a>
+</div>
 
-<p>Voulez-vous ajouter une nouvelle famille ?</p>
-<a href="">Ajouter une nouvelle famille</a>
-{% endblock %}
+
+

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Family;
 
 use App\Entity\Family;
+use App\Form\Member\MemberForm;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,13 +27,12 @@ class FamilyForm extends AbstractType
             ]);
             // ->add('members', CollectionType::class, [
             //     'entry_type' => MemberForm::class,
-            //     'label' => 'Enfant(s)',
+            //     'label' => 'Enfant',
             //     'allow_add' => true,
             //     'allow_delete' => true,
             //     'by_reference' => false, // pour que Doctrine détecte les ajouts/suppressions
             // ]);
 
-        // Ajouter les membres uniquement si demandé
         if ($options['include_members']) {
             $builder->add('members', CollectionType::class, [
                 'entry_type' => MemberForm::class,

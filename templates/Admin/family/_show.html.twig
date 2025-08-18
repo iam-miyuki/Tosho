@@ -50,7 +50,7 @@
 				{% if members is defined and members is not null %}
 					{% for member in members %}
 						<p class="member-index">
-							{{loop.index}}
+							{{ loop.index }}
 						</p>
 						<p>
 							:
@@ -66,5 +66,4 @@
 	<div class="href-btn add-btn">
 		<a href="{{path('new-member',{id:currentFamily.id})}}">+ Ajouter un enfant</a>
 	</div>
-
 </div>
