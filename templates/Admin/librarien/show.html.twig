@@ -1,41 +1,48 @@
 <div class="card one-card">
 	<div class="card-header">
 		<div class="icon edit-icon">
-			<a href="{{ path('edit-family', { id: currentFamily.id }) }}">
+			<a href="{{ path('edit-librarien', { id: librarien.id }) }}">
 				<span>edit</span>
 			</a>
 		</div>
 		<div class="icon delete-icon">
-			<a href="{{ path('delete-family', { id: currentFamily.id }) }}">
+			<a href="{{ path('delete-librarien', { id: librarien.id }) }}">
 				<span>delete</span>
 			</a>
 		</div>
 	</div>
 	<div class="card-title card-title-family">
-		<h3>Famille
-			{{ currentFamily.name|upper }}
+		<h3>
+			{{ librarien.lastName|upper }}
 			/
-			{{ currentFamily.jpName }}</h3>
+			{{ librarien.firstName }}</h3>
 	</div>
 	<div class="card-body">
 		<div class="detail">
 			<div class="detail-item item-label">
 				<p>Nom de famille</p>
+                <p>Prénom</p>
 				<p>Nom de famille (JP)</p>
+                <p>Prénom (JP)</p>
 				<p>Email</p>
 			</div>
 
 			<div class="detail-item">
 				<p>
 					:
-					{{ currentFamily.name }}</p>
+					{{ librarien.lastName }}</p>
 				<p>
 					:
-					{{ currentFamily.jpName }}</p>
+					{{ librarien.firstName }}</p>
+                <p>
+					:
+					{{ librarien.jpLastName }}</p>
+                <p>
+					:
+					{{ librarien.jpFirstName }}</p>
 				<p>
 					:
-					{{ currentFamily.email }}</p>
-
+					{{ librarien.email }}</p>
 			</div>
 		</div>
 	</div>

@@ -7,7 +7,7 @@
 			<p>Titre : {{ book.title }}</p>
 			<p>Auteur : {{ book.author }}</p>
 			<p>Statut : {{ book.status.value }}</p>
-			<p>Bâtiment : <span class="location">{{ book.location.value }}</span></p>
+			<p>Lieu : <span class="location">{{ book.location.value }}</span></p>
 			<a href="{{path('loan-book',{id:book.id})}}">Prêter ce livre</a>
 		</div>
 	</div>

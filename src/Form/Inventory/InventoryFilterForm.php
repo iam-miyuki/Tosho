@@ -8,8 +8,8 @@ use App\Enum\InventoryStatusEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 
 class InventoryFilterForm extends AbstractType
 {
@@ -19,19 +19,27 @@ class InventoryFilterForm extends AbstractType
             ->add('status', EnumType::class, [
                 'class' => InventoryStatusEnum::class,
                 'label' => 'Statut : ',
-                'placeholder' => 'Tous les statuts',
+                'placeholder' => 'Tout',
+                'choice_label' => fn ($choice) => $choice->value,
                 'required' => false
             ])
-            ->add('date', DateType::class, [
+            ->add('date', DateIntervalType::class, [
                 'widget' => 'choice',
                 'label' => 'Date : ',
-                'placeholder' => ' -',
+                'labels'=>['years'=>' ','months'=>' '],
+                'years'=>range(2024,2030),
+                'with_hours'=>false,
+                'with_days'=>false,
+                'with_months'=>true,
+                'with_years'=>true,
+                'placeholder' => ['months'=>'Mois','years'=>'Année'],
                 'required' => false
             ])
             ->add('location', EnumType::class, [
                 'class' => LocationEnum::class,
-                'label' => 'Bâtiment : ',
-                'placeholder' => 'Toute les bâtiments',
+                'label' => 'Lieu : ',
+                'placeholder' => 'Tout',
+                'choice_label' => fn ($choice) => $choice->value,
                 'required' => false
             ])
         ;

@@ -2,17 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use DateTimeImmutable;
 use App\Entity\Inventory;
-use App\Form\InventoryForm;
 use App\Entity\InventoryItem;
-use App\Form\InventoryItemForm;
-use App\Form\InventoryFilterForm;
-use App\Enum\InventoryItemStatusEnum;
-use App\Form\InventoryItemFilterForm;
+use App\Form\InventoryItem\InventoryItemForm;
+use App\Form\Inventory\InventoryForm;
+use App\Form\InventoryItem\InventoryItemFilterForm;
 use App\Repository\InventoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\Inventory\InventoryFilterForm;
 use App\Repository\InventoryItemRepository;
-use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

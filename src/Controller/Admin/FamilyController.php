@@ -3,12 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Family;
-use App\Entity\Member;
+
 use App\Form\Family\FamilyForm;
 use App\Repository\FamilyRepository;
-use App\Repository\MemberRepository;
 use App\Form\Family\SearchFamilyForm;
-use App\Form\Member\MemberForm;
 use App\Repository\LoanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,9 +26,7 @@ final class FamilyController extends AbstractController
         FamilyRepository $familyRepository,
     ): Response {
         $family = new Family();
-        $form = $this->createForm(FamilyForm::class, $family,[
-            'include_members'=>false // pour ne pas afficher members
-        ]);
+        $form = $this->createForm(FamilyForm::class, $family);
         $form->handleRequest($request);
 
         $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
@@ -70,7 +66,6 @@ final class FamilyController extends AbstractController
     #[Route('/{id}', name: 'show-family')]
     public function show(
         Family $family,
-        MemberRepository $memberRepository,
         Request $request
     ): Response {
         $form = $this->createForm(FamilyForm::class, $family);
@@ -79,13 +74,11 @@ final class FamilyController extends AbstractController
         $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
         $searchFamilyForm->handleRequest($request);
 
-        if ($family) {
-            $members = $memberRepository->findAllByFamily($family);
-        }
+        // TODO : if ($family) {
+        // }
         return $this->render('Admin/family/index.html.twig', [
             'tab' => 'family',
             'currentFamily' => $family,
-            'members' => $members,
             'form' => $form->createView(),
             'searchFamilyForm' => $searchFamilyForm->createView()
         ]);
@@ -95,10 +88,7 @@ final class FamilyController extends AbstractController
         Family $family,
         Request $request,
         EntityManagerInterface $em,
-        MemberRepository $memberRepository
     ): Response {
-        $members = $memberRepository->findAllByFamily($family);
-
         $form = $this->createForm(FamilyForm::class, $family);
         $form->handleRequest($request);
 
@@ -107,14 +97,17 @@ final class FamilyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            dd('modifié !');
-            return $this->redirectToRoute('show-family', ['id' => $family->getId()]);
+            return $this->render('Admin/family/index.html.twig',[
+                'edited'=>$family,
+                'tab'=>'family',
+                'successMessage'=>'Modifié avec success !',
+                'searchFamilyForm'=>$searchFamilyForm->createView()
+            ]);
         }
 
         return $this->render('Admin/family/index.html.twig', [
             'form' => $form,
             'familyToEdit' => $family,
-            'members' => $members,
             'searchFamilyForm' => $searchFamilyForm->createView(),
             'tab' => 'family'
         ]);

@@ -27,6 +27,8 @@
 							{{ family.name|upper }}
 							/
 							{{ family.jpName }}
+							/
+							{{ family.email }}
 						</a>
 					</li>
 				{% endfor %}
@@ -43,9 +45,6 @@
 {% if familyToEdit is defined and familyToEdit is not null %}
 	{% include "Admin/family/edit.html.twig" %}
 {% endif %}
-{# {% if familyToAdd is defined and familyToAdd is not null %}
-	{% include "Admin/member/form.html.twig" %}
-{% endif %} #}
 {% if familyToDelete is defined and familyToDelete is not null %}
 	{% include "Admin/family/delete.html.twig" %}
 {% endif %}
@@ -60,7 +59,6 @@
 {% if deleted is defined and deleted is not null %}
 	{% include "Admin/family/success.html.twig" %}
 {% endif %}
-{% if memberToDelete is defined and memberToDelete is not null %}
-	{% include "Admin/Member/delete.html.twig" %}
+{% if edited is defined and edited is not null %}
+	{% include "Admin/family/success.html.twig" %}
 {% endif %}
-

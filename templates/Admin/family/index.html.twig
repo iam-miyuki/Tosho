@@ -26,10 +26,6 @@
 			{% if tab == 'new' %}
 				{% if addedFamily is defined and addedFamily is not null %}
 					{% include "Admin/family/success.html.twig" %}
-				{% elseif familyToSet is defined and familyToSet is not null %}
-					{% include "Admin/Member/form.html.twig" %}
-					{% elseif thisFamily is defined and thisFamily is not null %}
-						{% include "Admin/Member/success.html.twig" %}
 				{% else %}
 					{% include 'Admin/family/form.html.twig' %}
 				{% endif %}

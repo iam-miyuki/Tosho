@@ -25,47 +25,7 @@
 					{{ form_widget(form.email, {'attr': {'class': 'form-field'}}) }}</div>
 			</div>
 		</div>
-		{% if form.members is defined and form.members is not null %}
-
-			{% for memberForm in form.members %}
-				<div class="member-wrapper">
-					<div class="edit-item-wrapper">
-						<div class="member-head">
-							<div class="edit-item">
-								<p>Enfant
-									{{loop.index}}</p>
-							</div>
-							<div class="icon delete-icon delete-member">
-								<a href="{{ path('delete-member', { id: memberForm.vars.data.id }) }}">
-									<span>delete</span>
-								</a>
-							</div>
-						</div>
-						<div class="member-form">
-							<div class="edit-item member-edit">
-								<p>Prénom</p>
-								<div class="item-field">
-									:
-									{{ form_widget(memberForm.firstName, {'attr': {'class': 'form-field'}}) }}
-								</div>
-							</div>
-
-							<div class="edit-item member-edit">
-								<p>Prénom (JP)</p>
-								<div class="item-field">
-									:
-									{{ form_widget(memberForm.jpFirstName, {'attr': {'class': 'form-field'}}) }}
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-				</div>
-
-			{% endfor %}
-
-		{% endif %}
+		
 		<div class="btn-wrapper">
 			<button class="btn-form" type="submit">Enregistrer</button>
 			<div class="href-btn">

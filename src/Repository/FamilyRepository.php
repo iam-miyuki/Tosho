@@ -20,8 +20,6 @@ class FamilyRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('f');
         $qb
-            ->addSelect('members')
-            ->leftJoin('f.members', 'members')
             ->andWhere('f.name LIKE :name')
             ->orWhere('f.jpName LIKE :name')
             ->setParameter('name', "%" . $name . "%");
@@ -32,8 +30,6 @@ class FamilyRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('family');
         $qb
-            ->addSelect('members')
-            ->leftJoin('family.members', 'members')
             ->andWhere('family.id = :familyId')
             ->setParameter('familyId', $familyId);
         return $qb->getQuery()->getOneOrNullResult();

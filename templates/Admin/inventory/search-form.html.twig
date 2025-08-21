@@ -1,8 +1,30 @@
-<h3>Chercher par critère :
-</h3>
-{{ form_start(filterForm, { 'action': path('inventory') }) }}
-{{ form_row(filterForm) }}
+<div class="forms-wrapper filter-form">
 
-<button type="submit">Chercher</button>
+	<div>
+		<h4>Filtrer la recherche</h4>
+		{{ form_start(filterForm, {
+			'action': path('inventory'),
+			'method': 'POST'
+		  }) }}
 
-{{ form_end(filterForm) }}
+		<div class="filter-item">
+			<p>Statut :
+			</p>
+
+			{{ form_widget(filterForm.status, {'attr': {'class': 'form-field enum-field'}}) }}
+		</div>
+		<div class="filter-item filter-date">
+			<p>Date :
+			</p>
+			{{ form_widget(filterForm.date, {'attr': {'class': 'form-field date-field'}}) }}
+		</div>
+		<div class="filter-item">
+			<p>Lieu :
+			</p>
+
+			{{ form_widget(filterForm.location, {'attr': {'class': 'form-field enum-field'}}) }}
+		</div>
+		<button type="submit" class="btn">Chercher</button>
+		{{ form_end(filterForm) }}
+	</div>
+</div>

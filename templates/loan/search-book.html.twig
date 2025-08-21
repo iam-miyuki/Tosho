@@ -16,13 +16,15 @@
 		</form>
 	</div>
 	
-	{% if book is defined and book is not null %}
-		{% if loan %}
-			{% include 'loan/loan-card.html.twig' with { loan: loan } %}
-		{% else %}
-			{% include 'loan/book-card.html.twig' with { book: book } %}
+	<div class="cards-container">
+		{% if book is defined and book is not null %}
+			{% if loan %}
+				{% include 'loan/loan-card.html.twig' with { loan: loan } %}
+			{% else %}
+				{% include 'loan/book-card.html.twig' with { book: book } %}
+			{% endif %}
 		{% endif %}
-	{% endif %}
+	</div>
 	{% if books is defined %}
 		{% if  books | length > 0 %}
 			<div class="section-title">

@@ -38,8 +38,8 @@ class BookForm extends AbstractType
             ])
             ->add('location', EnumType::class, [
                 'class' => LocationEnum::class,
-                'label' => 'Bâtiment : ',
-                'placeholder' => 'Choisissez un batiment',
+                'label' => 'Lieu : ',
+                'placeholder' => 'Choisissez un Lieu',
                 'choice_label' => fn ($choice) => $choice->value,
                 'required' => true
             ])

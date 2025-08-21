@@ -81,8 +81,8 @@
 .tab-content form {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
+
 .librarien-tab.right-tab{
   background-color: var(--color-admin);
 }

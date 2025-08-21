@@ -3,35 +3,31 @@
 {% block body %}
 	<div class="page-title">
 		<h3>Gestion des bibliothécaires</h3>
-		<img src="{{ asset('img/user1.svg') }}" alt="librarien">
+		<img src="{{ asset('img/user1.svg') }}" alt="book">
 	</div>
 
-	{% for l in librariens %}
-		<div class="card">
-			<div class="card-header">
-				<a href="{{ path('delete-librarien', { id: l.id }) }}" class="delete">
-					<img src="{{ asset('img/trush.svg') }}" alt="delete">
-				</a>
-			</div>
-			<div class="card-body">
-				<p>Email :
-					{{l.email}}
-				</p>
-				<p>Nom  :
-					{{l.firstName}}
-					{{l.lastName}}
-				</p>
-				<p>Nom (jp) :
-					{{l.jpFirstName}}
-					{{l.jpLastName}}</p>
+	<div class="tab-container">
+		<div class="tabs">
+			<a href="{{ path('librarien', {tab: 'family'}) }}" class="tab left-tab admin-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Chercher un(e) bibliothécaire
+			</a>
+			<a href="{{ path('librarien', {tab: 'new'}) }}" class="tab right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Ajouter un(e) bibliothécaire
+			</a>
+		</div>
 
-			</div>
-		<div class="active-status">
-			Statut :
-			<button class="active-btn {{ l.isActive ? 'btn-green' : 'btn-red' }}" type="button" data-href="{{ path('change-status', { id: l.id }) }}">
-				{{ l.isActive ? 'Activé' : 'Désactivé' }}
-			</button>
+		<div class="tab-content left-tab admin-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+			{% if tab == 'family' %}
+				{% include 'Admin/librarien/search.html.twig' %}
+			{% endif %}
 		</div>
+
+		<div class="tab-content right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+			{% if tab == 'new' %}
+				{% include "Admin/librarien/form.html.twig" %}
+			{% endif %}
+
 		</div>
-	{% endfor %}
+	</div>
 {% endblock %}
+
