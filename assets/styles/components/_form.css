@@ -117,13 +117,13 @@ form button:active {
 .filter-item p{
   margin: 0.5rem 0 0.5rem 0;
 }
-#inventory_filter_form_date_months,#inventory_filter_form_date_years{
+#inventory_filter_form_date_month,#inventory_filter_form_date_year,#inventory_filter_form_date_day{
   margin: 0.5rem 0;
   padding: 0.3rem;
   border: none;
   border-bottom: 1px solid var(--color-text);
   color: var(--color-text);
 }
-#inventory_filter_form_date_month{
+#inventory_filter_form_date_day{
   margin-left: 0.5rem;
 }

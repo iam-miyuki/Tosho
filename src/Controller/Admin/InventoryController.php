@@ -26,8 +26,7 @@ final class InventoryController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $em,
-        InventoryRepository $inventoryRepository,
-        InventoryItemRepository $inventoryItemRepository
+        InventoryRepository $inventoryRepository
     ): Response {
         $currentTab = $request->query->get('tab', 'search');
         $inventory = new Inventory();
@@ -35,7 +34,10 @@ final class InventoryController extends AbstractController
         $form = $this->createForm(InventoryForm::class, $inventory);
         $form->handleRequest($request);
 
-        $filterForm = $this->createForm(InventoryFilterForm::class, $inventory);
+        $dates = $em->getRepository(Inventory::class)->findDates();
+        $filterForm = $this->createForm(InventoryFilterForm::class, null,[
+            'dates'=>$dates,
+        ]);
         $filterForm->handleRequest($request);
 
         $inventories = null;

@@ -2,16 +2,21 @@
 	{% for inventory in inventories %}
 		<div class="card">
 			<div class="card-header">
-				<a href="{{ path('edit-inventory', { id: inventory.id }) }}" class="edit">
-					<img src="{{ asset('img/pencil.svg') }}" alt="edit">
-				</a>
+				<div class="icon edit-icon">
+					<a href="{{ path('edit-inventory', { id: inventory.id }) }}">
+						<span>edit</span>
+					</a>
+				</div>
 
-				<a href="{{ path('delete-inventory', { id: inventory.id }) }}" class="delete">
-					<img src="{{ asset('img/trush.svg') }}" alt="delete">
-				</a>
+				<div class="icon delete-icon">
+					<a href="{{ path('delete-inventory', { id: inventory.id }) }}">
+						<span>delete</span>
+					</a>
+				</div>
 			</div>
-			<a href="{{ path('show-inventory', { id: inventory.id }) }}">
-				<div class="card-body">
+
+			<div class="card-body">
+				<div class="detail-item">
 					<p>Date :
 						{{ inventory.date|date('d/m/Y') }}</p>
 					<p>Lieu :
@@ -20,13 +25,14 @@
 						{{ inventory.note }}</p>
 					<p>Statut :
 						{{ inventory.status.value }}</p>
-					<p>Nombre de livres vérifiés : 
-						{{ inventory.inventoryItems|length }} </p>
-					<p>Nombre de livres signalés : 
-						{{ notOkItems|length }}
-					<p>Voir le détail -></p>
-				</a>
+					<p>Nombre de livres vérifiés :
+						{{ inventory.inventoryItems|length }}
+					</p>
+					<p>Nombre de livres signalés :{{ notOkItems|length }}
+					</p>
+				</div>
+
 			</div>
-		</a>
-	</div>
-{% endfor %}</div>
+		</div>
+	{% endfor %}
+</div>

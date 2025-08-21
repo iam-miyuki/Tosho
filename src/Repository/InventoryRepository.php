@@ -59,9 +59,21 @@ class InventoryRepository extends ServiceEntityRepository
             ->leftJoin('ii.book', 'book')
             ->where('i.id = :id')
             ->setParameter('id', $id)
-            ;
+        ;
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function findDates(): array
+    {
+        $qb = $this->createQueryBuilder('i');
+        $qb
+            ->select('DISTINCT i.date') // 'distinct' permet de ne pas avoir de doublons
+            ->orderBy('i.date', 'ASC')
+        ;
+        return $qb->getQuery()->getResult(); 
+    }
+
+
 
 
 

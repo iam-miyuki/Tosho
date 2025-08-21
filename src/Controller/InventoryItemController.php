@@ -6,7 +6,6 @@ use App\Entity\Book;
 use App\Entity\Inventory;
 use App\Enum\LocationEnum;
 use App\Entity\InventoryItem;
-use App\Form\InventoryItemForm;
 use App\Enum\InventoryStatusEnum;
 use App\Repository\BookRepository;
 use App\Enum\InventoryItemStatusEnum;
@@ -14,29 +13,28 @@ use App\Repository\InventoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InventoryItemRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Form\InventoryItem\InventoryItemForm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route(path: '/inventory/item')]
+#[Route(path: '/inventory')]
 #[IsGranted('ROLE_USER')]
 final class InventoryItemController extends AbstractController
 {
-    #[Route('/', name: 'inventory-item')]
+    #[Route('/', name: 'inventory-home')]
     public function index(
         InventoryRepository $inventoryRepository,
     ): Response {
         $inventories = $inventoryRepository->findAllByStatus(InventoryStatusEnum::open);
-
-
         return $this->render('inventory_item/index.html.twig', [
             'inventories' => $inventories
         ]);
     }
 
-    #[Route('/search/{id}', name: 'search-item')]
+    #[Route('/{id}', name: 'inventory-page')]
     public function search(
         Inventory $inventory,
         Request $request,
@@ -44,41 +42,43 @@ final class InventoryItemController extends AbstractController
         InventoryRepository $inventoryRepository,
         InventoryItemRepository $inventoryItemRepository
     ): Response {
-
-        $id = $inventory->getId();
-        $currentInventory = $inventoryRepository->findWithItems($id); // besoin de récupérer avec inventoryItems
+        $currentTab = $request->query->get('tab', 'inventory');
+        $currentInventory = $inventoryRepository->findWithItems($inventory->getId()); // besoin de récupérer avec inventoryItems
         $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
 
         $location = $inventory->getLocation();
-        $noCheckedBooks = $bookRepository->findNoInventory($id, $location);
+        $noCheckedBooks = $bookRepository->findNoInventory($inventory->getId(), $location);
         $allBooksByLocation = $bookRepository->findAllByLocation($location);
 
         $currentBook = null;
         $query = null;
 
-        if ($request->isMethod('POST') && $request->request->has('book_code')) {
-            $code = $request->request->get('book_code');
-            $currentBook = $bookRepository->findOneByCode($code);
+        // if ($request->isMethod('POST') && $request->request->has('book_code')) {
+        //     $code = $request->request->get('book_code');
+        //     $currentBook = $bookRepository->findOneByCode($code);
 
-            // vérifier si $currentBook a déjà été ajouté dans cette session
-            $item = $inventoryItemRepository->findOneByInventoryAndBook($inventory, $currentBook);
-            if ($item === null) {
-                return $this->redirectToRoute('add-item', [
-                    'id' => $id,
-                    'book' => $currentBook->getId(),
-                ]);
-            } else {
-                return $this->redirectToRoute('edit-item', [
-                    'id' => $item->getId(),
-                ]);
-            }
-        }
-        return $this->render('inventory_item/search.html.twig', [
+        //     // vérifier si $currentBook a déjà été ajouté dans cette session
+        //     $item = $inventoryItemRepository->findOneByInventoryAndBook($inventory, $currentBook);
+        //     if ($item === null) {
+        //         return $this->redirectToRoute('add-item', [
+        //             'id' => $inventory->getId(),
+        //             'book' => $currentBook->getId(),
+        //             'tab'=>'check'
+        //         ]);
+        //     } else {
+        //         return $this->redirectToRoute('edit-item', [
+        //             'id' => $item->getId(),
+        //             'tab'=>'check'
+        //         ]);
+        //     }
+        // }
+        return $this->render('inventory_item/index.html.twig', [
             'currentInventory' => $currentInventory,
             'currentBook' => $currentBook,
             'checkedItems' => $checkedItems,
             'noCheckedBooks' => $noCheckedBooks,
-            'allBooksByLocation' => $allBooksByLocation
+            'allBooksByLocation' => $allBooksByLocation,
+            'tab'=>$currentTab
         ]);
     }
 

@@ -1,48 +1,15 @@
-{% extends 'base.html.twig' %}
+<div>
+	<form action="{{path('inventory-page',{id: currentInventory.id})}}" method="POST">
+		<h3 class="form-title">Entrez un code livre</h3>
+		<input id="book_code" name="book_code" type="text" placeholder="Code du livre…" required/>
+		<button type="submit">Rechercher</button>
+	</form>
 
-{% block body %}
-	<div class="page-title">
-		<h3>Inventaire</h3>
-		<img src="{{ asset('img/books.svg') }}" alt="book">
-	</div>
-
-	<div class="border-container">
-		<div>
-			<p>Date :
-				{{ currentInventory.date|date('d/m/Y') }}</p>
-			<p>Lieu :
-				<span class="location location-inventory">{{ currentInventory.location.value }}</span>
-			</p>
-			{% if currentInventory.note is not null %}
-				<p>Commentaire :
-					{{ currentInventory.note }}</p>
-			{% endif %}
-			<a href="{{path('item-list',{id:currentInventory.id,page:'all'})}}">
-				<p>Total livres à verifier : {{allBooksByLocation | length}} </p>
-			</a>
-			<a href="{{path('item-list',{id:currentInventory.id,page:'checked'})}}">
-				<p>Livres vérifiés : {{checkedItems | length }} </p>
-			</a>
-			<a href="{{path('item-list',{id: currentInventory.id,page:'no-checked'})}}">
-				<p>Reste à vérifier : {{noCheckedBooks | length}} </p>
-			</a>
-
-		</div>
-		<div>
-			<form action="{{path('search-item',{id: currentInventory.id})}}" method="POST">
-				<h3 class="form-title">Entrez un code livre</h3>
-				<input id="book_code" name="book_code" type="text" placeholder="Code du livre…" required/>
-				<button type="submit">Rechercher</button>
-			</form>
-
-			{% if currentBook is defined and currentBook is not null %}
-				{% if addForm is defined and addForm is not null  %}
-					{% include "inventory_item/add-form.html.twig" %}
-				{% else %}
-					{% include "inventory_item/edit-form.html.twig" %}
-				{% endif %}
-			{% endif %}
-		</div>
-	</div>
-
-{% endblock %}
+	{% if currentBook is defined and currentBook is not null %}
+		{% if addForm is defined and addForm is not null  %}
+			{% include "inventory_item/add-form.html.twig" %}
+		{% else %}
+			{% include "inventory_item/edit-form.html.twig" %}
+		{% endif %}
+	{% endif %}
+</div>

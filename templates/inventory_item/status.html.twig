@@ -1,26 +1,21 @@
-<p>Date :
-		{{ currentInventory.date|date('d/m/Y') }}</p>
-	<p>Lieu :
-		{{ currentInventory.location.value }}</p>
-	<p>Note :
-		{{ currentInventory.note }}</p>
-	<a href="{{path('item-list',{id: currentInventory.id})}}">
-		<p>Total livre à vérifier :
-			{{ total | length }}
-		</p>
-	</a>
-	<p>Livres vérifiés :
-		{{ checked | length }}
-	</p>
-	<p> validés :
-		{{ okItems | length }}
-	</p>
-	<p> mal rangés :
-		{{ badLocations | length }}
-	</p>
-	<p> non trouvés :
-		{{ notFounds | length }}
-	</p>
-	<p>Autres :
-		{{ others | length }}
-	</p>
+<div>
+			<p>Date :
+				{{ currentInventory.date|date('d/m/Y') }}</p>
+			<p>Lieu :
+				<span class="location location-inventory">{{ currentInventory.location.value }}</span>
+			</p>
+			{% if currentInventory.note is not null %}
+				<p>Commentaire :
+					{{ currentInventory.note }}</p>
+			{% endif %}
+			<a href="{{path('item-list',{id:currentInventory.id,page:'all'})}}">
+				<p>Total livres à verifier : {{allBooksByLocation | length}} </p>
+			</a>
+			<a href="{{path('item-list',{id:currentInventory.id,page:'checked'})}}">
+				<p>Livres vérifiés : {{checkedItems | length }} </p>
+			</a>
+			<a href="{{path('item-list',{id: currentInventory.id,page:'no-checked'})}}">
+				<p>Reste à vérifier : {{noCheckedBooks | length}} </p>
+			</a>
+
+		</div>

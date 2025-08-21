@@ -5,41 +5,44 @@ namespace App\Form\Inventory;
 use App\Entity\Inventory;
 use App\Enum\LocationEnum;
 use App\Enum\InventoryStatusEnum;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 
 class InventoryFilterForm extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
+        $dates = $options['dates'] ?? []; 
+
         $builder
+            ->add('date', ChoiceType::class, [
+                'label' => 'Date : ',
+                'placeholder' => 'Toute',
+                'choices' => $dateChoices,
+                'required' => false
+            ])
+
             ->add('status', EnumType::class, [
                 'class' => InventoryStatusEnum::class,
                 'label' => 'Statut : ',
                 'placeholder' => 'Tout',
-                'choice_label' => fn ($choice) => $choice->value,
+                'choice_label' => fn($choice) => $choice->value,
                 'required' => false
             ])
-            ->add('date', DateIntervalType::class, [
-                'widget' => 'choice',
-                'label' => 'Date : ',
-                'labels'=>['years'=>' ','months'=>' '],
-                'years'=>range(2024,2030),
-                'with_hours'=>false,
-                'with_days'=>false,
-                'with_months'=>true,
-                'with_years'=>true,
-                'placeholder' => ['months'=>'Mois','years'=>'Année'],
-                'required' => false
-            ])
+
             ->add('location', EnumType::class, [
                 'class' => LocationEnum::class,
                 'label' => 'Lieu : ',
                 'placeholder' => 'Tout',
-                'choice_label' => fn ($choice) => $choice->value,
+                'choice_label' => fn($choice) => $choice->value,
                 'required' => false
             ])
         ;
@@ -48,7 +51,9 @@ class InventoryFilterForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Inventory::class,
+            'data_class' => null,
+            'dates'=>[],
         ]);
+        $resolver->setAllowedTypes('dates', 'array');
     }
 }
