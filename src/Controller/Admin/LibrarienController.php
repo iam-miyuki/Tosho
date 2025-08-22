@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route(path: '/admin/librarien')]
@@ -34,12 +35,12 @@ final class LibrarienController extends AbstractController
         $user = new User();
         $registerForm = $this->createForm(RegisterForm::class, $user);
         $registerForm->handleRequest($request);
+
         $form = $this->createForm(SearchForm::class, null);
         $form->handleRequest($request);
-
+       
         if ($request->isMethod('POST')) {
-            if ($currentTab === 'family') {
-                if ($form->isSubmitted()) {
+                if ($form->isSubmitted()  && $form->isValid()) {
                     $query = $form->get('query')->getData();
                     $results = $userRepository->findAllWithFilterQuery($role, $query);
                     return $this->render('admin/librarien/index.html.twig', [
@@ -48,26 +49,31 @@ final class LibrarienController extends AbstractController
                         'searchForm' => $form
                     ]);
                 }
-            }
-            if ($currentTab === 'new') {
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $password = 'rrr'; // randomPassword
+
+                if ($registerForm->isSubmitted() && $registerForm->isValid()) {
+                    $password = random_int(1000,9999); // randomPassword
                     $user->setPassword($hasher->hashPassword($user, $password));
                     $user->setRoles(['ROLE_LIBRARIEN']);
                     $em->persist($user);
                     $em->flush();
-                    // $email = new Email();
-                    // $email
-                    //     ->to($user->getEmail())
-                    //     ->subject('test email')
-                    //     ->html('<p>Ici on test email</p>');
-                    // $mailer->send($email);
+                    $email = new TemplatedEmail();
+                    $email
+                        ->from('tosho@mail.com')
+                        ->to($user->getEmail())
+                        ->subject('Votre compte bibliothécaire')
+                        ->htmlTemplate('admin/librarien/email.html.twig')
+                        ->context([
+                            'pwd'=>$password,
+                            'user'=>$user
+                        ]);
+                    $mailer->send($email);
                     return $this->render('admin/librarien/index.html.twig',[
                         'tab'=>'new',
+                        'addedUser'=>$user
                     ]);
                 }
-            }
         }
+
         return $this->render('admin/librarien/index.html.twig', [
             'tab' => $currentTab,
             'searchForm' => $form,

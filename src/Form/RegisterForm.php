@@ -17,24 +17,19 @@ class RegisterForm extends AbstractType
     {
         $builder
             ->add('lastName',TextType::class,[
-                'attr'=>['label'=>'Nom de famille : '],
-                // 'label'=>'Nom de famille : ',
                 'required'=>false,
             ])
             ->add('firstName',TextType::class,[
-                'label'=>'Prénom : ',
                 'required'=>false,
             ])
             ->add('jpLastName',TextType::class,[
-                'label'=>'Nom de famille (JP) : ',
                 'required'=>false
             ])
             ->add('jpFirstName',TextType::class,[
-                'label'=>'Prénom (JP) : ',
                 'required'=>false
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email : '
+                'required'=>true
             ])
         ;
     }

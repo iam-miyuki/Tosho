@@ -27,19 +27,13 @@
 			<p>Prénom (JP)</p>
 			<div class="item-field">
 				:
-				{{ form_widget(registerForm.lastName, {'attr': {'class': 'form-field search-input', 'placeholder':'ハナコ'}}) }}</div>
+				{{ form_widget(registerForm.jpFirstName, {'attr': {'class': 'form-field search-input', 'placeholder':'ハナコ'}}) }}</div>
 		</div>
         <div class="form-item">
 			<p>Email</p>
 			<div class="item-field">
 				:
 				{{ form_widget(registerForm.email, {'attr': {'class': 'form-field search-input', 'placeholder':'example@mail.com'}}) }}</div>
-		</div>
-        <div class="form-item">
-			<p>Nom de famille</p>
-			<div class="item-field">
-				:
-				{{ form_widget(registerForm.lastName, {'attr': {'class': 'form-field search-input', 'placeholder':'Dupont'}}) }}</div>
 		</div>
 		{# {{ form_widget(registerForm.lastName, {
 		      'attr': {
