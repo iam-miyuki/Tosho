@@ -34,10 +34,7 @@ final class InventoryController extends AbstractController
         $form = $this->createForm(InventoryForm::class, $inventory);
         $form->handleRequest($request);
 
-        $dates = $em->getRepository(Inventory::class)->findDates();
-        $filterForm = $this->createForm(InventoryFilterForm::class, null,[
-            'dates'=>$dates,
-        ]);
+        $filterForm = $this->createForm(InventoryFilterForm::class, null);
         $filterForm->handleRequest($request);
 
         $inventories = null;
@@ -59,9 +56,8 @@ final class InventoryController extends AbstractController
                 if ($filterForm->isSubmitted()) {
                     $data = $filterForm->getData();
                     $status = $data->getStatus();
-                    $date = $data->getDate();
                     $location = $data->getLocation();
-                    $inventories = $inventoryRepository->findAllWithFilterQuery($status, $date, $location);
+                    $inventories = $inventoryRepository->findAllWithFilterQuery($status, $location);
                 }
             }
         }

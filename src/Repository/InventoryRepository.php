@@ -30,17 +30,12 @@ class InventoryRepository extends ServiceEntityRepository
 
     public function findAllWithFilterQuery(
         ?InventoryStatusEnum $status,
-        ?string $date,
         ?LocationEnum $location // ? = autoriser les valeurs null
     ) {
         $qb = $this->createQueryBuilder('i');
         if ($status != null) {
             $qb->andWhere('i.status = :status')
                 ->setParameter('status', $status);
-        }
-        if ($date != null) {
-            $qb->andWhere('i.date = :date')
-                ->setParameter('date', $date);
         }
         if ($location != null) {
             $qb->andWhere('i.location = :location')

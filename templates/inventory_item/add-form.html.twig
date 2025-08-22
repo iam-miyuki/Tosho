@@ -1,7 +1,49 @@
-	<h3>Ajouter</h3>
-	<h4> {{currentBook.title}} </h4>
-	
+<div class="card one-card add-wrapper">
+	<div class="card-title card-title-family">
+		<h4>
+			Livre à vérifier
+		</h4>
+	</div>
+	<div class="card-body">
+	<div class="book-image"></div>
+		<div class="detail">
+			<div class="detail-item detail-book item-label">
+				<p>Code</p>
+				<p>Titre</p>
+				<p>Auteur</p>
+				<p>Titre (JP)</p>
+				<p>Auteur (JP)</p>
+				<p>Lieu </p>
+			</div>
+			<div class="detail-item">
+				<p>
+					:
+					{{ currentBook.code }}</p>
+				<p>
+					:
+					{{ currentBook.title }}</p>
+				<p>
+					:
+					{{ currentBook.author }}</p>
+				<p>
+					:
+					{{ currentBook.jpTitle }}</p>
+				<p>
+					:
+					{{ currentBook.jpAuthor }}</p>
+				<p>
+					:
+					<span class="location">
+						{{ currentBook.location.value }}</span>
+				</p>
+			</div>
+		</div>
+	</div>
 	{{ form_start(addForm) }}
-		{{ form_row(addForm) }}
-		<button type="submit">Enregistrer</button>
+	{{ form_widget(addForm.status, {'attr': {'class': 'form-field enum-field'}}) }}
+	{{ form_widget(addForm.note, {'attr': {'class': 'form-field'}}) }}
+	<div class="btn-wrapper">
+		<button class="btn-form" type="submit">Ajouter</button>
+	</div>
 	{{ form_end(addForm) }}
+</div>

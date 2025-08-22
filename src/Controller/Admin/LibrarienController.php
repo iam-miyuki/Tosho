@@ -3,15 +3,19 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\RegisterForm;
 use App\Form\Librarien\SearchForm;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route(path: '/admin/librarien')]
 #[IsGranted('ROLE_ADMIN')]
@@ -21,13 +25,18 @@ final class LibrarienController extends AbstractController
     public function all(
         UserRepository $userRepository,
         Request $request,
+        UserPasswordHasherInterface $hasher,
+        EntityManagerInterface $em,
+        MailerInterface $mailer
     ): Response {
         $currentTab = $request->query->get('tab', 'family');
         $role = 'ROLE_LIBRARIEN';
-        $librarien = new User;
-        $form = $this->createForm(SearchForm::class, $librarien);
+        $user = new User();
+        $registerForm = $this->createForm(RegisterForm::class, $user);
+        $registerForm->handleRequest($request);
+        $form = $this->createForm(SearchForm::class, null);
         $form->handleRequest($request);
-        
+
         if ($request->isMethod('POST')) {
             if ($currentTab === 'family') {
                 if ($form->isSubmitted()) {
@@ -41,13 +50,28 @@ final class LibrarienController extends AbstractController
                 }
             }
             if ($currentTab === 'new') {
-                // TODO
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $password = 'rrr'; // randomPassword
+                    $user->setPassword($hasher->hashPassword($user, $password));
+                    $user->setRoles(['ROLE_LIBRARIEN']);
+                    $em->persist($user);
+                    $em->flush();
+                    // $email = new Email();
+                    // $email
+                    //     ->to($user->getEmail())
+                    //     ->subject('test email')
+                    //     ->html('<p>Ici on test email</p>');
+                    // $mailer->send($email);
+                    return $this->render('admin/librarien/index.html.twig',[
+                        'tab'=>'new',
+                    ]);
+                }
             }
         }
-
         return $this->render('admin/librarien/index.html.twig', [
             'tab' => $currentTab,
-            'searchForm' => $form
+            'searchForm' => $form,
+            'registerForm'=>$registerForm
         ]);
     }
 
@@ -58,24 +82,26 @@ final class LibrarienController extends AbstractController
     ): Response {
         $currentTab = $request->query->get('tab', 'family');
         $role = 'ROLE_LIBRARIEN';
-        $librarien = new User;
-        $form = $this->createForm(SearchForm::class, $librarien);
+        $form = $this->createForm(SearchForm::class, null);
         $form->handleRequest($request);
         return $this->render('admin/librarien/index.html.twig', [
             'tab' => 'family',
             'librarien' => $user,
-            'searchForm'=>$form
+            'searchForm' => $form
         ]);
     }
-
-
 
     #[Route('/edit/{id}', name: 'edit-librarien')]
     public function edit(
         User $user,
-    ) : Response {
-        return $this->render('Admin/librarien/index.html.twig',[
-            'librarienToEdit'=>$user
+        Request $request
+    ): Response {
+        $form = $this->createForm(SearchForm::class, null);
+        $form->handleRequest($request);
+        return $this->render('Admin/librarien/index.html.twig', [
+            'librarienToEdit' => $user,
+            'tab' => 'family',
+            'searchForm' => $form
         ]);
     }
 

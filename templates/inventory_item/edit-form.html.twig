@@ -1,7 +1,50 @@
-	<h3>Modifier</h3>
-	<h4> {{currentBook.title}} </h4>
-	
+<div class="card one-card add-wrapper">
+	<div class="card-title card-title-family">
+		<h4>
+			Livre déjà vérifié
+		</h4>
+	</div>
+	<div class="card-body">
+	<div class="book-image"></div>
+		<div class="detail">
+			<div class="detail-item detail-book item-label">
+				<p>Code</p>
+				<p>Titre</p>
+				<p>Auteur</p>
+				<p>Titre (JP)</p>
+				<p>Auteur (JP)</p>
+				<p>Lieu </p>
+			</div>
+			<div class="detail-item">
+				<p>
+					:
+					{{ currentBook.code }}</p>
+				<p>
+					:
+					{{ currentBook.title }}</p>
+				<p>
+					:
+					{{ currentBook.author }}</p>
+				<p>
+					:
+					{{ currentBook.jpTitle }}</p>
+				<p>
+					:
+					{{ currentBook.jpAuthor }}</p>
+				<p>
+					:
+					<span class="location">
+						{{ currentBook.location.value }}</span>
+				</p>
+			</div>
+		</div>
+	</div>
 	{{ form_start(editForm) }}
-		{{ form_row(editForm) }}
-		<button type="submit">Modifier</button>
+	{{ form_widget(editForm.status, {'attr': {'class': 'form-field enum-field'}}) }}
+	{{ form_widget(editForm.note, {'attr': {'class': 'form-field'}}) }}
+	<div class="btn-wrapper">
+		<button class="btn-form" type="submit">Modifier</button>
+		<div class="href-btn"><a href="{{path('inventory-page',{id:currentBook.id, tab:'check'})}}">Annuler</a></div>
+	</div>
 	{{ form_end(editForm) }}
+</div>

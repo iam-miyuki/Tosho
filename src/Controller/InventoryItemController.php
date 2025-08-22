@@ -42,7 +42,7 @@ final class InventoryItemController extends AbstractController
         InventoryRepository $inventoryRepository,
         InventoryItemRepository $inventoryItemRepository
     ): Response {
-        $currentTab = $request->query->get('tab', 'inventory');
+        $currentTab = $request->query->get('tab', 'status');
         $currentInventory = $inventoryRepository->findWithItems($inventory->getId()); // besoin de récupérer avec inventoryItems
         $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
 
@@ -53,25 +53,25 @@ final class InventoryItemController extends AbstractController
         $currentBook = null;
         $query = null;
 
-        // if ($request->isMethod('POST') && $request->request->has('book_code')) {
-        //     $code = $request->request->get('book_code');
-        //     $currentBook = $bookRepository->findOneByCode($code);
+        if ($request->isMethod('POST') && $request->request->has('book_code')) {
+            $code = $request->request->get('book_code');
+            $currentBook = $bookRepository->findOneByCode($code);
 
-        //     // vérifier si $currentBook a déjà été ajouté dans cette session
-        //     $item = $inventoryItemRepository->findOneByInventoryAndBook($inventory, $currentBook);
-        //     if ($item === null) {
-        //         return $this->redirectToRoute('add-item', [
-        //             'id' => $inventory->getId(),
-        //             'book' => $currentBook->getId(),
-        //             'tab'=>'check'
-        //         ]);
-        //     } else {
-        //         return $this->redirectToRoute('edit-item', [
-        //             'id' => $item->getId(),
-        //             'tab'=>'check'
-        //         ]);
-        //     }
-        // }
+            // vérifier si $currentBook a déjà été ajouté dans cette session
+            $item = $inventoryItemRepository->findOneByInventoryAndBook($inventory, $currentBook);
+            if ($item === null) {
+                return $this->redirectToRoute('add-item', [
+                    'id' => $inventory->getId(),
+                    'book' => $currentBook->getId(),
+                    'tab'=>'check'
+                ]);
+            } else {
+                return $this->redirectToRoute('edit-item', [
+                    'id' => $item->getId(),
+                    'tab'=>'check'
+                ]);
+            }
+        }
         return $this->render('inventory_item/index.html.twig', [
             'currentInventory' => $currentInventory,
             'currentBook' => $currentBook,
@@ -108,18 +108,20 @@ final class InventoryItemController extends AbstractController
             $inventoryItem->addUser($this->getUser());
             $em->persist($inventoryItem);
             $em->flush();
-            return $this->redirectToRoute('search-item', [
-                'id' => $inventory->getId()
+            return $this->redirectToRoute('inventory-page', [
+                'id' => $inventory->getId(),
+                'tab'=>'check'
             ]);
         }
-        return $this->render('inventory_item/search.html.twig', [
+        return $this->render('inventory_item/index.html.twig', [
             'currentInventory' => $inventory,
             'currentBook' => $book,
             'addForm' => $addForm->createView(),
             'editForm' => null,
             'checkedItems' => $checkedItems,
             'noCheckedBooks' => $noCheckedBooks,
-            'allBooksByLocation' => $allBooksByLocation
+            'allBooksByLocation' => $allBooksByLocation,
+            'tab'=>'check'
         ]);
     }
 
@@ -145,19 +147,21 @@ final class InventoryItemController extends AbstractController
             $inventoryItem->setModifiedAt(new \DateTimeImmutable());
             $inventoryItem->addUser($this->getUser());
             $em->flush();
-            return $this->redirectToRoute('search-item', [
-                'inventory' => $inventory->getId()
+            return $this->redirectToRoute('inventory-page', [
+                'id'=>$inventory->getId(),
+                'tab'=>'check'
             ]);
         }
 
-        return $this->render('inventory_item/search.html.twig', [
+        return $this->render('inventory_item/index.html.twig', [
             'editForm' => $editForm->createView(),
             'currentBook' => $inventoryItem->getBook(),
             'currentInventory' => $inventoryItem->getInventory(),
             'addForm' => null,
             'checkedItems' => $checkedItems,
             'noCheckedBooks' => $noCheckedBooks,
-            'allBooksByLocation' => $allBooksByLocation
+            'allBooksByLocation' => $allBooksByLocation,
+            'tab'=>'check'
         ]);
     }
 

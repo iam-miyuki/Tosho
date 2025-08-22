@@ -63,8 +63,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-
-
         $this->loans = new ArrayCollection();
         $this->inventoryItems = new ArrayCollection();
     }
@@ -83,7 +81,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 

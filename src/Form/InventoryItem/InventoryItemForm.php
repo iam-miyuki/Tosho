@@ -17,7 +17,8 @@ class InventoryItemForm extends AbstractType
         $builder
             ->add('status', EnumType::class, [
                 'class' => InventoryItemStatusEnum::class,
-                'label' => 'Status'
+                'label' => 'Status : ',
+                'choice_label' => fn($choice) => $choice->value,
             ])
             ->add('note', TextareaType::class, [
                 'label' => 'Commentaire',

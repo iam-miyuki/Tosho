@@ -1,23 +1,23 @@
 <div class="card one-card add-wrapper">
 	<div class="card-title card-title-family">
-		<h4>Ajouter une famille
+		<h4>Ajouter une famille<h4>
 		</div>
 		<div class="card-body">
 			{{ form_start(newFamilyForm) }}
 			<div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Nom de famille</p>
 					<div class="item-field">
 						:
 						{{ form_widget(newFamilyForm.name, {'attr': {'class': 'form-field'}}) }}</div>
 				</div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Nom de famille (JP)</p>
 					<div class="item-field">
 						:
 						{{ form_widget(newFamilyForm.jpName, {'attr': {'class': 'form-field'}}) }}</div>
 				</div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Email</p>
 					<div class="item-field">
 						:

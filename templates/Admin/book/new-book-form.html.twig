@@ -5,26 +5,26 @@
 		
 			{{ form_start(bookForm) }}
 			<div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Titre</p><div class="item-field"> :
 						{{ form_widget(bookForm.title, {'attr': {'class': 'form-field'}}) }}</div>
 				</div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Auteur</p><div class="item-field"> :
 						{{ form_widget(bookForm.author, {'attr': {'class': 'form-field'}}) }}</div>
 				</div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Titre (JP) </p><div> : {{ form_widget(bookForm.jpTitle, {'attr': {'class': 'form-field'}}) }}</div>
 				</div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Auteur (JP)</p><div> :
 						{{ form_widget(bookForm.jpAuthor, {'attr': {'class': 'form-field'}}) }}</div>
 				</div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>URL Couverture</p><div> :
 						{{ form_widget(bookForm.coverUrl, {'attr': {'class': 'form-field'}}) }}</div>
 				</div>
-				<div class="edit-item">
+				<div class="form-item">
 					<p>Lieu</p><div> :
 						{{ form_widget(bookForm.location, {'attr': {'class': 'form-field enum-field'}}) }}</div>
 				</div>

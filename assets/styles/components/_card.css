@@ -101,13 +101,13 @@
   margin-bottom: 0.5rem;
 }
 
-.edit-item{
+.form-item{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 0.5rem;
 }
-.edit-item p{
+.form-item p{
   margin-top: auto;
   margin-bottom: auto;
   line-height: 100%;

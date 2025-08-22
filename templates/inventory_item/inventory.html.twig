@@ -1,10 +1,10 @@
 	<div class="tab-container">
 		<div class="tabs">
-			<a href="{{ path('inventory-page',{id:currentInventory.id, tab: 'inventory'}) }}" class="tab librarien-tab left-tab inventory-tab {{ tab == 'inventory' ? 'active' : '' }}"><div class="tab-icon"></div>État de l'inventaire</a>
-			<a href="{{ path('inventory-page', {id:currentInventory.id, tab: 'check'}) }}" class="tab librarien-tab right-tab check-tab {{ tab == 'check' ? 'active' : '' }}"><div class="tab-icon"></div>Vérifier les livres</a>
+			<a href="{{ path('inventory-page',{id: currentInventory.id, tab:'status'}) }}" class="tab librarien-tab left-tab status-tab {{ tab == 'status' ? 'active' : '' }}"><div class="tab-icon"></div>État de l'inventaire</a>
+			<a href="{{ path('inventory-page',{id: currentInventory.id, tab:'check'}) }}" class="tab librarien-tab right-tab check-tab {{ tab == 'check' ? 'active' : '' }}"><div class="tab-icon"></div>Vérifier les livres</a>
 		</div>
 
-		<div class="tab-content librarien-tab left-tab inventory-tab {{ tab == 'inventory' ? 'active' : '' }}">
+		<div class="tab-content librarien-tab left-tab status-tab {{ tab == 'status' ? 'active' : '' }}">
 			{% include 'inventory_item/status.html.twig'  %}
 		</div>
 

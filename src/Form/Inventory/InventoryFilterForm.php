@@ -20,16 +20,7 @@ class InventoryFilterForm extends AbstractType
         FormBuilderInterface $builder,
         array $options
     ): void {
-        $dates = $options['dates'] ?? []; 
-
         $builder
-            ->add('date', ChoiceType::class, [
-                'label' => 'Date : ',
-                'placeholder' => 'Toute',
-                'choices' => $dateChoices,
-                'required' => false
-            ])
-
             ->add('status', EnumType::class, [
                 'class' => InventoryStatusEnum::class,
                 'label' => 'Statut : ',
@@ -52,8 +43,6 @@ class InventoryFilterForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
-            'dates'=>[],
         ]);
-        $resolver->setAllowedTypes('dates', 'array');
     }
 }
