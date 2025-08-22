@@ -1,0 +1,36 @@
+
+        
+<div class="card one-card alert-card">
+    <div class="card-title">
+        <h4>Voulez-vous vraiment supprimer ce(tte) bibliothécaire ?</h4>
+    </div>
+    <div class="card-body">
+        <div class="detail">
+            <div class="detail-item item-label">
+                <p>Nom de famille</p>
+                <p>Prénom</p>
+                <p>Nom de famille (JP)</p>
+                <p>Prénom (JP)</p>
+                <p>Email</p>
+            </div>
+            <div class="detail-item">
+                <p>: {{ librarienToDelete.lastName }}</p>
+                <p>: {{ librarienToDelete.firstName }}</p>
+                <p>: {{ librarienToDelete.jpLastName }}</p>
+                <p>: {{ librarienToDelete.jpFirstName }}</p>
+                <p>: {{ librarienToDelete.email }}</p>
+                
+            </div>
+        </div>
+
+    </div>
+        <div class="btn-wrapper">
+            <form method="POST">
+                <button class="btn-form btn-alert"type="submit">Supprimer</button>
+            </form>
+                <div class="href-btn"><a href="{{path('show-librarien',{id:librarienToDelete.id})}}">Annuler</a></div>
+        </div>
+</div>
+
+
+

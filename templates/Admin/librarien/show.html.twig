@@ -1,14 +1,8 @@
-{% if librarienToEdit is defined and librarienToEdit is not null %}
-{% include "admin/librarien/edit.html.twig" %}
-{% endif %}
 
+	
 <div class="card one-card">
 	<div class="card-header">
-		<div class="icon edit-icon">
-			<a href="{{ path('edit-librarien', { id: librarien.id }) }}">
-				<span>edit</span>
-			</a>
-		</div>
+		
 		<div class="icon delete-icon">
 			<a href="{{ path('delete-librarien', { id: librarien.id }) }}">
 				<span>delete</span>
@@ -48,7 +42,7 @@
 				<p>
 					:
 					{{ librarien.email }}</p>
-				<button class="active-btn">Déactivé</button>
+				<button class="active-btn">Désactivé</button>
 			</div>
 		</div>
 	</div>

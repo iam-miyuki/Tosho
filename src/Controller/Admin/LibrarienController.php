@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -38,46 +37,48 @@ final class LibrarienController extends AbstractController
 
         $form = $this->createForm(SearchForm::class, null);
         $form->handleRequest($request);
-       
-        if ($request->isMethod('POST')) {
-                if ($form->isSubmitted()  && $form->isValid()) {
-                    $query = $form->get('query')->getData();
-                    $results = $userRepository->findAllWithFilterQuery($role, $query);
-                    return $this->render('admin/librarien/index.html.twig', [
-                        'librariens' => $results,
-                        'tab' => 'family',
-                        'searchForm' => $form
-                    ]);
-                }
 
-                if ($registerForm->isSubmitted() && $registerForm->isValid()) {
-                    $password = random_int(1000,9999); // randomPassword
-                    $user->setPassword($hasher->hashPassword($user, $password));
-                    $user->setRoles(['ROLE_LIBRARIEN']);
-                    $em->persist($user);
-                    $em->flush();
-                    $email = new TemplatedEmail();
-                    $email
-                        ->from('tosho@mail.com')
-                        ->to($user->getEmail())
-                        ->subject('Votre compte bibliothécaire')
-                        ->htmlTemplate('admin/librarien/email.html.twig')
-                        ->context([
-                            'pwd'=>$password,
-                            'user'=>$user
-                        ]);
-                    $mailer->send($email);
-                    return $this->render('admin/librarien/index.html.twig',[
-                        'tab'=>'new',
-                        'addedUser'=>$user
+        if ($request->isMethod('POST')) {
+            if ($form->isSubmitted()  && $form->isValid()) {
+                $query = $form->get('query')->getData();
+                $results = $userRepository->findAllWithFilterQuery($role, $query);
+                return $this->render('admin/librarien/index.html.twig', [
+                    'librariens' => $results,
+                    'tab' => 'family',
+                    'searchForm' => $form
+                ]);
+            }
+
+            if ($registerForm->isSubmitted() && $registerForm->isValid()) {
+                $password = random_int(1000, 9999); // randomPassword
+                $user->setPassword($hasher->hashPassword($user, $password));
+                $user->setRoles(['ROLE_LIBRARIEN']);
+                $user->setIsActive(true);
+                $em->persist($user);
+                $em->flush();
+                $email = new TemplatedEmail();
+                $email
+                    ->from('tosho@mail.com')
+                    ->to($user->getEmail())
+                    ->subject('Votre compte bibliothécaire')
+                    ->htmlTemplate('admin/librarien/email.html.twig')
+                    ->context([
+                        'pwd' => $password,
+                        'user' => $user
                     ]);
-                }
+                $mailer->send($email);
+                return $this->render('admin/librarien/index.html.twig', [
+                    'tab' => 'new',
+                    'addedUser' => $user,
+                    'successMessage' => 'Ajout avec success !'
+                ]);
+            }
         }
 
         return $this->render('admin/librarien/index.html.twig', [
             'tab' => $currentTab,
             'searchForm' => $form,
-            'registerForm'=>$registerForm
+            'registerForm' => $registerForm
         ]);
     }
 
@@ -87,26 +88,11 @@ final class LibrarienController extends AbstractController
         Request $request
     ): Response {
         $currentTab = $request->query->get('tab', 'family');
-        $role = 'ROLE_LIBRARIEN';
         $form = $this->createForm(SearchForm::class, null);
         $form->handleRequest($request);
         return $this->render('admin/librarien/index.html.twig', [
-            'tab' => 'family',
+            'tab' => $currentTab,
             'librarien' => $user,
-            'searchForm' => $form
-        ]);
-    }
-
-    #[Route('/edit/{id}', name: 'edit-librarien')]
-    public function edit(
-        User $user,
-        Request $request
-    ): Response {
-        $form = $this->createForm(SearchForm::class, null);
-        $form->handleRequest($request);
-        return $this->render('Admin/librarien/index.html.twig', [
-            'librarienToEdit' => $user,
-            'tab' => 'family',
             'searchForm' => $form
         ]);
     }
@@ -114,15 +100,22 @@ final class LibrarienController extends AbstractController
     #[Route('/delete/{id}', name: 'delete-librarien')]
     public function delete(
         User $user,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Request $request
     ): Response {
-        if ($user) {
+        if ($request->isMethod('POST')) {
             $em->remove($user);
             $em->flush();
-            dd('supprimé !');
+            return $this->render(
+                'admin/librarien/index.html.twig',[
+                    'tab'=>'family',
+                    'deletedUser'=>$user,
+                    'successMessage'=>'Suppression avec success !'
+                ]);
         }
         return $this->render('admin/librarien/index.html.twig', [
-            'currentLibrarien' => $user
+            'librarienToDelete' => $user,
+            'tab'=>'family'
         ]);
     }
     #[Route('/change-status/{id}', name: 'change-status')]
