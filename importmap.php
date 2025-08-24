@@ -17,7 +17,8 @@ return [
         'entrypoint' => true,
     ],
     'api'=> [
-        'path'=>'./assets/api.js'
+        'path'=>'./assets/api.js',
+        'entrypoint'=> true,
     ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',

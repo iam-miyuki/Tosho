@@ -1,3 +1,9 @@
+<form>
+    <label for="isbn">Pré-remplir le formulaire d'ajout par code ISBN</label>
+    <input type="text" placeholder="ISBN" id="isbn_search" name="isbn">
+    <button type="button" id="btn_search">Chercher</button>
+</form>
+
 <div class="card one-card add-wrapper">
 	<div class="card-title">Ajouter un livre
 	</div>
@@ -37,3 +43,48 @@
 	</div>
 </div>
 	
+<script>
+async function bookSearch(event) {
+    event.preventDefault();
+
+    const isbn = document.querySelector('#isbn_search').value.trim();
+    if (!isbn) {
+        alert("Veuillez saisir un ISBN");
+        return;
+    }
+
+    const apiUrl = `https://api.openbd.jp/v1/get?isbn=${isbn}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (!data || !data[0]) {
+            alert("Aucun livre trouvé pour cet ISBN");
+            return;
+        }
+
+        const book = data[0].summary; 
+        // console.log(book);
+
+        // Remplir les champs du formulaire
+        document.querySelector("#book_form_jpTitle").value = book.title || "";
+        document.querySelector("#book_form_jpAuthor").value = book.author || "";
+        document.querySelector("#book_form_coverUrl").value = book.cover || "";
+
+        // Afficher un aperçu de la couverture si disponible
+        if (book.cover) {
+            document.querySelector("#book_cover").src = book.cover;
+        }
+
+    } catch (error) {
+        console.error("Erreur API openBD:", error);
+        alert("Impossible de récupérer les infos du livre");
+    }
+}
+
+document.querySelector("#btn_search").addEventListener("click", bookSearch);
+</script>
+
+
+

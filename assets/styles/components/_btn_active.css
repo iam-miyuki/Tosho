@@ -1,15 +1,31 @@
 .btn-green {
-  background-color: #28a745;
-  color: white;
+  background-color: var(--color-btn-hover);
+  color: var(--color-text);
+  font-weight: 600;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
 .btn-red {
-  background-color: #dc3545;
-  color: white;
+  background-color:var(--color-btn-alert);
+  color:var(--color-text);
+  font-weight: 600;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
 }
+
+.btn-green:hover{
+  background-color: var(--color-btn-hover);
+}
+.btn-red:hover{
+  background-color: var(--color-btn-alert);
+}
+
+.active-btn,
+.active-btn.btn-red,
+.active-btn.btn-green {
+    cursor: pointer;
+}
+
