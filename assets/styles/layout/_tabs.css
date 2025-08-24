@@ -52,6 +52,9 @@
   background-image: url("../../img/search-3.svg");
 }
 
+.check-tab .tab-icon{
+  background-image: url("../../img/search-check.svg");
+}
 
 .tab.active {
   border-bottom: none;
