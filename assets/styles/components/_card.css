@@ -114,10 +114,10 @@
   margin-right: 0.5rem;
 }
 
-.book-image {
+img.book-cover {
   width: 80px;
   height: 100px;
-  background-color: gray;
+  background-color:white;
 }
 
 .card-title{
