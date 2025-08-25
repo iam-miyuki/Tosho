@@ -18,7 +18,6 @@ class UserChecker implements UserCheckerInterface
         if (!$user instanceof User) {
             return;
         }
-
         // Vérifie que seuls les bibliothécaires actifs peuvent se connecter
         if (in_array('ROLE_LIBRARIEN', $user->getRoles(), true) && !$user->isActive()) {
             throw new CustomUserMessageAccountStatusException(

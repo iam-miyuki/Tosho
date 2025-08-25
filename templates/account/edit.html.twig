@@ -1,16 +1,45 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Modifier{% endblock %}
-
-{% block body %}
-
-<div class="page-title">
-		<h3>Mon compte </h3>
-		<img src="{{ asset('img/profile-3.svg') }}" alt="book">
+<div class="card one-card edit-wrapper">
+	<div class="card-title">Modifier
 	</div>
-    
-{{ form_start(form) }}
-		{{ form_row(form) }}
-		<button type="submit">Modifier</button>
-	{{ form_end(form) }}
-{% endblock %}
+	<div class="card-body">
+
+		{{ form_start(form) }}
+		<div>
+			<div class="form-item">
+				<p>Nom de famille</p>
+				<div class="item-field">
+					:
+					{{ form_widget(form.lastName, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Prénom
+				</p>
+				<div class="item-field">
+					:
+					{{ form_widget(form.firstName, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Nom de famille (JP)</p>
+				<div class="item-field">
+					:
+					{{ form_widget(form.jpLastName, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Prénom (JP)
+				</p>
+				<div class="item-field">
+					:
+					{{ form_widget(form.jpFirstName, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+		</div>
+
+		<div class="btn-wrapper">
+			<button class="btn-form" type="submit">Enregistrer</button>
+			<div class="href-btn">
+				<a href="{{path('account')}}">Annuler</a>
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
+</div>

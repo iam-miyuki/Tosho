@@ -17,11 +17,11 @@ final class SettingController extends AbstractController
     ) {
     }
 
-    #[Route(path:'/switch-locale', name: 'switch_locale')]
-    public function switchLocale(Request $request, SessionInterface $session)
-    {
-        $this->localeSwitcher->setLocale('en');
-        $session->set('_locale', $request->getSession()->get('_locale_choice'));
-        return $this->redirectToRoute('home');
-    }
+    // #[Route(path:'/switch-locale', name: 'switch_locale')]
+    // public function switchLocale(Request $request, SessionInterface $session)
+    // {
+    //     $this->localeSwitcher->setLocale('en');
+    //     $session->set('_locale', $request->getSession()->get('_locale_choice'));
+    //     return $this->redirectToRoute('home');
+    // }
 }

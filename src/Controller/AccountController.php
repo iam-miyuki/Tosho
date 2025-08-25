@@ -31,14 +31,20 @@ final class AccountController extends AbstractController
     ): Response {
         $form = $this->createForm(AccountForm::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted()&&$form->isValid()) {
             $em->flush();
             dd('enregistré ! ');
         }
-        return $this->render('account/edit.html.twig', [
-            'form' => $form->createView()
+        return $this->render('account/index.html.twig', [
+            'form' => $form->createView(),
+            'userToEdit'=>$user
         ]);
     }
+    // #[Route('/setting/{id}', name:'change-pwd')]
+    // public function changePwd(
+    //     User $user,
+    // ): Response {
 
-    // TODO : changer adress mail, changer le mot de passe, mot de passe oublié
+    // }
+    // TODO : changer le mot de passe, mot de passe oublié
 }
