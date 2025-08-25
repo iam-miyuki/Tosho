@@ -33,7 +33,10 @@ final class AccountController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()) {
             $em->flush();
-            dd('enregistré ! ');
+            return $this->render('account/index.html.twig',[
+                'editedUser'=>$user,
+                'successMessage'=>'Modifié avec success !'
+            ]);
         }
         return $this->render('account/index.html.twig', [
             'form' => $form->createView(),

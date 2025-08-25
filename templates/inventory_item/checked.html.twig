@@ -1,0 +1,9 @@
+
+	{% for item in checked %}
+		<a href="{{path('edit-item',{id:item.id})}}">
+			<p>
+				{{item.book.title}}
+			</p>
+		</a>
+
+	{% endfor %}

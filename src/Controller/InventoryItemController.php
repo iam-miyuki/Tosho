@@ -178,20 +178,32 @@ final class InventoryItemController extends AbstractController
         InventoryRepository $inventoryRepository,
         InventoryItemRepository $inventoryItemRepository
     ): Response {
-        $allBooksByLocation = null;
-        $checkedItems = null;
-        $noCheckedBooks = null;
         $inventoryWithItems = $inventoryRepository->findWithItems($inventory->getId());
         $location = $inventoryWithItems->getLocation();
 
         if ($page==='all') {
             $allBooksByLocation = $bookRepository->findAllByLocation($location);
+            return $this->render('inventory_item/index.html.twig',[
+                'all'=>$allBooksByLocation,
+                'tab'=>'status',
+                'currentInventory'=>$inventoryWithItems,
+            ]);
         }
         if ($page==='checked') {
             $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
+            return $this->render('inventory_item/inventory.html.twig',[
+                'checked'=>$checkedItems,
+                'tab'=>'status',
+                'currentInventory'=>$inventoryWithItems
+            ]);
         }
         if ($page==='no-checked') {
             $noCheckedBooks = $bookRepository->findNoInventory($inventory->getId(), $location);
+            return $this->render('inventory_item/inventory.html.twig',[
+                'noChecked'=>$noCheckedBooks,
+                'tab'=>'status',
+                'currentInventory'=>$inventoryWithItems
+            ]);
         }
 
         // $results = $paginator->paginate(
@@ -199,12 +211,10 @@ final class InventoryItemController extends AbstractController
         //     $request->query->getInt('page', 1)
         // );
         
-        return $this->render('inventory_item/books.html.twig', [
+        return $this->render('inventory_item/index.html.twig', [
             // 'pagination' => $results,
-            'allBooks' => $allBooksByLocation,
-            'checkedItems' => $checkedItems,
-            'noCheckedBooks' => $noCheckedBooks,
-            'inventory' => $inventoryWithItems
+            'currentInventory' => $inventoryWithItems,
+            'tab'=>'status'
         ]);
     }
 }

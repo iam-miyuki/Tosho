@@ -1,0 +1,8 @@
+{% for book in noChecked %}
+		<a href="{{path('add-item',{id:inventory.id,book:book.id})}}">
+			<p>
+				{{book.title}}
+			</p>
+		</a>
+
+	{% endfor %}

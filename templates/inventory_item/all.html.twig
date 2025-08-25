@@ -1,0 +1,25 @@
+<div class="cards-wrapper">
+		<div class="cards-container">
+			{% for book in all %}
+				<div class="card">
+					<div class="card-body">
+						<img class="book-cover" src="{{ asset('img/child-book.svg') }}" alt="book-for-child">
+						<div class="detail book-details">
+							<p>Code :
+								{{ book.code }}</p>
+							<p>Titre :
+								{{ book.title }}</p>
+							<p>Auteur :
+								{{ book.author }}</p>
+							<p>Statut :
+								{{ book.status.value }}</p>
+							<p>Emplacement :
+								<span class="location">{{ book.location.value }}</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+    {# {{ knp_pagination_rel_links(pagination) }} #}

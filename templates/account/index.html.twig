@@ -8,7 +8,9 @@
 		<img src="{{ asset('img/profile-3.svg') }}" alt="account">
 	</div>
 
-	{% if userToEdit is defined and userToEdit is not null %}
+	{% if editedUser is defined and editedUser is not null %}
+		{% include "account/success.html.twig" %}
+	{% elseif userToEdit is defined and userToEdit is not null %}
 		{% include "account/edit.html.twig" %}
 	{% else %}
 		<div class="card one-card">
@@ -41,7 +43,7 @@
 						<p>
 							:
 							{{ user.jpLastName }}</p>
-						
+
 					</div>
 				</div>
 			</div>
