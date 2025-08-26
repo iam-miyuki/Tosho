@@ -20,6 +20,7 @@ class InventoryForm extends AbstractType
             ->add('location', EnumType::class, [
                 'class' => LocationEnum::class,
                 'label' => 'Lieu : ',
+                'choice_label' => fn($choice) => $choice->value,
 
             ])
             ->add('note', TextareaType::class, [
@@ -33,6 +34,7 @@ class InventoryForm extends AbstractType
             ->add('status', EnumType::class, [
                 'class' => InventoryStatusEnum::class,
                 'label' => 'Statut : ',
+                'choice_label' => fn($choice) => $choice->value,
 
             ])
         ;
