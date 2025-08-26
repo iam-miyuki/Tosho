@@ -191,7 +191,7 @@ final class InventoryItemController extends AbstractController
         }
         if ($page==='checked') {
             $checkedItems = $inventoryItemRepository->findAllByInventory($inventory);
-            return $this->render('inventory_item/inventory.html.twig',[
+            return $this->render('inventory_item/index.html.twig',[
                 'checked'=>$checkedItems,
                 'tab'=>'status',
                 'currentInventory'=>$inventoryWithItems
@@ -199,7 +199,7 @@ final class InventoryItemController extends AbstractController
         }
         if ($page==='no-checked') {
             $noCheckedBooks = $bookRepository->findNoInventory($inventory->getId(), $location);
-            return $this->render('inventory_item/inventory.html.twig',[
+            return $this->render('inventory_item/index.html.twig',[
                 'noChecked'=>$noCheckedBooks,
                 'tab'=>'status',
                 'currentInventory'=>$inventoryWithItems

@@ -1,9 +1,24 @@
-
-	{% for item in checked %}
-		<a href="{{path('edit-item',{id:item.id})}}">
-			<p>
-				{{item.book.title}}
-			</p>
-		</a>
-
-	{% endfor %}
+<div class="cards-wrapper">
+	<div class="cards-container">
+		{% for item in checked %}
+			<div class="card">
+				<div class="card-body">
+					<img class="book-cover" src="{{ asset('img/child-book.svg') }}" alt="book-for-child">
+					<div class="detail book-details">
+						<p>Code :
+							{{ item.book.code }}</p>
+						<p>Titre :
+							{{ item.book.title }}</p>
+						<p>Auteur :
+							{{ item.book.author }}</p>
+						<p>Statut :
+							{{ item.book.status.value }}</p>
+						<p>Emplacement :
+							<span class="location">{{ item.book.location.value }}</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
