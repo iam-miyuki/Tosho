@@ -52,7 +52,7 @@ class Book
     private Collection $inventoryItems;
     #[ORM\Column(nullable: true, enumType: BookStatusEnum::class)]
     private ?BookStatusEnum $status = null;
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     private ?string $code = null;
 
 

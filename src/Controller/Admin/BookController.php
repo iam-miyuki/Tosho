@@ -20,6 +20,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted('ROLE_ADMIN')]
 final class BookController extends AbstractController
 {
+    private function generateUniqueCode(BookRepository $bookRepository): string
+    {
+        do {
+            $code = (string) random_int(1000, 9999);
+            $existingBook = $bookRepository->findOneBy(['code' => $code]);
+        } while ($existingBook !== null); //pour générer le code qui n'est pas encore attribué à un livre
+        return $code;
+    }
+
     #[Route('/', name: 'book')]
     public function index(
         Request $request,
@@ -79,7 +88,8 @@ final class BookController extends AbstractController
                     $book = $form->getData();
                     $book->setAddedAt(new \DateTimeImmutable());
                     $book->setStatus(BookStatusEnum::available);
-                    // TODO : $book->setBookCode();
+                    $code = $this->generateUniqueCode($bookRepository);
+                    $book->setCode($code);
                     $em->persist($book);
                     $em->flush();
                     return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
