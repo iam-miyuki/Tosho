@@ -25,6 +25,7 @@ class InventoryForm extends AbstractType
             ])
             ->add('note', TextareaType::class, [
                 'label' => 'Commentaire (faculatif) : ',
+                'required'=>false
 
             ])
             ->add('date', DateType::class, [

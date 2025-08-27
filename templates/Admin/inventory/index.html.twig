@@ -18,26 +18,14 @@
 		{# tab 'search' #}
 		<div class="tab-content left-tab admin-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
 			{% if tab == 'search' %}
-				{% include 'Admin/inventory/search-form.html.twig' with {'filterForm' : filterForm } %}
-				{% if inventories is defined and inventories is not null %}
-					{% if inventories and inventories|length > 0  %}
-						{% include "Admin/inventory/inventory-list.html.twig" with {currentInventory : currentInventory}  %}
-					{% endif %}
-
-
-				{% endif %}
-				{% if currentInventory %}
-					{% include "Admin/inventory/inventory-page.html.twig" %}
-				{% endif %}
+				{% include 'Admin/inventory/search-form.html.twig' %}
 			{% endif %}
-			{# TODO : afficher la page de détail avec form filter de inventoryitems #}
-
 		</div>
 
 		{# tab 'new' #}
 		<div class="tab-content right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 			{% if tab == 'new' %}
-				{% include 'Admin/inventory/form.html.twig' with {'form': form} %}
+				{% include 'Admin/inventory/form.html.twig'%}
 			{% endif %}
 		</div>
 	</div>

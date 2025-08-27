@@ -25,13 +25,12 @@
 						{{ inventory.note }}</p>
 					<p>Statut :
 						{{ inventory.status.value }}</p>
-					<p>Nombre de livres vérifiés :
-						{{ inventory.inventoryItems|length }}
-					</p>
-					<p>Nombre de livres signalés :{{ notOkItems|length }}
-					</p>
 				</div>
-
+			</div>
+			<div class="btn-wrapper">
+				<div class="href-btn">
+					<a href="{{path('show-inventory',{tab:'search',id:inventory.id})}}">Voir <img src="{{ asset('img/right.svg') }}" alt="right"></a>
+				</div>
 			</div>
 		</div>
 	{% endfor %}

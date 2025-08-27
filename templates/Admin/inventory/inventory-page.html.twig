@@ -1,53 +1,42 @@
-<h3>Chercher par critère :
-</h3>
-{{ form_start(itemFilterForm) }}
-{{ form_row(itemFilterForm) }}
-
-<button type="submit">Chercher</button>
-
-{{ form_end(itemFilterForm) }}
-
-
-<h4>Inventaire du
-	{{ currentInventory.date|date('d/m/Y') }}
-	du Lieu
-	{{currentInventory.location.value}}
-</h4>
-
-{% if items is not empty %}
-	<div class="card">
-        <ul class="inventory-items">
-            {% for item in items %}
-            <div class="card-header">
-				<a href="{{ path('admin-edit-item', { id: item.id }) }}" class="edit">
-					<img src="{{ asset('img/pencil.svg') }}" alt="edit">
-				</a>
-                </div>
-                <div class="card-body">
-                
-                <li>Vérifié le : {{item.createdAt|date('d/m/Y')}} </li>
-                <li>Modifié le : {{item.modifiedAt|date('d/m/Y')}} </li>
-                <li>Réalisé par : {{item.user[item.user|length - 1].email}} </li>
-                <li>Code livre :
-                    {{item.book.code}}
-                </li>
-                <li>Titre :
-                    {{item.book.title}}
-                </li>
-                <li>Auteur :
-                    {{item.book.author}}</li>
-                <li>Batîment :
-                    {{item.book.location.value}}
-                </li>
-                <li>Statut :{{ item.status.value }}</li>
-                <li>Commentaire : {{ item.note}} </li>
-</div>
-            {% endfor %}
-        </ul>
-    </div>
+{% if page is defined and page == 'checked' %}
+	{% include "Admin/inventory/checked.html.twig" %}
+{% elseif page is defined and page == 'not-ok' %}
+	{% include "Admin/inventory/notOk.html.twig" %}
+{% elseif itemToEdit is defined and itemToEdit is not null %}
+	{% include "Admin/inventory/edit-item.html.twig" %}
 {% else %}
-	<p>Aucun élément dans cet inventaire.</p>
+	<div class="card one-card inventory-card">
+		<div class="detail book-details">
+			<h3>Date :
+				{{ currentInventory.date|date('d/m/Y') }}</h3>
+			<h3>Lieu :
+				<div class="location location-inventory">{{ currentInventory.location.value }}</div>
+			</h3>
+			{% if currentInventory.note is not null %}
+				<p>Commentaire :
+					{{ currentInventory.note }}</p>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="btn-card-wrapper">
+		<div>
+			<a href="{{ path('admin-items', { id: currentInventory.id,page:'checked' }) }}">
+				<div class="btn-card">
+					<p>Livres vérifiés :
+						{{items | length}}
+					</p>
+				</div>
+			</a>
+		</div>
+		<div>
+			<a href="{{ path('admin-items', { id: currentInventory.id,page:'not-ok' }) }}">
+				<div class="btn-card">
+					<p>Livres signalés :
+						{{notOkItems| length}}
+					</p>
+				</div>
+			</a>
+		</div>
+	</div>
 {% endif %}
-
-
-

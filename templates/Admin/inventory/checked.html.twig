@@ -1,0 +1,36 @@
+<div class="cards-wrapper">
+	<div class="cards-container">
+		{% if items|length > 0  %}
+			{% for item in items %}
+				<div class="card">
+					<div class="card-body">
+						<img class="book-cover" src="{{ asset('img/child-book.svg') }}" alt="book-for-child">
+						<div class="detail book-details">
+						<p>Statut :
+								{{ item.status.value }}</p>
+							<p>Code :
+								{{ item.book.code }}</p>
+							<p>Titre :
+								{{ item.book.title }}</p>
+							<p>Auteur :
+								{{ item.book.author }}</p>
+							<p>Statut :
+								{{ item.book.status.value }}</p>
+							<p>Emplacement :
+								<span class="location">{{ item.book.location.value }}</span>
+							</p>
+						</div>
+					</div>
+					<div class="href-btn">
+						<a href="{{path('admin-edit-item',{tab:'search',id:item.id})}}">Modifier</a>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="no-result no-loan">
+				<p>Aucun livre a été vérifié</p>
+				<div class="result-icon empty"></div>
+			</div>
+		{% endif %}
+	</div>
+</div>

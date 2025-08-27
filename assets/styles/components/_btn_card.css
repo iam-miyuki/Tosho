@@ -64,3 +64,6 @@
   background-color: var(--color-btn-alert);
   margin-top: 0;
 }
+.href-btn img{
+  width: 15px;
+}
