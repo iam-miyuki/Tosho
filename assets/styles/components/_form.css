@@ -132,3 +132,6 @@ form button:active {
 #inventory_filter_form_date_day{
   margin-left: 0.5rem;
 }
+.isbn-label{
+  margin-bottom: 1rem;
+}

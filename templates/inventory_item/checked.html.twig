@@ -5,6 +5,8 @@
 				<div class="card-body">
 					<img class="book-cover" src="{{ asset('img/child-book.svg') }}" alt="book-for-child">
 					<div class="detail book-details">
+						<p>Statut :
+							{{ item.status.value }}</p>
 						<p>Code :
 							{{ item.book.code }}</p>
 						<p>Titre :
@@ -19,7 +21,7 @@
 					</div>
 				</div>
 				<div class="href-btn">
-					<a href="{{path('edit-item',{tab:'new',id:item.id})}}">Modifier</a>
+					<a href="{{path('edit-item',{tab:'new',id:item.id})}}">Changer statut</a>
 				</div>
 			</div>
 		{% endfor %}

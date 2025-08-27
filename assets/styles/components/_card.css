@@ -219,4 +219,11 @@ img.book-cover {
 .add-wrapper{
   background-color: var(--color-badet);
 }
+.form-wrapper{
+  display: flex;
+  gap: 1rem;
+}
+.new-form{ 
+  background-color: transparent;
+}
 

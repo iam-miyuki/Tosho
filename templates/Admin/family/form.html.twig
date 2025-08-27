@@ -1,36 +1,37 @@
-<div class="card one-card add-wrapper">
-	<div class="card-title card-title-family">
-		<h4>Ajouter une famille<h4>
-		</div>
-		<div class="card-body">
-			{{ form_start(newFamilyForm) }}
-			<div>
-				<div class="form-item">
-					<p>Nom de famille</p>
-					<div class="item-field">
-						:
-						{{ form_widget(newFamilyForm.name, {'attr': {'class': 'form-field'}}) }}</div>
-				</div>
-				<div class="form-item">
-					<p>Nom de famille (JP)</p>
-					<div class="item-field">
-						:
-						{{ form_widget(newFamilyForm.jpName, {'attr': {'class': 'form-field'}}) }}</div>
-				</div>
-				<div class="form-item">
-					<p>Email</p>
-					<div class="item-field">
-						:
-						{{ form_widget(newFamilyForm.email, {'attr': {'class': 'form-field'}}) }}</div>
-				</div>
+<div class="forms-wrapper">
+	<div>
+		<h4>Formulaire d'ajout d'une famille</h4>
+		{{ form_start(newFamilyForm, {
+    'action': path('inventory'),
+    'method': 'POST'
+  }) }}
+		{{ form_start(newFamilyForm) }}
+		<div>
+			<div class="form-item">
+				<p>Nom de famille</p>
+				<div class="item-field">
+					:
+					{{ form_widget(newFamilyForm.name, {'attr': {'class': 'form-field'}}) }}</div>
 			</div>
-			<div class="btn-wrapper">
-				<button class="btn-form" type="submit">Ajouter</button>
-				<div class="href-btn">
-					<a href="{{path('family',{tab:'new'})}}">Annuler</a>
-				</div>
+			<div class="form-item">
+				<p>Nom de famille (JP)</p>
+				<div class="item-field">
+					:
+					{{ form_widget(newFamilyForm.jpName, {'attr': {'class': 'form-field'}}) }}</div>
 			</div>
-			{{ form_end(newFamilyForm) }}
+			<div class="form-item">
+				<p>Email</p>
+				<div class="item-field">
+					:
+					{{ form_widget(newFamilyForm.email, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
 		</div>
+		<div class="btn-wrapper">
+			<button class="btn-form" type="submit">Ajouter</button>
+			<div class="href-btn cancel-btn">
+				<a href="{{path('family',{tab:'new'})}}">Annuler</a>
+			</div>
+		</div>
+		{{ form_end(newFamilyForm) }}
 	</div>
-
+</div>

@@ -39,7 +39,7 @@
   width: max-content;
   border: 1.8px solid var(--color-text);
   border-radius: 1.5rem;
-  background-color: var(--color-cards);
+  background-color: var(--color-btn);
   color: var(--color-text);
   font-weight:600 ;
   cursor: pointer;
@@ -50,6 +50,9 @@
   box-shadow: 5px 6px 0 var(--color-text); 
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   height: fit-content;
+}
+.href-btn.cancel-btn{
+  background-color: var(--color-cards);
 }
 
 .href-btn:hover {

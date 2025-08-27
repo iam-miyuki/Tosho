@@ -44,7 +44,7 @@
 	{{ form_widget(itemForm.note, {'attr': {'class': 'form-field'}}) }}
 	<div class="btn-wrapper">
 		<button class="btn-form" type="submit">Modifier</button>
-		<div class="href-btn"><a href="{{path('admin-items',{id:currentInventory.id,page:'checked'})}}">Annuler</a></div>
+		<div class="href-btn cancel-btn"><a href="{{path('admin-items',{id:currentInventory.id,page:'checked'})}}">Annuler</a></div>
 	</div>
 	{{ form_end(itemForm) }}
 </div>

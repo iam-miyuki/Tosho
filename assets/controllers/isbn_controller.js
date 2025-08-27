@@ -75,8 +75,6 @@ export default class extends Controller {
       document.querySelector("img.book-cover").src = coverUrl;
       document.querySelector("img.book-cover").alt = title;
 
-      
-  
       return {
         title,
         authors,
