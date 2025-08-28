@@ -12,11 +12,13 @@
 		{% include "account/success.html.twig" %}
 	{% elseif userToEdit is defined and userToEdit is not null %}
 		{% include "account/edit.html.twig" %}
+	{% elseif pwdForm is defined %}
+		{% include "account/pwd.html.twig" %}
 	{% else %}
 		<div class="card one-card">
 			<div class="card-header">
 				<div class="icon edit-icon">
-					<a href="{{ path('edit-account', { id: user.id }) }}">
+					<a href="{{ path('edit-account') }}">
 						<span>edit</span>
 					</a>
 				</div>
@@ -33,16 +35,16 @@
 					<div class="detail-item">
 						<p>
 							:
-							{{ user.firstName }}</p>
+							{{ app.user.firstName }}</p>
 						<p>
 							:
-							{{ user.LastName }}</p>
+							{{ app.user.LastName }}</p>
 						<p>
 							:
-							{{ user.jpFirstName }}</p>
+							{{ app.user.jpFirstName }}</p>
 						<p>
 							:
-							{{ user.jpLastName }}</p>
+							{{ app.user.jpLastName }}</p>
 
 					</div>
 				</div>
@@ -50,7 +52,7 @@
 		</div>
 		<div class="btn-wrapper">
 			<div class="href-btn">
-				<a href="">Changer le mot de passe</a>
+				<a href="{{path('change-pwd')}}">Changer le mot de passe</a>
 			</div>
 		</div>
 	{% endif %}

@@ -21,6 +21,19 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[IsGranted('ROLE_ADMIN')]
 final class LibrarienController extends AbstractController
 {
+    private function generatePassword(int $length = 8): string
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $password = '';
+        $maxIndex = strlen($chars) - 1;
+
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $chars[random_int(0, $maxIndex)];
+        }
+
+        return $password;
+    }
+
     #[Route('/', name: 'librarien')]
     public function all(
         UserRepository $userRepository,
@@ -30,7 +43,6 @@ final class LibrarienController extends AbstractController
         MailerInterface $mailer
     ): Response {
         $currentTab = $request->query->get('tab', 'family');
-        $role = 'ROLE_LIBRARIEN';
         $user = new User();
         $registerForm = $this->createForm(RegisterForm::class, $user);
         $registerForm->handleRequest($request);
@@ -38,10 +50,12 @@ final class LibrarienController extends AbstractController
         $form = $this->createForm(SearchForm::class, null);
         $form->handleRequest($request);
 
+        $role = 'ROLE_LIBRARIEN';
+
         if ($request->isMethod('POST')) {
             if ($form->isSubmitted()  && $form->isValid()) {
                 $query = $form->get('query')->getData();
-                $results = $userRepository->findAllWithFilterQuery($role, $query);
+                $results = $userRepository->findAllWithFilterQuery($role,$query);
                 return $this->render('admin/librarien/index.html.twig', [
                     'librariens' => $results,
                     'tab' => 'family',
@@ -50,7 +64,7 @@ final class LibrarienController extends AbstractController
             }
 
             if ($registerForm->isSubmitted() && $registerForm->isValid()) {
-                $password = random_int(1000, 9999); // randomPassword
+                $password = $this->generatePassword(8); // randomPassword
                 $user->setPassword($hasher->hashPassword($user, $password));
                 $user->setRoles(['ROLE_LIBRARIEN']);
                 $user->setIsActive(true);

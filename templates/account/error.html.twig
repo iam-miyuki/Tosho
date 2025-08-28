@@ -1,0 +1,12 @@
+<div class="card one-card alert-card">
+	<div class="card-title">
+		{% if errorConfirm is defined and errorConfirm is not null %}
+			<p>{{errorConfirm}}</p>
+		{% else %}
+			<p>
+				{{errorPwd}}
+			</p>
+		{% endif %}
+	</div>
+	<div class="icon-alert"></div>
+</div>
