@@ -30,3 +30,9 @@ a{
 .no-display{
   display: none;
 }
+p{
+  font-family: var(--font-sub);
+}
+form p{
+  font-weight: 600;
+}

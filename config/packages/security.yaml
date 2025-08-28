@@ -20,7 +20,8 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                default_target_path: home # pour définir quel page afficher après avoir fait login // TODO : Changer quand je fait ma page d'accueil
+                success_handler: App\Security\LoginSuccessHandler
+                # default_target_path: home # pour définir quel page afficher après avoir fait login 
                 #always_use_default_target_path: true 
             logout:
                 path: app_logout
