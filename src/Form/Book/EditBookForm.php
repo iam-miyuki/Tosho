@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class BookForm extends AbstractType
+class EditBookForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -42,6 +42,9 @@ class BookForm extends AbstractType
                 'placeholder' => 'Choisissez un Lieu',
                 'choice_label' => fn($choice) => $choice->value,
                 'required' => true
+            ])
+            ->add('code',TextType::class,[
+                'required'=>true
             ])
         ;
     }

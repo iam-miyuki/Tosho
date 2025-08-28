@@ -4,7 +4,11 @@
 	<div class="card-body">
 		
 			{{ form_start(bookForm) }}
-			<div>
+			<div>			
+				<div class="form-item">
+					<p>Code</p><div class="item-field"> :
+						{{ form_widget(bookForm.code, {'attr': {'class': 'form-field'}}) }}</div>
+				</div>
 				<div class="form-item">
 					<p>Titre</p><div class="item-field"> :
 						{{ form_widget(bookForm.title, {'attr': {'class': 'form-field'}}) }}</div>

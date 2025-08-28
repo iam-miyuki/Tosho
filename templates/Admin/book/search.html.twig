@@ -98,6 +98,9 @@
 			<p>Veuillez le rendre avant de pouvoir le supprimer.</p>
 		</div>
 	{% endif %}
-	{% if successMessage is defined and successMessage is not null %}
+	{% if modifiedBook is defined and modifiedBook is not null %}
 		{% include "Admin/book/success.html.twig" %}
+	{% endif %}
+	{% if erreurCodeBook is defined and erreurCodeBook is not null %}
+		{% include "Admin/book/erreur.html.twig" %}
 	{% endif %}

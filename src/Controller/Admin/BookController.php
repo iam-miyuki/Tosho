@@ -8,6 +8,7 @@ use App\Form\Book\BookForm;
 use App\Enum\BookStatusEnum;
 use App\Form\Book\FindBookForm;
 use App\Form\Book\BookFilterForm;
+use App\Form\Book\EditBookForm;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +40,7 @@ final class BookController extends AbstractController
         $book = new Book();
         $form = $this->createForm(BookForm::class, $book);
         $form->handleRequest($request);
+
         $currentBook = null;
         $all = $bookRepository->findAll();
         $cameleon = $bookRepository->findAllByLocation(LocationEnum::cameleon);
@@ -46,10 +48,10 @@ final class BookController extends AbstractController
         $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
         $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
 
-        $filterForm = $this->createForm(BookFilterForm::class, $book);
+        $filterForm = $this->createForm(BookFilterForm::class, null);
         $filterForm->handleRequest($request);
 
-        $findBookForm = $this->createForm(FindBookForm::class, $book);
+        $findBookForm = $this->createForm(FindBookForm::class, null);
         $findBookForm->handleRequest($request);
 
         $results = null;
@@ -66,38 +68,34 @@ final class BookController extends AbstractController
         ];
 
         if ($request->isMethod('POST')) {
-            if ($currentTab === 'search') {
-                if ($filterForm->isSubmitted()) {
-                    $keyword = $filterForm->get('filter')->getData();
-                    $results = $bookRepository->findAllWithFilterQuery($keyword);
-                    return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
-                        'books' => $results,
-                        'tab' => 'search'
-                    ]));
-                }
-                if ($findBookForm->isSubmitted()) {
-                    $code = $findBookForm->get('code')->getData();
-                    $currentBook = $bookRepository->findOneByCode($code);
-                    return $this->redirectToRoute('admin-show-book', [
-                        'id' => $currentBook->getId()
-                    ]);
-                }
+            if ($filterForm->isSubmitted()) {
+                $keyword = $filterForm->get('filter')->getData();
+                $results = $bookRepository->findAllWithFilterQuery($keyword);
+                return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
+                    'books' => $results,
+                    'tab' => 'search'
+                ]));
             }
-            if ($currentTab === 'new') {
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $book = $form->getData();
-                    $book->setAddedAt(new \DateTimeImmutable());
-                    $book->setStatus(BookStatusEnum::available);
-                    $code = $this->generateUniqueCode($bookRepository);
-                    $book->setCode($code);
-                    $em->persist($book);
-                    $em->flush();
-                    return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
-                        'addedBook' => $book,
-                        'tab' => 'new',
-                        'successMessage' => 'Le livre a été ajouté avec succès'
-                    ]));
-                }
+            if ($findBookForm->isSubmitted()) {
+                $code = $findBookForm->get('code')->getData();
+                $currentBook = $bookRepository->findOneByCode($code);
+                return $this->redirectToRoute('admin-show-book', [
+                    'id' => $currentBook->getId()
+                ]);
+            }
+            if ($form->isSubmitted() && $form->isValid()) {
+                $book = $form->getData();
+                $book->setAddedAt(new \DateTimeImmutable());
+                $book->setStatus(BookStatusEnum::available);
+                $code = $this->generateUniqueCode($bookRepository);
+                $book->setCode($code);
+                $em->persist($book);
+                $em->flush();
+                return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
+                    'addedBook' => $book,
+                    'tab' => 'new',
+                    'successMessage' => 'Le livre a été ajouté avec succès'
+                ]));
             }
         }
         return $this->render(
@@ -163,12 +161,11 @@ final class BookController extends AbstractController
         $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
         $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
 
-
-        $form = $this->createForm(BookForm::class, $book);
-        $form->handleRequest($request);
+        $editForm = $this->createForm(EditBookForm::class, $book);
+        $editForm->handleRequest($request);
 
         $sharedData = [
-            'bookForm' => $form->createView(),
+            'bookForm' => $editForm->createView(),
             'filterForm' => $filterForm->createView(),
             'findBookForm' => $findBookForm->createView(),
             'all' => $all,
@@ -178,16 +175,31 @@ final class BookController extends AbstractController
             'badet' => $badet,
         ];
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            return $this->render(
-                'Admin/book/index.html.twig',
-                array_merge($sharedData, [
-                    'modifiedBook' => $book,
-                    'tab' => 'search',
-                    'successMessage'=>'Le livre a été modifié avec succès'
-                ])
-            );
+        if ($request->isMethod('POST')) {
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $code = $editForm->get('code')->getData();
+                $existingBook = $bookRepository->findOneByCode($code);
+
+                if ($existingBook == null || $existingBook->getId() === $book->getId()) {
+                    $em->flush();
+                    return $this->render(
+                        'Admin/book/index.html.twig',
+                        array_merge($sharedData, [
+                            'modifiedBook' => $book,
+                            'tab' => 'search',
+                            'successMessage' => 'Le livre a été modifié avec succès'
+                        ])
+                    );
+                } else {
+                    return $this->render(
+                        'Admin/book/index.html.twig',
+                        array_merge($sharedData, [
+                            'tab' => 'search',
+                            'erreurCodeBook' => $book
+                        ])
+                    );
+                }
+            }
         }
         return $this->render(
             'Admin/book/index.html.twig',
@@ -250,7 +262,7 @@ final class BookController extends AbstractController
                     $sharedData,
                     [
                         'deletedBook' => $book,
-                        'successMessage'=>'Le livre a été supprimé avec succès'
+                        'successMessage' => 'Le livre a été supprimé avec succès'
                     ]
                 )
             );
