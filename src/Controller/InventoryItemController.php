@@ -64,6 +64,7 @@ final class InventoryItemController extends AbstractController
                     'id' => $inventory->getId(),
                     'book' => $currentBook->getId(),
                     'tab'=>'check'
+                    // TODO ajouter addflash
                 ]);
             } else {
                 return $this->redirectToRoute('edit-item', [

@@ -3,14 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\AccountForm;
-use App\Form\ChangePwdForm;
+use App\Form\Account\AccountForm;
+use App\Form\Account\ChangePwdForm;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route(path: '/account')]
@@ -49,7 +51,8 @@ final class AccountController extends AbstractController
     public function changePwd(
         Request $request,
         EntityManagerInterface $em,
-        UserPasswordHasherInterface $hasher
+        UserPasswordHasherInterface $hasher,
+        MailerInterface $mailer
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -61,12 +64,21 @@ final class AccountController extends AbstractController
             $confirm = $pwdForm->get('confirm')->getData();
 
             if ($hasher->isPasswordValid($user, $pwd)) {
-                if ($newPwd === $confirm) {
+                if ($hasher->isPasswordValid($newPwd, $confirm)) {
                     $user->setPassword($hasher->hashPassword($user, $newPwd));
                     $em->flush();
+                    $email = new TemplatedEmail();
+                    $email
+                        ->from('tosho@mail.com')
+                        ->to($user->getEmail())
+                        ->subject('Votre mot de passe a été changé avec success !')
+                        ->htmlTemplate('account/email.html.twig')
+                        ->context([
+                            'user' => $user,
+                        ]);
+                    $mailer->send($email);
                     return $this->render('account/index.html.twig', [
                         'successMessage' => 'Mot de passe a été changé avec success !',
-                        'pwdForm' => $pwdForm->createView(),
                     ]);
                 } else {
                     return $this->render('account/index.html.twig', [

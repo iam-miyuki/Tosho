@@ -3,18 +3,18 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Form\RegisterForm;
 use App\Form\Librarien\SearchForm;
 use App\Repository\UserRepository;
+use App\Form\Librarien\RegisterForm;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route(path: '/admin/librarien')]
@@ -25,10 +25,10 @@ final class LibrarienController extends AbstractController
     {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $password = '';
-        $maxIndex = strlen($chars) - 1;
+        $maxIndex = strlen($chars) - 1; // strlen(): get string length
 
-        for ($i = 0; $i < $length; $i++) {
-            $password .= $chars[random_int(0, $maxIndex)];
+        for ($i = 0; $i < $length; $i++) { 
+            $password .= $chars[random_int(0, $maxIndex)]; //ajoute ce caractère à la fin de la chaîne $password.
         }
 
         return $password;
