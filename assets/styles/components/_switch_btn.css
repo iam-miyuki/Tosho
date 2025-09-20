@@ -1,0 +1,22 @@
+.switch{
+    width: max-content;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: var(--color-text) solid 2px;
+    font-family: var(--font-sub);
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-right: 2rem;
+    margin-left: auto;
+    display: block;    
+}
+.switch.admin{
+    background-color: var( --color-admin);
+}
+.switch.librarien{
+    background-color: var(--color-primary);
+}
+
+.switch:hover{
+    background-color: var(--color-btn-hover);
+}

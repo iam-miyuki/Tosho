@@ -6,9 +6,10 @@ use App\Enum\LoanStatusEnum;
 use App\Repository\LoanRepository;
 use DateInterval;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+
+use function Symfony\Component\Clock\now;
 
 #[ORM\Entity(repositoryClass: LoanRepository::class)]
 class Loan
@@ -22,8 +23,6 @@ class Loan
     #[ORM\ManyToOne(targetEntity: Family::class)]
     private Family $family;
 
-    //TODO : à mettre propriété librarien + setter/getter
-
     #[ORM\Column(type: 'datetime')]
     private DateTime $loanDate;
 
@@ -33,11 +32,16 @@ class Loan
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $returnDate;
 
-    #[ORM\Column(type: 'string', enumType: LoanStatusEnum::class)]
-    private LoanStatusEnum $loanStatus;
-
     #[ORM\ManyToOne(inversedBy: 'loans')]
     private ?Book $book = null;
+
+    #[ORM\ManyToOne(inversedBy: 'loans')]
+    private ?User $user = null;
+
+    #[ORM\Column(nullable: true, enumType: LoanStatusEnum::class)]
+    private ?LoanStatusEnum $status = null;
+
+
 
     public function getId(): int
     {
@@ -57,7 +61,7 @@ class Loan
     public function setLoanDate(DateTime $loanDate)
     {
         $this->loanDate = clone $loanDate; // clone : stocker $loanDate permet de modifier sans perdre la date d'emprunt
-        $this->setExpectedReturnDate($loanDate); 
+        $this->setExpectedReturnDate($loanDate);
         return $this;
     }
 
@@ -87,17 +91,6 @@ class Loan
         return $this->returnDate;
     }
 
-    public function setLoanStatus(LoanStatusEnum $loanStatus)
-    {
-        $this->loanStatus = $loanStatus;
-        return $this;
-    }
-
-    public function getLoanStatus(): LoanStatusEnum
-    {
-        return $this->loanStatus;
-    }
-
     public function getBook(): ?Book
     {
         return $this->book;
@@ -106,6 +99,36 @@ class Loan
     public function setBook(?Book $book): static
     {
         $this->book = $book;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStatus(): ?LoanStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?LoanStatusEnum $status): static
+    {
+        if ($this->getStatus() === LoanStatusEnum::inProgress) {
+            if ($this->getExpectedReturnDate() < new DateTimeImmutable('now')) {
+                $this->status = LoanStatusEnum::overdue;
+                return $this;
+            }
+        }
+        $this->status = $status;
 
         return $this;
     }

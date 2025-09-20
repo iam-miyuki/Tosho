@@ -3,185 +3,21 @@
 {% block body %}
 	<div class="page-title">
 		<h3>Prêts & Retours</h3>
-		<img src="{{ asset('img/IconLibrarien.svg') }}" alt="book">
+		<img src="{{ asset('img/child-book.svg') }}" alt="book">
 	</div>
 
-	<div>
-		<div
-			class="tab-container">
-			{# label de tabs #}
-			<div class="tabs">
-				<a href="{{ path('loan', {tab: 'family'}) }}" class="tab family-tab {{ tab == 'family' ? 'active' : '' }}" data="family">Chercher par famille</a>
-				<a href="{{ path('loan', {tab: 'book'}) }}" class="tab book-tab {{ tab == 'book' ? 'active' : '' }}" data="book">Chercher par livre</a>
-			</div>
-			{# Rechercher une famille #}
-			<div class="tab-content family-tab {{ tab == 'family' ? 'active' : '' }}">
-
-
-				<form action="" method="POST">
-
-
-					<h3>Chercher par famille</h3>
-					<input type="text" id="family_name" name="family_name" placeholder="Nom de famille…"/>
-					<button type="submit">Rechercher</button>
-				</form>
-
-
-				{% if searchedFamilies %}
-					{% if searchedFamilies|length > 0 %}
-						<h4>Résultats de recherche :
-						</h4>
-						<ul class="result-list">
-							{% for family in searchedFamilies %}
-								<li>
-									<a href="{{ path('loan-by-family', {familyId: family.id}) }}">
-										{{family.name|upper }}
-										/
-										{{family.members[0].firstName}}</a>
-								</li>
-							{% endfor %}
-
-						</ul>
-					{% else %}
-						<p>Aucune famille trouvée !
-						</p>
-					{% endif %}
-
-				{% endif %}
-
-				{% if currentFamily %}
-					<h2>Famille
-						{{ currentFamily.name }}</h2>
-
-					<div>
-						<h3>Ajouter un nouveau prêt</h3>
-					</div>
-					<form method="POST" action="{{ path('new-loan') }}">
-						<input type="hidden" name="family_id" value="{{ currentFamily.id }}">
-						<label for="book_code">Code du livre :</label>
-						<input type="text" name="book_code" required>
-						<button type="submit">Prêter</button>
-					</form>
-
-					<h3>Prêts en cours</h3>
-					{% if loans is defined %}
-
-
-						<div class="cards-container">
-							{% if loans|length > 0 %}
-								{% for loan in loans %}
-									<div class="card">
-										<div class="card-header">
-											<a href="{{ path('return-book', { id: loan.id }) }}" class="return-book"><img src="{{ asset('img/IconClose.svg') }}" alt="rendre">
-												<span>Rendre</span>
-											</a>
-										</div>
-										<div class="card-body">
-											<div class="book-image"></div>
-											<div class="book-details">
-												<p>Code :
-													{{ loan.book.bookCode }}</p>
-												<p>Titre :
-													{{ loan.book.title }}</p>
-												<p>Auteur :
-													{{ loan.book.author }}</p>
-												<p>Date d’emprunt :
-													{{ loan.loanDate|date('d/m/Y') }}</p>
-												<p>Date de retour prévu :
-													{{ loan.expectedReturnDate|date('d/m/Y') }}</p>
-												<p>Statut :
-													{{ loan.loanStatus.value }}</p>
-												<p>Emprunté par : famille
-													{{ loan.family.name }}</p>
-												<p>Emplacement :
-													<span class="location">{{ loan.book.location.value }}</span>
-												</p>
-											</div>
-										</div>
-									</div>
-								{% endfor %}
-							{% else %}
-
-								<p>Aucun prêt en cours !</p>
-							{% endif %}
-						</div>
-
-
-					{% endif %}
-				{% endif %}
-			</div>
-			{# Chercher un livre #}
-			<div class="tab-content book-tab {{ tab == 'book' ? 'active' : '' }}">
-				<form action="" method="POST">
-					<h3>Chercher par livre</h3>
-					<input id="book_code" name="book_code" type="text" placeholder="Code du livre…"/>
-					<button type="submit">Rechercher</button>
-				</form>
-				{% if currentBook is defined and currentBook is not null %}
-
-					{% if currentBookLoan is defined and currentBookLoan is not null %}
-						<div class="card">
-							<div class="card-header">
-								<a href="{{ path('return-book', { id: currentBookLoan.id }) }}" class="return-book"><img src="{{ asset('img/IconClose.svg') }}" alt="rendre">
-									<span>Rendre</span>
-								</a>
-							</div>
-							<div class="card-body">
-								<div class="book-image"></div>
-								<div class="book-details">
-									<p>Code :
-										{{ currentBookLoan.book.bookCode }}</p>
-									<p>Titre :
-										{{ currentBookLoan.book.title }}</p>
-									<p>Auteur :
-										{{ currentBookLoan.book.author }}</p>
-									<p>Date d’emprunt :
-										{{ currentBookLoan.loanDate|date('d/m/Y') }}</p>
-									<p>Date de retour prévu :
-										{{ currentBookLoan.expectedReturnDate|date('d/m/Y') }}</p>
-									<p>Statut :
-										{{ currentBookLoan.loanStatus.value }}</p>
-									<p>Emprunté par : famille
-										{{ currentBookLoan.family.name }}</p>
-									<p>Emplacement :
-										<span class="location">{{ currentBookLoan.book.location.value }}</span>
-									</p>
-								</div>
-							</div>
-
-						</div>
-					{% else %}
-						<div class="card">
-							<h3>Livre disponible</h3>
-							<p>pour prêter ce livre, veuillez d'abord choisir une famille dans l'onglet 'chercher par famille'</p>
-							<div class="card-body">
-								<div class="book-image"></div>
-								<div class="book-details">
-									<p>Code :
-										{{ currentBook.bookCode }}</p>
-									<p>Titre :
-										{{ currentBook.title }}</p>
-									<p>Auteur :
-										{{ currentBook.author }}</p>
-									<p>Statut :
-										{{ currentBook.bookStatus.value }}</p>
-									<p>Emplacement :
-										<span class="location">{{ currentBook.location.value }}</span>
-									</p>
-									
-									
-									
-									
-
-								</div>
-							</div>
-						</div>
-
-					{% endif %}
-				{% endif %}
-
-
-			</div>
+	<div class="tab-container">
+		<div class="tabs">
+			<a href="{{ path('loan', {tab: 'family'}) }}" class="tab librarien-tab left-tab family-tab {{ tab == 'family' ? 'active' : '' }}"><div class="tab-icon"></div>Chercher par nom de famille</a>
+			<a href="{{ path('loan', {tab: 'book'}) }}" class="tab librarien-tab right-tab book-tab {{ tab == 'book' ? 'active' : '' }}"><div class="tab-icon"></div>Chercher par livre</a>
 		</div>
 
-	{% endblock %}
+		<div class="tab-content librarien-tab left-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+			{% include 'loan/search-family.html.twig'  %}
+		</div>
+
+		<div class="tab-content librarien-tab right-tab book-tab {{ tab == 'book' ? 'active' : '' }}">
+			{% include 'loan/search-book.html.twig' %}
+		</div>
+	</div>
+{% endblock %}

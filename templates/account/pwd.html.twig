@@ -1,0 +1,42 @@
+{% if successMessage is defined and successMessage is not null %}
+	{% include "account/success.html.twig" %}
+{% else %}
+	<div class="forms-wrapper">
+		<div>
+			<h4>Changer le mot de passe</h4>
+			{{ form_start(pwdForm, {
+    'action': path('change-pwd'),
+    'method': 'POST'
+  }) }}
+			<div class="form-item">
+				<p>Mot de passe actuel</p>
+				<div class="item-field">
+					:
+					{{ form_widget(pwdForm.password, {'attr': {'class': 'form-field search-input'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Nouveau mot de passe</p>
+				<div class="item-field">
+					:
+					{{ form_widget(pwdForm.newPwd, {'attr': {'class': 'form-field search-input', 'placeholder':''}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Confirmez le nouveau mot de passe</p>
+				<div class="item-field">
+					:
+					{{ form_widget(pwdForm.confirm, {'attr': {'class': 'form-field search-input', 'placeholder':''}}) }}</div>
+			</div>
+			<div class="btn-wrapper">
+				<button class="btn-form" type="submit">Changer le mot de passe</button>
+				<div class="href-btn cancel-btn">
+					<a href="{{path('account')}}">Annuler</a>
+				</div>
+			</div>
+			{{ form_end(pwdForm) }}
+		</div>
+
+	</div>
+	{% if errorConfirm is defined and errorConfirm is not null or errorPwd is defined and errorPwd is not null %}
+		{% include "account/error.html.twig" %}
+	{% endif %}
+{% endif %}

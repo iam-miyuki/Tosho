@@ -1,0 +1,42 @@
+{% if page is defined and page == 'checked' %}
+	{% include "Admin/inventory/checked.html.twig" %}
+{% elseif page is defined and page == 'not-ok' %}
+	{% include "Admin/inventory/notOk.html.twig" %}
+{% elseif itemToEdit is defined and itemToEdit is not null %}
+	{% include "Admin/inventory/edit-item.html.twig" %}
+{% else %}
+	<div class="card one-card inventory-card">
+		<div class="detail book-details">
+			<h3>Date :
+				{{ currentInventory.date|date('d/m/Y') }}</h3>
+			<h3>Lieu :
+				<div class="location location-inventory">{{ currentInventory.location.value }}</div>
+			</h3>
+			{% if currentInventory.note is not null %}
+				<p>Commentaire :
+					{{ currentInventory.note }}</p>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="btn-card-wrapper">
+		<div>
+			<a href="{{ path('admin-items', { id: currentInventory.id,page:'checked' }) }}">
+				<div class="btn-card">
+					<p>Livres vérifiés :
+						{{items | length}}
+					</p>
+				</div>
+			</a>
+		</div>
+		<div>
+			<a href="{{ path('admin-items', { id: currentInventory.id,page:'not-ok' }) }}">
+				<div class="btn-card">
+					<p>Livres signalés :
+						{{notOkItems| length}}
+					</p>
+				</div>
+			</a>
+		</div>
+	</div>
+{% endif %}

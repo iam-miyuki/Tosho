@@ -32,29 +32,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+    // //    /**
+    // //     * @return User[] Returns an array of User objects
+    // //     */
+    public function findAllWithFilterQuery(string $role, string $query): array
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->where('u.roles LIKE :role')
+            ->andWhere(
+                $qb->expr()->orX( //orX : creer un OR entre les conditions, expr : nécessaire pour combiner AND et OR
+                    $qb->expr()->like('u.firstName', ':query'), 
+                    $qb->expr()->like('u.lastName', ':query'),
+                    $qb->expr()->like('u.jpFirstName', ':query'),
+                    $qb->expr()->like('u.jpLastName', ':query'),
+                    $qb->expr()->like('u.email', ':query')
+                )
+            )
+            ->setParameter('role', '%' . $role . '%')
+            ->setParameter('query', '%' . $query . '%');
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        return $qb->getQuery()->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+    //    public function findOneBySomeField($value): ?User
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

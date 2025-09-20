@@ -1,0 +1,12 @@
+<div class="card one-card success-card">
+	<div class="card-title">
+		{{successMessage}}
+	</div>
+	<div class="icon-success"></div>
+	{% if edited is defined and edited is not null %}
+		<div class="href-btn">
+			<a href="{{path('show-family',{id:edited.id})}}">Voir la famille</a>
+		</div>
+	{% endif %}
+
+</div>

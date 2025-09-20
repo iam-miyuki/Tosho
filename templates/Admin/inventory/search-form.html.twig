@@ -1,0 +1,34 @@
+{% if currentInventory is defined and currentInventory is not null %}
+	{% include "Admin/inventory/inventory-page.html.twig" %}
+{% else %}
+
+	<div class="forms-wrapper filter-form">
+
+		<div>
+			<h4>Filtrer les inventaires</h4>
+			{{ form_start(filterForm, {
+			'action': path('inventory'),
+			'method': 'POST'
+		  }) }}
+
+			<div class="filter-item">
+				<p>Statut :
+				</p>
+
+				{{ form_widget(filterForm.status, {'attr': {'class': 'form-field enum-field'}}) }}
+			</div>
+			<div class="filter-item">
+				<p>Lieu :
+				</p>
+
+				{{ form_widget(filterForm.location, {'attr': {'class': 'form-field enum-field'}}) }}
+			</div>
+			<button type="submit" class="btn">Chercher</button>
+			{{ form_end(filterForm) }}
+		</div>
+	</div>
+
+	{% if inventories is defined and inventories is not null %}
+		{% include "Admin/inventory/inventory-list.html.twig" %}
+	{% endif %}
+{% endif %}

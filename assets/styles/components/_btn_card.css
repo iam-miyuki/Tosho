@@ -1,0 +1,72 @@
+.btn-card {
+  display: inline-block;
+  margin: 1 auto;
+  padding: 0.5rem 1.5rem;
+  border: 2px solid var(--color-text);
+  border-radius: 1rem;
+  font-weight: 700;
+  background-color: var(--color-btn);
+  width: 8rem;
+  cursor: pointer;
+  font-family: var(--font-sub);
+  cursor: pointer;
+  box-shadow: 5px 6px 0 var(--color-text);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn-card:active {
+  box-shadow: 2px 2px 0 var(--color-text);
+  transform: translate(2px, 2px);
+}
+
+.btn-card-wrapper {
+  margin: 3rem;
+  display: flex;
+  justify-content: space-around;
+}
+.btn-wrapper {
+  display: flex;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+  height: max-content;
+  margin-top: 1.5rem;
+  gap: 2rem;
+}
+
+.href-btn {
+  display: inline-block;
+  width: max-content;
+  border: 1.8px solid var(--color-text);
+  border-radius: 1.5rem;
+  background-color: var(--color-btn);
+  color: var(--color-text);
+  font-weight:600 ;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  font-family: var(--font-main);
+  font-size: var(--font-xs);
+  cursor: pointer;
+  box-shadow: 5px 6px 0 var(--color-text); 
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  height: fit-content;
+}
+.href-btn.cancel-btn{
+  background-color: var(--color-cards);
+}
+
+.href-btn:hover {
+  background-color: var(--color-btn-hover);
+}
+.href-btn:active {
+  box-shadow: 2px 2px 0 var(--color-text);
+  transform: translate(2px, 2px);
+}
+
+.btn-alert{
+  background-color: var(--color-btn-alert);
+  margin-top: 0;
+}
+.href-btn img{
+  width: 15px;
+}

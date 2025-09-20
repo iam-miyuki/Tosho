@@ -1,0 +1,40 @@
+{% if addedInventory is defined and addedInventory is not null %}
+	{% include "Admin/inventory/success.html.twig" %}
+{% else %}
+	<div class="forms-wrapper">
+		<div>
+			<h4>Programmer un nouvel inventaire</h4>
+			{{ form_start(form, {
+    'action': path('inventory'),
+    'method': 'POST'
+  }) }}
+			<div class="form-item">
+				<p>Date :</p>
+				<div class="item-field">
+					{{ form_widget(form.date, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Lieu :
+				</p>
+				<div class="item-field">
+					{{ form_widget(form.location, {'attr': {'class': 'form-field enum-field', 'placeholder':'Choisissez'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Commentaire :
+				</p>
+				<div class="item-field">
+					{{ form_widget(form.note, {'attr': {'class': 'form-field search-input', 'placeholder':'Notice, etc...'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Statut :
+				</p>
+				<div class="item-field">
+					{{ form_widget(form.status, {'attr': {'class': 'form-field enum-field', 'placeholder':'Choisissez'}}) }}</div>
+			</div>
+			<button type="submit" class="btn">Créer</button>
+			{{ form_end(form) }}
+		</div>
+
+	</div>
+
+{% endif %}

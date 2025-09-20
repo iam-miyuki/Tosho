@@ -1,0 +1,35 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block body %}
+	<div class="page-title">
+		<h3>Gestion des livres</h3>
+		<img src="{{ asset('img/child-book.svg') }}" alt="book">
+	</div>
+
+	<div class="tab-container">
+		<div class="tabs">
+			<a href="{{ path('book', {tab: 'search'}) }}" class="tab left-tab admin-tab search-tab  {{ tab == 'search' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Chercher un livre
+			</a>
+			<a href="{{ path('book', {tab: 'new'}) }}" class="tab right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Ajouter un livre
+			</a>
+		</div>
+
+		<div class="tab-content left-tab admin-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+			{% if tab == 'search' %}
+				{% include 'Admin/book/search.html.twig' %}
+			{% endif %}
+		</div>
+
+		<div class="tab-content right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+			{% if tab == 'new' %}
+				{% if successMessage is defined and successMessage is not null %}
+					{% include "Admin/book/success.html.twig" %}
+				{% else %}
+					{% include 'Admin/book/new-book-form.html.twig' %}
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

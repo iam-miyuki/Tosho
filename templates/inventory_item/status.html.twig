@@ -1,0 +1,50 @@
+<div class="forms-wrapper">
+	<div class="detail book-details">
+		<h3>Date :
+			{{ currentInventory.date|date('d/m/Y') }}</h3>
+		<h3>Lieu :
+			<div class="location location-inventory">{{ currentInventory.location.value }}</div>
+		</h3>
+		{% if currentInventory.note is not null %}
+			<p>Commentaire :
+				{{ currentInventory.note }}</p>
+		{% endif %}
+	</div>
+</div>
+{% if all is defined and all is not null %}
+	{% include "inventory_item/all.html.twig" %}
+{% elseif checked is defined and checked is not null %}
+	{% include "inventory_item/checked.html.twig" %}
+{% elseif noChecked is defined and noChecked is not null %}
+	{% include "inventory_item/no-checked.html.twig" %}
+{% else %}
+	<div class="btn-card-wrapper">
+		<div>
+			<a href="{{ path('item-list', { id: currentInventory.id,page:'all' }) }}">
+				<div class="btn-card">
+					<p>Total livres à verifier :
+						{{allBooksByLocation | length}}
+					</p>
+				</div>
+			</a>
+		</div>
+		<div>
+			<a href="{{ path('item-list', { id: currentInventory.id,page:'checked' }) }}">
+				<div class="btn-card">
+					<p>Livres vérifiés :
+						{{checkedItems | length}}
+					</p>
+				</div>
+			</a>
+		</div>
+		<div>
+			<a href="{{ path('item-list', { id: currentInventory.id,page:'no-checked' }) }}">
+				<div class="btn-card">
+					<p>Reste à vérifier :
+						{{noCheckedBooks| length}}
+					</p>
+				</div>
+			</a>
+		</div>
+	</div>
+{% endif %}

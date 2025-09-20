@@ -1,0 +1,15 @@
+<div class="card one-card alert-card">
+	<div class="card-title">
+		<p>Ce code est déjà attribué à un autre livre. Veuillez en saisir un nouveau.</p>
+	</div>
+	<div class="icon-alert"></div>
+		<div class="btn-wrapper">
+			<div class="href-btn">
+				<a href="{{path('edit-book',{id:erreurCodeBook.id})}}">Modifier le code</a>
+			</div>
+			<div class="href-btn">
+				<a href="{{path('admin-show-book',{id:erreurCodeBook.id})}}">Annuler la modification</a>
+			</div>
+		</div>
+</div>
+

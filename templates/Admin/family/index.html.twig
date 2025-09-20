@@ -1,0 +1,36 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block body %}
+	<div class="page-title">
+		<h3>Gestion des familles</h3>
+		<img src="{{ asset('img/family.svg') }}" alt="book">
+	</div>
+
+	<div class="tab-container">
+		<div class="tabs">
+			<a href="{{ path('family', {tab: 'family'}) }}" class="tab left-tab admin-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Chercher une famille
+			</a>
+			<a href="{{ path('family', {tab: 'new'}) }}" class="tab right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+				<div class="tab-icon"></div>Ajouter une famille
+			</a>
+		</div>
+
+		<div class="tab-content left-tab admin-tab family-tab {{ tab == 'family' ? 'active' : '' }}">
+			{% if tab == 'family' %}
+				{% include 'Admin/family/family.html.twig' %}
+			{% endif %}
+		</div>
+
+		<div class="tab-content right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
+			{% if tab == 'new' %}
+				{% if addedFamily is defined and addedFamily is not null %}
+					{% include "Admin/family/success.html.twig" %}
+				{% else %}
+					{% include 'Admin/family/form.html.twig' %}
+				{% endif %}
+			{% endif %}
+
+		</div>
+	</div>
+{% endblock %}

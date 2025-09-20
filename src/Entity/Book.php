@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Entity;
+
 use App\Enum\BookStatusEnum;
 use App\Enum\LocationEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
-class Book 
+class Book
 {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
@@ -21,17 +23,12 @@ class Book
     #[ORM\Column(type:'string')]
     private string $author;
 
-    #[ORM\Column(type:'string')]
-    private string $coverUrl;
+    #[ORM\Column(type:'string', nullable: true)]
+    private ?string $coverUrl;
 
-    #[ORM\Column(type:'string', enumType: LocationEnum::class)] 
+    #[ORM\Column(type:'string', enumType: LocationEnum::class)]
     private LocationEnum $location;
 
-    #[ORM\Column(type: 'string', enumType: BookStatusEnum::class)]
-    private BookStatusEnum $bookStatus;
-
-    #[ORM\Column(length: 255)]
-    private ?string $bookCode = null;
 
     /**
      * @var Collection<int, Loan>
@@ -45,21 +42,34 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jpAuthor = null;
 
-    
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $addedAt = null;
 
-    
+    /**
+     * @var Collection<int, InventoryItem>
+     */
+    #[ORM\OneToMany(targetEntity: InventoryItem::class, mappedBy: 'book')]
+    private Collection $inventoryItems;
+    #[ORM\Column(nullable: true, enumType: BookStatusEnum::class)]
+    private ?BookStatusEnum $status = null;
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $code = null;
+
 
     public function __construct()
     {
-        $this->loans = new ArrayCollection();        
+        $this->inventoryItems = new ArrayCollection();
     }
 
-    
+
+
+
+
 
     public function getId(): int
     {
         return $this->id;
-    }   
+    }
 
 
     public function setTitle(string $title)
@@ -84,13 +94,13 @@ class Book
         return $this->author;
     }
 
-    public function setCoverUrl(string $coverUrl)
+    public function setCoverUrl(?string $coverUrl)
     {
         $this->coverUrl = $coverUrl;
         return $this;
     }
 
-    public function getCoverUrl(): string
+    public function getCoverUrl(): ?string
     {
         return $this->coverUrl;
     }
@@ -106,29 +116,6 @@ class Book
         return $this->location;
     }
 
-    public function setBookStatus(BookStatusEnum $bookStatus)
-    {
-        $this->bookStatus = $bookStatus;
-        return $this;
-    }
-
-    public function getBookStatus(): BookStatusEnum
-    {
-        return $this->bookStatus;
-    }
-
-
-    public function getBookCode(): ?string
-    {
-        return $this->bookCode;
-    }
-
-    public function setBookCode(string $bookCode): static
-    {
-        $this->bookCode = $bookCode;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Loan>
@@ -184,6 +171,67 @@ class Book
         return $this;
     }
 
-    
-   
+    /**
+     * @return Collection<int, InventoryItem>
+     */
+    public function getInventoryItems(): Collection
+    {
+        return $this->inventoryItems;
+    }
+
+    public function addInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if (!$this->inventoryItems->contains($inventoryItem)) {
+            $this->inventoryItems->add($inventoryItem);
+            $inventoryItem->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if ($this->inventoryItems->removeElement($inventoryItem)) {
+            // set the owning side to null (unless already changed)
+            if ($inventoryItem->getBook() === $this) {
+                $inventoryItem->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAddedAt(): ?\DateTimeImmutable
+    {
+        return $this->addedAt;
+    }
+
+    public function setAddedAt(?\DateTimeImmutable $addedAt): static
+    {
+        $this->addedAt = $addedAt;
+
+        return $this;
+    }
+
+    public function getStatus(): ?BookStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?BookStatusEnum $status): static
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): static
+    {
+        $this->code = $code;
+        return $this;
+    }
 }

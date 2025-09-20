@@ -1,0 +1,62 @@
+<div data-controller="isbn">
+	<form>
+		<label class="isbn-label" for="isbn">Pré-remplir le formulaire par un code ISBN</label>
+		<input type="text" placeholder="ISBN" id="isbn_search" name="isbn" class="search-input">
+		<button data-action="click->isbn#getBookInfoJp isbn#getBookInfoByISBN" type="button" id="btn_search">Chercher</button>
+	</form>
+</div>
+
+<div class="forms-wrapper">
+	<div>
+	<h4>Formulaire d'ajout d'un nouveau livre</h4>
+		{{ form_start(bookForm) }}
+		<div>
+			<div class="form-item">
+				<p>Titre</p>
+				<div class="item-field">
+					:
+					{{ form_widget(bookForm.title, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Auteur</p>
+				<div class="item-field">
+					:
+					{{ form_widget(bookForm.author, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Titre (JP)
+				</p>
+				<div>
+					:
+					{{ form_widget(bookForm.jpTitle, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Auteur (JP)</p>
+				<div>
+					:
+					{{ form_widget(bookForm.jpAuthor, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Lieu</p>
+				<div>
+					:
+					{{ form_widget(bookForm.location, {'attr': {'class': 'form-field enum-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>URL Couverture</p>
+				<div>
+					:
+					{{ form_widget(bookForm.coverUrl, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<img class="book-cover" src="{{ asset('img/child-book.svg') }}" alt="book-for-child">
+		</div>
+		<div class="btn-wrapper">
+			<button class="btn-form" type="submit">Ajouter</button>
+			<div class="href-btn cancel-btn">
+				<a href="{{path('book',{tab:'new'})}}">Annuler</a>
+			</div>
+		</div>
+		{{ form_end(bookForm) }}
+
+	</div>
+</div>

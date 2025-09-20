@@ -1,0 +1,39 @@
+<div class="card one-card">
+    <div class="card-header">
+        <div class="icon delete-icon">
+            <a href="{{ path('delete-librarien', { id: librarien.id }) }}">
+                <span>delete</span>
+            </a>
+        </div>
+    </div>
+    <div class="card-title card-title-family">
+        <h3>{{ librarien.lastName|upper }} / {{ librarien.firstName }}</h3>
+    </div>
+    <div class="card-body">
+        <div class="detail">
+            <div class="detail-item item-label">
+                <p>Nom de famille</p>
+                <p>Prénom</p>
+                <p>Nom de famille (JP)</p>
+                <p>Prénom (JP)</p>
+                <p>Email</p>
+                <p>Statut</p>
+            </div>
+
+            <div class="detail-item">
+                <p>: {{ librarien.lastName }}</p>
+                <p>: {{ librarien.firstName }}</p>
+                <p>: {{ librarien.jpLastName }}</p>
+                <p>: {{ librarien.jpFirstName }}</p>
+                <p>: {{ librarien.email }}</p>
+
+                {# Bouton toggle #}
+                <button
+                    class="active-btn {{ librarien.isActive ? 'btn-green' : 'btn-red' }}"
+                    data-href="{{ path('change-status', {id: librarien.id}) }}">
+                    {{ librarien.isActive ? 'Activé' : 'Désactivé' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

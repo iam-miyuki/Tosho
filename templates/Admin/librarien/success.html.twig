@@ -1,0 +1,23 @@
+<div class="card one-card success-card">
+	<div class="card-title">
+		{{successMessage}}
+	</div>
+	<div class="icon-success"></div>
+	{% if addedUser is defined and addedUser is not null %}
+	<p>Un mail a été envoyé à {{ addedUser.email }}.</p>
+        <div class="btn-wrapper">
+			<div class="href-btn">
+				<a href="{{path('show-librarien',{tab:'family',id:addedUser.id})}}">Voir</a>
+			</div>
+			<div class="href-btn">
+				<a href="{{path('librarien',{tab:'new'})}}">Ajouter un(e) autre bibliothécaire</a>
+			</div>
+		</div>
+{% elseif deletedUser is defined and deletedUser is not null %}
+	<div class="btn-wrapper">
+			<div class="href-btn">
+				<a href="{{path('librarien',{tab:'family'})}}">Retour</a>
+			</div>
+		</div>
+		{% endif %}
+</div>

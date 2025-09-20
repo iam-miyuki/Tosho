@@ -1,0 +1,38 @@
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border-color: var(--color-text);
+  text-align: center;
+  font-family: var(--font-main);
+  margin-top: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+h1 {
+  font-family: var(--font-sub);
+  font-size: var(--font-s);
+}
+
+li {
+  list-style: none;
+  padding: 0.5rem;
+  text-align: start;
+}
+
+a{
+  text-decoration: none;
+  color: var(--color-text);
+}
+.page-wrapper{
+  min-height: 100vh;
+}
+.no-display{
+  display: none;
+}
+p{
+  font-family: var(--font-sub);
+}
+form p{
+  font-weight: 600;
+}

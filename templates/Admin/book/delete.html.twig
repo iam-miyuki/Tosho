@@ -1,0 +1,32 @@
+<div class="card one-card alert-card">
+    <div class="card-title">
+        <h4>Voulez-vous vraiment supprimer ce livre ?</h4>
+    </div>
+    <div class="card-body">
+        <div class="detail">
+            <div class="detail-item item-label">
+                <p>Code</p>
+                <p>Titre</p>
+                <p>Auteur</p>
+                <p>Statut</p>
+                <p>Lieu</p>
+            </div>
+            <div class="detail-item">
+                <p>: {{ bookToDelete.code }}</p>
+                <p>: {{ bookToDelete.title }}</p>
+                <p>: {{ bookToDelete.author }}</p>
+                <p>: {{ bookToDelete.status.value }}</p>
+                <p>: <span class="location">{{ bookToDelete.location.value }}</span></p>
+            </div>
+        </div>
+
+    </div>
+        <div class="btn-wrapper">
+            <form method="POST">
+                <button class="btn-form btn-alert"type="submit">Supprimer</button>
+            </form>
+                <div class="href-btn cancel-btn"><a href="{{path('admin-show-book',{id:bookToDelete.id})}}">Annuler</a></div>
+        </div>
+</div>
+
+

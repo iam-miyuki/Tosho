@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\FamilyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: FamilyRepository::class)]
+#[UniqueEntity(fields: ["email"], message: "Cet email est déjà utilisé.")]
 class Family
 {
     #[ORM\Id]
@@ -19,20 +19,18 @@ class Family
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $code = null;
+    private ?string $jpName = null;
 
-    /**
-     * @var Collection<int, Member>
-     */
-    #[ORM\OneToMany(targetEntity: Member::class, mappedBy: 'family')]
-    private Collection $members;
+    #[ORM\Column(length: 255, nullable: false, unique: true)]
+    private ?string $email = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
-        $this->members = new ArrayCollection();
     }
 
-    
 
     public function getId(): ?int //soit null soit int
     {
@@ -51,48 +49,39 @@ class Family
         return $this;
     }
 
-    public function getCode(): ?string
+    public function getJpName(): ?string
     {
-        return $this->code;
+        return $this->jpName;
     }
 
-    public function setCode(?string $code): static
+    public function setJpName(?string $jpName): static
     {
-        $this->code = $code;
+        $this->jpName = $jpName;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Member>
-     */
-    public function getMembers(): Collection
+    public function getEmail(): ?string
     {
-        return $this->members;
+        return $this->email;
     }
 
-    public function addMember(Member $member): static
+    public function setEmail(?string $email): static
     {
-        if (!$this->members->contains($member)) {
-            $this->members->add($member);
-            $member->setFamily($this);
-        }
+        $this->email = $email;
 
         return $this;
     }
 
-    public function removeMember(Member $member): static
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        if ($this->members->removeElement($member)) {
-            // set the owning side to null (unless already changed)
-            if ($member->getFamily() === $this) {
-                $member->setFamily(null);
-            }
-        }
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
-
-
-    
 }

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="page-title">
+		<h3>Mon compte
+		</h3>
+		<img src="{{ asset('img/profile-3.svg') }}" alt="account">
+	</div>
+
+	{% if editedUser is defined and editedUser is not null %}
+		{% include "account/success.html.twig" %}
+	{% elseif userToEdit is defined and userToEdit is not null %}
+		{% include "account/edit.html.twig" %}
+	{% elseif pwdForm is defined %}
+		{% include "account/pwd.html.twig" %}
+	{% else %}
+		<div class="card one-card">
+			<div class="card-header">
+				<div class="icon edit-icon">
+					<a href="{{ path('edit-account') }}">
+						<span>edit</span>
+					</a>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="detail">
+					<div class="detail-item item-label">
+						<p>Nom de famille</p>
+						<p>Prénom</p>
+						<p>Nom de famille (JP)</p>
+						<p>Prénom (JP)</p>
+					</div>
+
+					<div class="detail-item">
+						<p>
+							:
+							{{ app.user.firstName }}</p>
+						<p>
+							:
+							{{ app.user.LastName }}</p>
+						<p>
+							:
+							{{ app.user.jpFirstName }}</p>
+						<p>
+							:
+							{{ app.user.jpLastName }}</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="btn-wrapper">
+			<div class="href-btn">
+				<a href="{{path('change-pwd')}}">Changer le mot de passe</a>
+			</div>
+		</div>
+	{% endif %}
+
+{% endblock %}

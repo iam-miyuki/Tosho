@@ -1,0 +1,118 @@
+.tab{
+  font-family: var(--font-main);
+}
+.tab-container {
+  border-radius: 12px;
+  margin: 2rem 5rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  flex: 1;
+  cursor: pointer;
+  border: 2px solid;
+  font-weight: bold;
+  font-size: var(--font-m);
+  color: var(--color-text);
+  border-radius: 8px 8px 0 0;
+  padding: 1rem 2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+.tab-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-right: 0.5rem;
+}
+
+.family-tab .tab-icon{
+  background-image: url("../../img/search-user.svg");
+}
+
+.book-tab .tab-icon, .search-tab .tab-icon {
+  background-image: url("../../img/search-2.svg");
+}
+
+.new-tab .tab-icon {
+  background-image: url("../../img/plus.svg");
+}
+
+.status-tab .tab-icon {
+  background-image: url("../../img/search-3.svg");
+}
+
+.check-tab .tab-icon{
+  background-image: url("../../img/search-check.svg");
+}
+
+.tab.active {
+  border-bottom: none;
+}
+
+.tab-content {
+  display: none;
+  padding: 3rem;
+  background: #fff;
+  border: 2px solid;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  font-family: var(--font-sub);
+  font-weight: 600;
+  min-height: 300px;
+  align-items: center;
+}
+.tab-content img{
+  width: 30px;
+  height: auto;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.librarien-tab.right-tab{
+  background-color: var(--color-admin);
+}
+.librarien-tab.left-tab{
+  background-color: var(--color-primary);
+}
+
+.admin-tab.left-tab{
+  background-color: var(--color-admin);
+}
+.admin-tab.right-tab{
+  background-color: var(--color-primary);
+}
+
+.tab.librarien-tab:hover, .tab.admin-tab:hover{
+  background-color: var(--color-btn-hover);
+}
+
+.tab.librarien-tab.left-tab.active:hover{
+  background-color: var(--color-primary);
+}
+.tab.librarien-tab.right-tab.active:hover{
+  background-color: var(--color-admin);
+}
+.tab.admin-tab.left-tab.active:hover{
+  background-color: var(--color-admin);
+}
+.tab.admin-tab.right-tab.active:hover{
+  background-color: var(--color-primary);
+}

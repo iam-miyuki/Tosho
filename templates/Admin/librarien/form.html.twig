@@ -1,0 +1,46 @@
+{% if addedUser is defined and addedUser is not null %}
+{% include "admin/librarien/success.html.twig" %}
+{% else %}
+<div class="forms-wrapper">
+	<div>
+		<h4>Formulaire d'ajout un(e) bibliothécaire</h4>
+		{{ form_start(registerForm, {
+    'action': path('librarien'),
+    'method': 'POST'
+  }) }}
+		<div class="form-item">
+			<p>Nom de famille</p>
+			<div class="item-field">
+				:
+				{{ form_widget(registerForm.lastName, {'attr': {'class': 'form-field search-input', 'placeholder':'Dupont'}}) }}</div>
+		</div>
+		<div class="form-item">
+			<p>Prénom</p>
+			<div class="item-field">
+				:
+				{{ form_widget(registerForm.firstName, {'attr': {'class': 'form-field search-input', 'placeholder':'Hanako'}}) }}</div>
+		</div>
+		<div class="form-item">
+			<p>Nom de famille (JP)</p>
+			<div class="item-field">
+				:
+				{{ form_widget(registerForm.jpLastName, {'attr': {'class': 'form-field search-input', 'placeholder':'デュポン'}}) }}</div>
+		</div>
+		<div class="form-item">
+			<p>Prénom (JP)</p>
+			<div class="item-field">
+				:
+				{{ form_widget(registerForm.jpFirstName, {'attr': {'class': 'form-field search-input', 'placeholder':'ハナコ'}}) }}</div>
+		</div>
+		<div class="form-item">
+			<p>Email</p>
+			<div class="item-field">
+				:
+				{{ form_widget(registerForm.email, {'attr': {'class': 'form-field search-input', 'placeholder':'example@mail.com'}}) }}</div>
+		</div>
+		<button type="submit" class="btn">Ajouter</button>
+		{{ form_end(registerForm) }}
+	</div>
+
+</div>
+{% endif %}

@@ -33,9 +33,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    
 
-   
+    /**
+     * @var Collection<int, Loan>
+     */
+    #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'user')]
+    private Collection $loans;
+
+    /**
+     * @var Collection<int, InventoryItem>
+     */
+    #[ORM\ManyToMany(targetEntity: InventoryItem::class, mappedBy: 'user')]
+    private Collection $inventoryItems;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jpLastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jpFirstName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isActive = null;
+
+    public function __construct()
+    {
+        $this->loans = new ArrayCollection();
+        $this->inventoryItems = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -50,7 +81,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -110,5 +140,123 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    
+
+
+
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): static
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): static
+    {
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getUser() === $this) {
+                $loan->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryItem>
+     */
+    public function getInventoryItems(): Collection
+    {
+        return $this->inventoryItems;
+    }
+
+    public function addInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if (!$this->inventoryItems->contains($inventoryItem)) {
+            $this->inventoryItems->add($inventoryItem);
+            $inventoryItem->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryItem(InventoryItem $inventoryItem): static
+    {
+        if ($this->inventoryItems->removeElement($inventoryItem)) {
+            $inventoryItem->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getJpLastName(): ?string
+    {
+        return $this->jpLastName;
+    }
+
+    public function setJpLastName(?string $jpLastName): static
+    {
+        $this->jpLastName = $jpLastName;
+
+        return $this;
+    }
+
+    public function getJpFirstName(): ?string
+    {
+        return $this->jpFirstName;
+    }
+
+    public function setJpFirstName(?string $jpFirstName): static
+    {
+        $this->jpFirstName = $jpFirstName;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): static
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
 }

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inventaire - Bibliothécaire
+{% endblock %}
+
+{% block body %}
+	<div class="page-title">
+		<h3>Inventaire</h3>
+		<img src="{{ asset('img/books.svg') }}" alt="inventory">
+	</div>
+
+	{% if currentInventory is defined and currentInventory is not null %}
+		{% include "inventory_item/inventory.html.twig" %}
+	{% else %}
+		<h4 class="section-title">Sessions inventaires ouvertes</h4>
+
+		<div class="btn-card-wrapper">
+			{% if inventories and inventories|length > 0 %}
+				{% for i in inventories %}
+					<a href="{{ path('inventory-page', { id: i.id }) }}">
+						<div class="btn-card">
+							<p>Date :
+								{{ i.date|date('d/m/Y') }}</p>
+							<p>Lieu :
+							</p>
+							<p class="location location-inventory">{{ i.location.value }}</p>
+
+						</div>
+					</a>
+				{% endfor %}
+			{% else %}
+				<div class="no-result">
+					<p>Aucune session d’inventaire ouverte</p>
+				</div>
+			{% endif %}
+		</div>
+	{% endif %}
+{% endblock %}

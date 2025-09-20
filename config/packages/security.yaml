@@ -20,13 +20,14 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                default_target_path: loan # pour définir quel page afficher après avoir fait login // TODO : Changer quand je fait ma page d'accueil
+                success_handler: App\Security\LoginSuccessHandler
+                # default_target_path: home # pour définir quel page afficher après avoir fait login 
                 #always_use_default_target_path: true 
             logout:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
-
+            user_checker: App\Security\UserChecker # vérifier si le compte utilisateur est activé
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 

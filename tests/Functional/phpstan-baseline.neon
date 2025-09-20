@@ -1,0 +1,343 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Admin/BookController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Admin/FamilyController.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Entity\\InventoryItem\:\:addUser\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/InventoryController.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Entity\\InventoryItem\:\:addUser\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/InventoryItemController.php
+
+		-
+			message: '#^Call to an undefined method App\\Entity\\Family\:\:getBook\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Call to an undefined method App\\Entity\\Family\:\:getFamily\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Call to an undefined method App\\Entity\\Family\:\:getStatus\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Call to an undefined method App\\Entity\\Family\:\:setReturnDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Call to an undefined method App\\Entity\\Family\:\:setStatus\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Call to an undefined method App\\Entity\\Family\:\:setUser\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Call to method getStatus\(\) on an unknown class App\\Repository\\Family\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Call to method setStatus\(\) on an unknown class App\\Repository\\Family\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Parameter \#1 \$book of method App\\Entity\\Loan\:\:setBook\(\) expects App\\Entity\\Book\|null, App\\Repository\\Family given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Parameter \#1 \$book of method App\\Repository\\LoanRepository\:\:findWithBookAndStatus\(\) expects App\\Entity\\Book, App\\Repository\\Family\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Entity\\Loan\:\:setUser\(\) expects App\\Entity\\User\|null, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/LoanController.php
+
+		-
+			message: '#^Method App\\Controller\\SettingController\:\:switchLocale\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Controller/SettingController.php
+
+		-
+			message: '#^Property App\\Controller\\SettingController\:\:\$request is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Controller/SettingController.php
+
+		-
+			message: '#^Method App\\Entity\\Book\:\:setAuthor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Book.php
+
+		-
+			message: '#^Method App\\Entity\\Book\:\:setCoverUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Book.php
+
+		-
+			message: '#^Method App\\Entity\\Book\:\:setTitle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Book.php
+
+		-
+			message: '#^Method App\\Entity\\Book\:\:setlocation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Book.php
+
+		-
+			message: '#^Property App\\Entity\\Book\:\:\$loans is never written, only read\.$#'
+			identifier: property.onlyRead
+			count: 1
+			path: src/Entity/Book.php
+
+		-
+			message: '#^Property App\\Entity\\Family\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Family.php
+
+		-
+			message: '#^Property App\\Entity\\Inventory\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Inventory.php
+
+		-
+			message: '#^Property App\\Entity\\InventoryItem\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/InventoryItem.php
+
+		-
+			message: '#^Method App\\Entity\\Loan\:\:setExpectedReturnDate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Loan.php
+
+		-
+			message: '#^Method App\\Entity\\Loan\:\:setFamily\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Loan.php
+
+		-
+			message: '#^Method App\\Entity\\Loan\:\:setLoanDate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Loan.php
+
+		-
+			message: '#^Method App\\Entity\\Loan\:\:setReturnDate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/Loan.php
+
+		-
+			message: '#^Class App\\Entity\\Family referenced with incorrect case\: App\\Entity\\family\.$#'
+			identifier: class.nameCase
+			count: 3
+			path: src/Entity/Member.php
+
+		-
+			message: '#^Property App\\Entity\\Member\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Member.php
+
+		-
+			message: '#^Property App\\Entity\\User\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Class App\\Entity\\Family referenced with incorrect case\: App\\Entity\\family\.$#'
+			identifier: class.nameCase
+			count: 1
+			path: src/Form/Member/MemberForm.php
+
+		-
+			message: '#^Method App\\Repository\\BookRepository\:\:findAllByLocation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/BookRepository.php
+
+		-
+			message: '#^Method App\\Repository\\BookRepository\:\:findAllByLocationWithPagination\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/BookRepository.php
+
+		-
+			message: '#^Method App\\Repository\\BookRepository\:\:findAllWithFilterQuery\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/BookRepository.php
+
+		-
+			message: '#^Method App\\Repository\\BookRepository\:\:findNoInventory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/BookRepository.php
+
+		-
+			message: '#^Method App\\Repository\\BookRepository\:\:findOneByCode\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/BookRepository.php
+
+		-
+			message: '#^PHPDoc tag @extends has invalid type App\\Repository\\Family\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Repository/BookRepository.php
+
+		-
+			message: '#^Parameter \#2 \$entityClass of method Doctrine\\Bundle\\DoctrineBundle\\Repository\\LazyServiceEntityRepository\<App\\Repository\\Family\>\:\:__construct\(\) expects class\-string\<App\\Repository\\Family\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/BookRepository.php
+
+		-
+			message: '#^Method App\\Repository\\FamilyRepository\:\:findAllByName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/FamilyRepository.php
+
+		-
+			message: '#^Method App\\Repository\\FamilyRepository\:\:findOneById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/FamilyRepository.php
+
+		-
+			message: '#^Method App\\Repository\\InventoryItemRepository\:\:findAllByInventory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/InventoryItemRepository.php
+
+		-
+			message: '#^Method App\\Repository\\InventoryItemRepository\:\:findAllByInventoryAndNotOkStatus\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/InventoryItemRepository.php
+
+		-
+			message: '#^Method App\\Repository\\InventoryItemRepository\:\:findAllByInventoryAndStatus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/InventoryItemRepository.php
+
+		-
+			message: '#^Method App\\Repository\\InventoryRepository\:\:findAllByStatus\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/InventoryRepository.php
+
+		-
+			message: '#^Method App\\Repository\\InventoryRepository\:\:findAllWithFilterQuery\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/InventoryRepository.php
+
+		-
+			message: '#^Method App\\Repository\\InventoryRepository\:\:findWithItems\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/InventoryRepository.php
+
+		-
+			message: '#^Method App\\Repository\\InventoryRepository\:\:findWithItems\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Repository/InventoryRepository.php
+
+		-
+			message: '#^Method App\\Repository\\LoanRepository\:\:findAllByStatus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/LoanRepository.php
+
+		-
+			message: '#^Method App\\Repository\\LoanRepository\:\:findAllWithFamilyAndStatus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/LoanRepository.php
+
+		-
+			message: '#^Method App\\Repository\\LoanRepository\:\:findWithBookAndStatus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Repository/LoanRepository.php
+
+		-
+			message: '#^Parameter \#2 \$entityClass of method Doctrine\\Bundle\\DoctrineBundle\\Repository\\LazyServiceEntityRepository\<App\\Entity\\Family\>\:\:__construct\(\) expects class\-string\<App\\Entity\\Family\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/LoanRepository.php
+
+		-
+			message: '#^Method App\\Repository\\MemberRepository\:\:findAllByFamily\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/MemberRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:findAllByRoles\(\) has parameter \$roles with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:findAllByRoles\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Call to function method_exists\(\) with ''Symfony\\\\Component\\\\Dotenv\\\\Dotenv'' and ''bootEnv'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: tests/bootstrap.php

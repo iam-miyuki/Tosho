@@ -1,0 +1,137 @@
+input {
+  padding: 0.5rem;
+  border: 1px solid var(--color-text);
+}
+.search-input{
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.form{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.form-title{
+  display: block;
+  margin: 2rem;
+}
+
+.form-container{
+  border: 1px solid var(--color-text);
+  border-radius: var(--border-radius);
+  margin-left: auto;
+  margin-right: auto;
+  width: max-content;
+  margin-top: 3rem;
+  padding:2rem 5rem 3rem 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-around;
+}
+.form-label{
+  font-family: var(--font-sub);
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+form button {
+  width: max-content;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1.8px solid var(--color-text);
+  margin-top: 1.5rem;
+  border-radius: 1.5rem;
+  background-color: var(--color-btn);
+  color: var(--color-text);
+  font-weight:600 ;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  font-family: var(--font-main);
+  cursor: pointer;
+  box-shadow: 5px 6px 0 var(--color-text); 
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+form button:hover {
+  background-color:var(--color-btn-hover);
+}
+
+form button:active {
+  box-shadow: 2px 2px 0 var(--color-text);
+  transform: translate(2px, 2px);
+}
+.forms-wrapper{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: max-content;
+  gap: 5rem;
+}
+
+.form-container p{
+  font-family: var(--font-sub);
+  font-weight: 600;
+  font-size: var(--font-xs);
+}
+.form-container a{
+  font-weight: 600;
+  text-decoration: underline;
+}
+.form-container a:hover{
+  color: var(--color-btn);
+  font-weight: 800;
+}
+
+.form-field.enum-field{
+  border: none;
+  border-bottom: 1px solid var(--color-text);
+  color: var(--color-text);
+  margin-left: 0.5rem;
+}
+.form-field:focus {
+  outline: none;
+  border-bottom: 2px solid var(--color-text);
+}
+.card.one-card.edit-wrapper{
+  background-color: var(--color-cameleon);
+}
+.btn-form{
+  margin-top: 0;
+}
+.href-wrapper{
+  margin-top: 1rem;
+}
+.add-btn{
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.filter-item{
+  display: flex;
+  justify-content: space-between;
+}
+.filter-item p{
+  margin: 0.5rem 0 0.5rem 0;
+}
+#inventory_filter_form_date_month,
+#inventory_filter_form_date_year,
+#inventory_filter_form_date_day,
+#inventory_form_date_month,
+#inventory_form_date_day,
+#inventory_form_date_year{
+  margin: 0.5rem 0;
+  padding: 0.3rem;
+  border: none;
+  border-bottom: 1px solid var(--color-text);
+  color: var(--color-text);
+}
+#inventory_filter_form_date_day{
+  margin-left: 0.5rem;
+}
+.isbn-label{
+  margin-bottom: 1rem;
+}

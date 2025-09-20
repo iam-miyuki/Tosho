@@ -1,0 +1,54 @@
+<div class="card one-card">
+	<div class="card-header">
+		<div class="icon edit-icon">
+			<a href="{{ path('edit-book', { id: currentBook.id }) }}">
+				<span>edit</span>
+			</a>
+		</div>
+
+		<div class="icon delete-icon">
+			<a href="{{ path('delete-book', { id: currentBook.id }) }}">
+				<span>delete</span>
+			</a>
+		</div>
+	</div>
+	<div class="card-body">
+		<img class="book-cover" src="{{ asset('img/child-book.svg') }}" alt="book-for-child">
+		<div class="detail">
+			<div class="detail-item detail-book item-label">
+				<p>Code</p>
+				<p>Titre</p>
+				<p>Auteur</p>
+				<p>Titre (JP)</p>
+				<p>Auteur (JP)</p>
+				<p>Statut</p>
+				<p>Lieu</p>
+			</div>
+			<div class="detail-item">
+				<p>
+					:
+					{{ currentBook.code }}</p>
+				<p>
+					:
+					{{ currentBook.title }}</p>
+				<p>
+					:
+					{{ currentBook.author }}</p>
+				<p>
+					:
+					{{ currentBook.jpTitle }}</p>
+				<p>
+					:
+					{{ currentBook.jpAuthor }}</p>
+				<p>
+					:
+					{{ currentBook.status.value }}</p>
+				<p>
+					:
+					<span class="location">
+						{{ currentBook.location.value }}</span>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

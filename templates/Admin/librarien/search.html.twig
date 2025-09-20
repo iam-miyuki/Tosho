@@ -1,0 +1,57 @@
+{% if librarien is defined and librarien is not null %}
+	{% include "Admin/librarien/show.html.twig" %}
+
+{% elseif librarienToDelete is defined and librarienToDelete is not null %}
+	{% include "admin/librarien/delete.html.twig" %}
+
+{% elseif deletedUser is defined and deletedUser is not null %}
+	{% include "admin/librarien/success.html.twig" %}
+{% else %}
+
+	<div class="forms-wrapper">
+		<div>
+			<h4>Chercher un(e) bibliothécaire</h4>
+			{{ form_start(searchForm, {
+    'action': path('librarien'),
+    'method': 'POST'
+  }) }}
+			{{ form_widget(searchForm.query, {
+      'attr': {
+        'class': 'search-input',
+        'placeholder': 'Nom, prénom ou email'
+      }
+    }) }}
+			<button type="submit" class="btn">Chercher</button>
+			{{ form_end(searchForm) }}
+		</div>
+	</div>
+
+
+	{% if librariens is defined and librariens is not null %}
+		<div class="section-title">
+			<h4>Résultats de recherche :</h4>
+		</div>
+		<div class="result-container">
+			{% if librariens|length > 0 %}
+				<ul class="result-list">
+					{% for l in librariens %}
+						<li>
+							<a href="{{ path('show-librarien', {id: l.id}) }}">
+								{{ l.lastName|upper }}
+								{{ l.firstName }}
+								/
+								{{ l.jpLastName }}
+								{{ l.jpFirstName }}
+								/
+								{{ l.email }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>Aucun bibliothécaire trouvé !</p>
+			{% endif %}
+		</div>
+	{% endif %}
+
+{% endif %}

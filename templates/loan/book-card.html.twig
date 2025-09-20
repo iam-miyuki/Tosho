@@ -1,0 +1,24 @@
+<div class="card">
+	<h3>Livre disponible</h3>
+	<div class="card-body">
+		<img class="book-cover" src="{{ asset('img/child-book.svg') }}" alt="book-for-child">
+		<div class="detail book-details">
+			<p>Code :
+				{{ book.code }}</p>
+			<p>Titre :
+				{{ book.title }}</p>
+			<p>Auteur :
+				{{ book.author }}</p>
+			<p>Statut :
+				{{ book.status.value }}</p>
+			<p>Lieu :
+				<span class="location">{{ book.location.value }}</span>
+			</p>
+			<div class="btn-wrapper">
+				<div class="href-btn">
+					<a href="{{path('loan-book',{id:book.id})}}">Prêter ce livre</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
