@@ -13,7 +13,13 @@ h1 {
   font-family: var(--font-sub);
   font-size: var(--font-s);
 }
+h2 {
+  font-size: var(--font-l)
+}
 
+h3 {
+  font-size: var(--font-m)
+}
 li {
   list-style: none;
   padding: 0.5rem;

@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
@@ -25,9 +26,8 @@
 			<div class="page-wrapper">
 				<div class="header">
 					<div class="header-top">
-						<a href="{{ path('home') }}"><img src="{{ asset('img/logo-big.svg') }}" alt="logo"></a>
-						<h1>Gestion des prêts de livres pour école japonaise</h1>
-				
+						<a href="{{ path('admin_home') }}"><img src="{{ asset('img/logo-big.svg') }}" alt="logo"></a>
+						<p class="sub-title">Application de gestion de bibliothèque pour école japonaise</p>
 					</div>
 					<nav class="navbar nav-admin">
 						<h2>Admin</h2>
@@ -52,7 +52,7 @@
 				<hr>
 				<div class="footer-content">
 					<img src="{{ asset('img/logo-small.svg') }}" alt="logo">
-					<p>Gestion des prêts de livres pour école japonaise</p>
+					<p>Application de gestion de bibliothèque pour école japonaise</p>
 				</div>
 			</div>
 		{% endblock %}
