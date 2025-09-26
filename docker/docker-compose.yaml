@@ -1,0 +1,21 @@
+version: '3.8'
+
+x-project-name: tosho
+
+services:
+  db:
+    image: mysql:8.0.25
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: tosho
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 2
+    volumes:
+      - ../../.mysql/data:/var/lib/mysql
+      #- ../../.mysql/dump:/docker-entrypoint-initdb.d

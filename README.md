@@ -77,3 +77,7 @@ Faciliter la gestion des prêts et retours de livres ainsi que l’inventaire de
 - 📬 Envoi d’e-mails de rappel pour les retours en retard  
 - 📌 Réservation des livres
 - Planning des parents bibliothécaires
+
+
+pour lancer la bdd docker:
+>> docker compose -f docker/docker-compose.yaml -p tosho up --build db
