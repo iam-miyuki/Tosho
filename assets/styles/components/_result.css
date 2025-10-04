@@ -43,6 +43,7 @@
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
+  margin-top: 1rem;
 }
 .no-result.no-loan{
   border: solid 1px var(--color-text);

@@ -13,11 +13,6 @@ input {
   margin-bottom: 2rem;
   margin-top: 2rem;
 }
-@media (max-width:768px){
-  .form{
-    margin-top: 3rem;
-  }
-}
 
 .form-title{
   display: block;
@@ -35,6 +30,11 @@ input {
   display: flex;
   flex-direction: column;
   justify-content:space-around;
+}
+@media (max-width:768px) {
+  .form-container{
+    padding: 1rem 1.5rem 2rem 1.5rem;
+  }
 }
 .form-label{
   font-family: var(--font-sub);
@@ -102,6 +102,8 @@ form button:active {
   border-bottom: 1px solid var(--color-text);
   color: var(--color-text);
   margin-left: 0.5rem;
+  background-color: white;
+  padding: 0.5rem;
 }
 .form-field:focus {
   outline: none;
@@ -136,9 +138,11 @@ form button:active {
 #inventory_form_date_year{
   margin: 0.5rem 0;
   padding: 0.3rem;
+  outline: none;
   border: none;
   border-bottom: 1px solid var(--color-text);
   color: var(--color-text);
+  background-color: white;
 }
 #inventory_filter_form_date_day{
   margin-left: 0.5rem;
@@ -146,3 +150,10 @@ form button:active {
 .isbn-label{
   margin-bottom: 1rem;
 }
+
+#loan_family{
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+

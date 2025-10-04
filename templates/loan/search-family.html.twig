@@ -54,7 +54,7 @@
 			<h4 class="name-container section-name yellow">Prêts en cours</h4>
 			{% if loans is defined %}
 				<div class="cards-wrapper">
-					<div class="cards-container">
+					
 						{% if loans|length > 0 %}
 							{% for loan in loans %}
 								{% include 'loan/loan-card.html.twig' with { loan: loan } %}
@@ -65,7 +65,7 @@
 								<div class="result-icon empty"></div>
 							</div>
 						{% endif %}
-					</div>
+					
 				</div>
 			</div>
 		</div>
