@@ -13,14 +13,14 @@
 		{# <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet"> #}
 		<link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet"> {% block stylesheets %}{% endblock %}
-
+		
 		{% block javascripts %}
 			{% block importmap %}
 				{{ importmap('app') }}
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body>
+	<body class="admin-body">
 		{% block header %}
 
 			<div class="page-wrapper">
@@ -29,6 +29,7 @@
 						<a href="{{ path('admin_home') }}"><img src="{{ asset('img/logo-big.svg') }}" alt="logo"></a>
 						<p class="sub-title">Application de gestion de bibliothèque pour école japonaise</p>
 					</div>
+					
 					<nav class="navbar nav-admin">
 						<h2>Admin</h2>
 						<ul class="menu menu-librarien">

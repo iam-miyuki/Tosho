@@ -72,6 +72,16 @@
   min-height: 300px;
   align-items: center;
 }
+@media (max-width:768px) {
+  .tab-content{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 2rem;
+  }
+  .tab-content h4{
+    margin-top: 0;
+  }
+}
 .tab-content img{
   width: 30px;
   height: auto;
@@ -85,6 +95,23 @@
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 768px) {
+.tab-container{
+  margin: 1rem 0.2rem;
+}
+.tab-icon{
+  width: 30px;
+  height: 30px;
+}
+.tab-content form{
+    padding-top: 2rem;
+  }
+
+
+}
+
+
 
 .librarien-tab.right-tab{
   background-color: var(--color-admin);
@@ -116,3 +143,4 @@
 .tab.admin-tab.right-tab.active:hover{
   background-color: var(--color-primary);
 }
+

@@ -77,6 +77,8 @@ p.sub-title {
   font-size: var(--font-xs);
 }
 
+
+
 /* ------------------------------
    TABLETTE : max-width 1024px
 ------------------------------ */
@@ -85,12 +87,14 @@ p.sub-title {
 
   .header .header-top img {
     width: 10rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   p.sub-title {
     display: none;
   }
-
+ 
   .header .menu {
     gap: 1.5rem;
   }
@@ -116,8 +120,10 @@ p.sub-title {
   }
 
   .header .header-top{
-    display: block;
-  }
+  display: block;
+  padding: 0;
+  margin-top: 3rem;
+}
   .header .header-top img {
     width: 10rem;
     margin-left: auto;
