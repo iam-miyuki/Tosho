@@ -44,6 +44,14 @@ margin-top:2rem;
 .page-title{
   margin-top: 2rem;
 }
+.page-title img{
+width: 90px;
+}
+@media (max-width: 768px) {
+  .page-title img{
+    width:60px;
+  }
+}
 
 .container{
   margin: 1rem;
@@ -55,6 +63,13 @@ margin-top:2rem;
   width: max-content;
   margin-left: auto;
   margin-right: auto;
+}
+@media  (max-width: 768px) {
+  .count-wrapper{
+    flex-wrap: wrap;
+    flex-direction: column;
+  
+  }
 }
 .count{
   width: max-content;

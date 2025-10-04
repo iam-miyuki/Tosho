@@ -8,7 +8,14 @@ body {
   margin-left: 0;
   margin-right: 0;
 }
-
+@media (max-width: 768px) {
+  body.admin-body{
+    background-color: var(--color-admin);
+  }
+  body.librarien-body{
+    background-color: var(--color-primary);
+  }
+}
 h1 {
   font-family: var(--font-sub);
   font-size: var(--font-s);

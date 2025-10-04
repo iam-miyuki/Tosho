@@ -24,6 +24,12 @@
   display: flex;
   justify-content: space-around;
 }
+@media (max-width:768px){
+  .btn-card-wrapper{
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
 .btn-wrapper {
   display: flex;
   width: max-content;
@@ -32,6 +38,11 @@
   height: max-content;
   margin-top: 1.5rem;
   gap: 2rem;
+}
+@media (max-width:768px) {
+  .btn-wrapper{
+    margin-bottom: 2rem;
+  }
 }
 
 .href-btn {
