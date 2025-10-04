@@ -25,9 +25,17 @@
 				<div class="header">
 					<div class="header-top">
 						<a href="{{ path('home') }}"><img src="{{ asset('img/logo-big.svg') }}" alt="logo"></a>
-						<p class="sub-title">Application de gestion de bibliothèque pour école japonaise</p>
+						<div class="logout-wrapper">
+							<p class="sub-title">Application de gestion de bibliothèque pour école japonaise</p>
+							{% if is_granted('ROLE_LIBRARIEN') or is_granted('ROLE_ADMIN') %}
+							<div class="logout">
+								<a href="{{ path('app_logout') }}"><img src="{{ asset('img/logout.svg') }}" alt="logout"><span class="menu-text"></span>
+								</a>
+							</div>
+							{% endif %}
+						</div>
 					</div>
-					
+
 					<nav>
 						<h2>Gérez les prêts de livres en toute simplicité</h2>
 						{% if is_granted('ROLE_LIBRARIEN') or is_granted('ROLE_ADMIN') %}
@@ -52,11 +60,6 @@
 										</a>
 									</li>
 								{% endif %}
-
-								<li class="menu-item">
-									<a href="{{ path('app_logout') }}"><img src="{{ asset('img/logout.svg') }}" alt="logout"><span class="menu-text">Logout</span>
-									</a>
-								</li>
 							</ul>
 						{% endif %}
 					</nav>

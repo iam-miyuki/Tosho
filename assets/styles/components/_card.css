@@ -28,6 +28,7 @@
     margin-left: auto;
     margin-right: auto;
     font-size: var(--font-s);
+    padding: 1rem;
 
   }
 
@@ -64,6 +65,11 @@
   margin-left: auto;
   margin-right: auto;
 }
+@media (max-width:768px) {
+  .card-body{
+    gap: 0.5rem;
+  }
+}
 .card-body.family-wrapper{
   display: block;
 }
@@ -80,6 +86,8 @@
   }
   .cards-wrapper{
     padding: 0;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
 
@@ -240,6 +248,7 @@ img.book-cover {
   .success-card .btn-wrapper{
     flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
 }
 .alert-card{
