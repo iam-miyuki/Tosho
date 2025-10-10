@@ -80,4 +80,11 @@ Faciliter la gestion des prêts et retours de livres ainsi que l’inventaire de
 
 
 pour lancer la bdd docker:
->> docker compose -f docker/docker-compose.yaml -p tosho up --build db
+```bash
+docker compose -f docker/docker-compose.yaml -p tosho up --build db app
+```
+Run image :
+```bash
+docker run -it --name mysql_db_test -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=test_db -p 3307:3306 mysql:latest
+```
+
