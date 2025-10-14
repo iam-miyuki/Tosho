@@ -29,4 +29,4 @@ phpstan.neon
 ###< squizlabs/php_codesniffer ###
 
 
-./.env
+.env
