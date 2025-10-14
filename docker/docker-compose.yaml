@@ -1,0 +1,67 @@
+x-project-name: tosho
+
+services:
+  db: # docker run -it --name mysql_db_test -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=test_db -p 3306:3306 mysql:latest
+    image: mysql:8.0.25
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tosho
+      MYSQL_USER: symfony_user
+      MYSQL_PASSWORD: symfony_pass
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 2
+    networks:
+      - symfony_net
+    volumes:
+      - ../../.mysql/data:/var/lib/mysql
+      - ../../.mysql/init:/docker-entrypoint-initdb.d
+
+  app: # docker run tosho:0.0.2
+    #image: tosho:0.0.2
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "7878:8000"
+      - "8000:8000"
+      - "9000:9000"
+    environment:
+      MYSQL_USER: symfony_user
+      MYSQL_PASSWORD: symfony_pass  
+      #DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/tosho?serverVersion=10.4.32-MariaDB&charset=utf8mb4&useSSL=false&allowPublicKeyRetrieval=true"
+      DATABASE_URL: "mysql://root:root@db:3306/tosho?serverVersion=10.4.32-MariaDB&charset=utf8mb4&useSSL=false&allowPublicKeyRetrieval=true"
+    networks:
+      - symfony_net
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+  
+  # php:
+  #   image: php:8.2-fpm
+  #   build:
+  #     context: ..
+  #   volumes:
+  #     - .:/var/www/html      
+  # nginx:
+    # image: nginx:1.25
+    # ports:
+    #   - "8080:80"
+    # volumes:
+    #   - .:/var/www/html
+    #   - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    # depends_on:
+    #   - php      
+
+  
+networks:
+  symfony_net:
+    driver: bridge
+    

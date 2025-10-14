@@ -77,3 +77,18 @@ Faciliter la gestion des prêts et retours de livres ainsi que l’inventaire de
 - 📬 Envoi d’e-mails de rappel pour les retours en retard  
 - 📌 Réservation des livres
 - Planning des parents bibliothécaires
+
+
+pour lancer la bdd docker:
+```bash
+docker compose -f docker/docker-compose.yaml -p tosho up --build db app
+```
+Run image :
+```bash
+docker run -it --name mysql_db_test -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=test_db -p 3307:3306 mysql:latest
+```
+
+
+tunnel ip wsl :
+
+netsh interface portproxy add v4tov4 listenport=3309 listenaddress=0.0.0.0 connectport=3309 connectaddress=172.23.103.211
