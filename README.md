@@ -88,3 +88,7 @@ Run image :
 docker run -it --name mysql_db_test -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=test_db -p 3307:3306 mysql:latest
 ```
 
+
+tunnel ip wsl :
+
+netsh interface portproxy add v4tov4 listenport=3309 listenaddress=0.0.0.0 connectport=3309 connectaddress=172.23.103.211
