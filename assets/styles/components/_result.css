@@ -43,9 +43,16 @@
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
+  margin-top: 1rem;
 }
 .no-result.no-loan{
   border: solid 1px var(--color-text);
+}
+
+@media (max-width:768px) {
+  .no-result{
+    width: max-content;
+  }
 }
 
 .result-icon {

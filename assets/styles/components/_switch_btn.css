@@ -10,6 +10,12 @@
     margin-left: auto;
     display: block;    
 }
+@media (max-width: 768px) {
+    .switch{
+        margin-right: auto;
+        font-size: var(--font-s);
+    }
+}
 .switch.admin{
     background-color: var( --color-admin);
 }
