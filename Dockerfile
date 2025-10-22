@@ -31,10 +31,12 @@ COPY . .
 RUN composer install --no-scripts --no-interaction --prefer-dist
 
 # Étape 6 : Droits d’écriture pour Symfony (cache, logs)
+RUN mkdir -p var
 RUN chown -R www-data:www-data var
 RUN chown -R www-data:www-data public
 
 # Build asserts
+RUN php bin/console importmap:install
 RUN php bin/console asset-map:compile
 
 # Exposer le port PHP-FPM
