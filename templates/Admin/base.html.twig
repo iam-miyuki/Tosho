@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
@@ -12,32 +13,40 @@
 		{# <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet"> #}
 		<link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet"> {% block stylesheets %}{% endblock %}
-
+		
 		{% block javascripts %}
 			{% block importmap %}
 				{{ importmap('app') }}
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body>
+	<body class="admin-body">
 		{% block header %}
 
 			<div class="page-wrapper">
 				<div class="header">
 					<div class="header-top">
-						<a href="{{ path('home') }}"><img src="{{ asset('img/logo-big.svg') }}" alt="logo"></a>
-						<h1>Application de gestion des prêts des livres pour école japonaise</h1>
-				
+						<a href="{{ path('admin_home') }}"><img src="{{ asset('img/logo-big.svg') }}" alt="logo"></a>
+						
+						<div class="logout-wrapper">
+							<p class="sub-title">Application de gestion de bibliothèque pour école japonaise</p>
+							{% if is_granted('ROLE_LIBRARIEN') or is_granted('ROLE_ADMIN') %}
+							<div class="logout">
+								<a href="{{ path('app_logout') }}"><img src="{{ asset('img/logout.svg') }}" alt="logout"><span class="menu-text"></span>
+								</a>
+							</div>
+							{% endif %}
+						</div>
 					</div>
+					
 					<nav class="navbar nav-admin">
 						<h2>Admin</h2>
-						<ul class="menu menu-librarien">
+						<ul class="menu menu-admin">
 							<li class="menu-item"><a href="{{ path('admin_home') }}"><img src="{{ asset('img/home.svg') }}" alt="home"><span class="menu-text">Home</span></a></li>
 							<li class="menu-item"><a href="{{ path('book') }}"><img src="{{ asset('img/child-book.svg') }}" alt="book"><span class="menu-text">Livres</span></a></li>
 							<li class="menu-item"><a href="{{ path('family') }}"><img src="{{ asset('img/family.svg') }}" alt="family"><span class="menu-text">Familles</span></a></li>
 										<li class="menu-item"><a href="{{ path('inventory') }}"><img src="{{ asset('img/books.svg') }}" alt="inventory"><span class="menu-text">Inventaire</span></a></li>
 							<li class="menu-item"><a href="{{path('librarien')}}"><img src="{{ asset('img/user1.svg') }}" alt="librarien"><span class="menu-text">Bibliothécaires</span></a></li>
-							<li class="menu-item"><a href="{{ path('app_logout') }}"><img src="{{ asset('img/logout.svg') }}" alt="logout"><span class="menu-text">Logout</span></a></li>
 						</ul>
 					</nav>
 				</div>
@@ -52,7 +61,7 @@
 				<hr>
 				<div class="footer-content">
 					<img src="{{ asset('img/logo-small.svg') }}" alt="logo">
-					<p>Application de gestion des prêts des livres pour école japonaise</p>
+					<p>Application de gestion de bibliothèque pour école japonaise</p>
 				</div>
 			</div>
 		{% endblock %}

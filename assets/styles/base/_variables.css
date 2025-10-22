@@ -31,6 +31,29 @@
 
   /*border-raius*/
   --border-radius : 1.5rem;
-
  
 } 
+
+/* Tablette : max-width 1024px */
+@media (max-width: 1024px) {
+  :root {
+    --font-xs: 0.8rem;
+    --font-s: 0.9rem;
+    --font-m: 1rem;
+    --font-l: 1.125rem;
+    --font-xl: 1.25rem;
+    --font-title: 1.75rem;
+  }
+}
+
+/* Mobile : max-width 768px */
+@media (max-width: 768px) {
+  :root {
+    --font-xs: 0.75rem;
+    --font-s: 0.85rem;
+    --font-m: 0.95rem;
+    --font-l: 1.05rem;
+    --font-xl: 1.2rem;
+    --font-title: 1.5rem;
+  }
+}

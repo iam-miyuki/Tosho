@@ -8,11 +8,12 @@
 
 	<div class="tab-container">
 		<div class="tabs">
-			<a href="{{ path('book', {tab: 'search'}) }}" class="tab left-tab admin-tab search-tab  {{ tab == 'search' ? 'active' : '' }}">
-				<div class="tab-icon"></div>Chercher un livre
+
+			<a href="{{ path('book', {tab: 'search'}) }}" class="tab left-tab admin-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
+				<div class="tab-icon"></div><span class="tab-title">Chercher</span>
 			</a>
 			<a href="{{ path('book', {tab: 'new'}) }}" class="tab right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
-				<div class="tab-icon"></div>Ajouter un livre
+				<div class="tab-icon"></div><span class="tab-title">Ajouter</span>
 			</a>
 		</div>
 
