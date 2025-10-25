@@ -1,5 +1,5 @@
 {% if currentInventory is defined and currentInventory is not null %}
-	{% include "Admin/inventory/inventory-page.html.twig" %}
+	{% include "admin/inventory/inventory-page.html.twig" %}
 {% else %}
 
 	<div class="forms-wrapper filter-form">
@@ -29,6 +29,6 @@
 	</div>
 
 	{% if inventories is defined and inventories is not null %}
-		{% include "Admin/inventory/inventory-list.html.twig" %}
+		{% include "admin/inventory/inventory-list.html.twig" %}
 	{% endif %}
 {% endif %}

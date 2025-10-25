@@ -1,4 +1,4 @@
-{% extends 'Admin/base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block body %}
 	<div class="page-title">
@@ -19,16 +19,16 @@
 
 		<div class="tab-content left-tab admin-tab search-tab {{ tab == 'search' ? 'active' : '' }}">
 			{% if tab == 'search' %}
-				{% include 'Admin/book/search.html.twig' %}
+				{% include 'admin/book/search.html.twig' %}
 			{% endif %}
 		</div>
 
 		<div class="tab-content right-tab admin-tab new-tab {{ tab == 'new' ? 'active' : '' }}">
 			{% if tab == 'new' %}
 				{% if successMessage is defined and successMessage is not null %}
-					{% include "Admin/book/success.html.twig" %}
+					{% include "admin/book/success.html.twig" %}
 				{% else %}
-					{% include 'Admin/book/new-book-form.html.twig' %}
+					{% include 'admin/book/new-book-form.html.twig' %}
 				{% endif %}
 			{% endif %}
 		</div>

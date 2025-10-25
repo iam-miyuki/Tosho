@@ -46,7 +46,7 @@ final class FamilyController extends AbstractController
                 $family->setCreatedAt(new \DateTimeImmutable());
                 $em->persist($family);
                 $em->flush();
-                return $this->render('Admin/family/index.html.twig',[
+                return $this->render('admin/family/index.html.twig',[
                     'addedFamily'=>$family,
                     'tab'=>'new',
                     'newFamilyForm'=>$form->createView(),
@@ -55,7 +55,7 @@ final class FamilyController extends AbstractController
             }
         }
 
-        return $this->render('Admin/family/index.html.twig', [
+        return $this->render('admin/family/index.html.twig', [
             'tab' => $currentTab,
             'searchedFamilies' => $results,
             'newFamilyForm' => $form->createView(),
@@ -76,7 +76,7 @@ final class FamilyController extends AbstractController
 
         // TODO : if ($family) {
         // }
-        return $this->render('Admin/family/index.html.twig', [
+        return $this->render('admin/family/index.html.twig', [
             'tab' => 'family',
             'currentFamily' => $family,
             'form' => $form->createView(),
@@ -97,7 +97,7 @@ final class FamilyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            return $this->render('Admin/family/index.html.twig',[
+            return $this->render('admin/family/index.html.twig',[
                 'edited'=>$family,
                 'tab'=>'family',
                 'successMessage'=>'Modifié avec success !',
@@ -105,7 +105,7 @@ final class FamilyController extends AbstractController
             ]);
         }
 
-        return $this->render('Admin/family/index.html.twig', [
+        return $this->render('admin/family/index.html.twig', [
             'form' => $form,
             'familyToEdit' => $family,
             'searchFamilyForm' => $searchFamilyForm->createView(),
@@ -123,7 +123,7 @@ final class FamilyController extends AbstractController
         $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
         $searchFamilyForm->handleRequest($request);
         if ($loanRepository->findAllWithFamilyAndStatus($family)) {
-            return $this->render('Admin/family/index.html.twig', [
+            return $this->render('admin/family/index.html.twig', [
                 'familyHasLoan' => $family,
                 'tab' => 'family',
                 'searchFamilyForm' => $searchFamilyForm
@@ -133,7 +133,7 @@ final class FamilyController extends AbstractController
 
             $em->remove($family);
             $em->flush();
-            return $this->render('Admin/family/index.html.twig', [
+            return $this->render('admin/family/index.html.twig', [
                 'deleted' => $family,
                 'tab' => 'family',
                 'searchFamilyForm' => $searchFamilyForm,
@@ -141,7 +141,7 @@ final class FamilyController extends AbstractController
             ]);
         }
 
-        return $this->render('Admin/family/index.html.twig', [
+        return $this->render('admin/family/index.html.twig', [
             'familyToDelete' => $family,
             'tab'=>'family',
             'searchFamilyForm'=>$searchFamilyForm

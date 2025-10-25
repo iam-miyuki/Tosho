@@ -71,7 +71,7 @@ final class BookController extends AbstractController
             if ($filterForm->isSubmitted()) {
                 $keyword = $filterForm->get('filter')->getData();
                 $results = $bookRepository->findAllWithFilterQuery($keyword);
-                return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
+                return $this->render('admin/book/index.html.twig', array_merge($sharedData, [
                     'books' => $results,
                     'tab' => 'search'
                 ]));
@@ -91,7 +91,7 @@ final class BookController extends AbstractController
                 $book->setCode($code);
                 $em->persist($book);
                 $em->flush();
-                return $this->render('Admin/book/index.html.twig', array_merge($sharedData, [
+                return $this->render('admin/book/index.html.twig', array_merge($sharedData, [
                     'addedBook' => $book,
                     'tab' => 'new',
                     'successMessage' => 'Le livre a été ajouté avec succès'
@@ -99,7 +99,7 @@ final class BookController extends AbstractController
             }
         }
         return $this->render(
-            'Admin/book/index.html.twig',
+            'admin/book/index.html.twig',
             array_merge($sharedData, [
                 'tab' => $currentTab,
                 'books' => $results,
@@ -128,7 +128,7 @@ final class BookController extends AbstractController
         $mba = $bookRepository->findAllByLocation(LocationEnum::mba);
         $badet = $bookRepository->findAllByLocation(LocationEnum::badet);
 
-        return $this->render('Admin/book/index.html.twig', [
+        return $this->render('admin/book/index.html.twig', [
             'currentBook' => $book,
             'tab' => 'search',
             'filterForm' => $filterForm->createView(),
@@ -183,7 +183,7 @@ final class BookController extends AbstractController
                 if ($existingBook == null || $existingBook->getId() === $book->getId()) {
                     $em->flush();
                     return $this->render(
-                        'Admin/book/index.html.twig',
+                        'admin/book/index.html.twig',
                         array_merge($sharedData, [
                             'modifiedBook' => $book,
                             'tab' => 'search',
@@ -192,7 +192,7 @@ final class BookController extends AbstractController
                     );
                 } else {
                     return $this->render(
-                        'Admin/book/index.html.twig',
+                        'admin/book/index.html.twig',
                         array_merge($sharedData, [
                             'tab' => 'search',
                             'erreurCodeBook' => $book
@@ -202,7 +202,7 @@ final class BookController extends AbstractController
             }
         }
         return $this->render(
-            'Admin/book/index.html.twig',
+            'admin/book/index.html.twig',
             array_merge($sharedData, [
                 'bookToEdit' => $book,
                 'tab' => 'search'
@@ -242,7 +242,7 @@ final class BookController extends AbstractController
 
         if ($book->getStatus() !== BookStatusEnum::available) {
             return $this->render(
-                'Admin/book/index.html.twig',
+                'admin/book/index.html.twig',
                 array_merge(
                     $sharedData,
                     [
@@ -257,7 +257,7 @@ final class BookController extends AbstractController
             $em->flush();
 
             return $this->render(
-                'Admin/book/index.html.twig',
+                'admin/book/index.html.twig',
                 array_merge(
                     $sharedData,
                     [
@@ -269,7 +269,7 @@ final class BookController extends AbstractController
         }
 
         return $this->render(
-            'Admin/book/index.html.twig',
+            'admin/book/index.html.twig',
             array_merge(
                 $sharedData,
                 [
