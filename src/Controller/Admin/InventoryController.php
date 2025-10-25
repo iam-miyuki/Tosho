@@ -44,7 +44,7 @@ final class InventoryController extends AbstractController
                 $inventory = $form->getData();
                 $em->persist($inventory);
                 $em->flush();
-                return $this->render('Admin/inventory/index.html.twig', [
+                return $this->render('admin/inventory/index.html.twig', [
                     'addedInventory' => $inventory,
                     'successMessage' => 'L\'inventaire a été crée avec success ! ',
                     'tab' => 'new'
@@ -54,7 +54,7 @@ final class InventoryController extends AbstractController
                 $status = $filterForm->get('status')->getData();
                 $location = $filterForm->get('location')->getData();
                 $inventories = $inventoryRepository->findAllWithFilterQuery($status, $location);
-                return $this->render('Admin/inventory/index.html.twig', [
+                return $this->render('admin/inventory/index.html.twig', [
                     'inventories' => $inventories,
                     'tab' => 'search',
                     'filterForm' => $filterForm
@@ -62,7 +62,7 @@ final class InventoryController extends AbstractController
             }
         }
 
-        return $this->render('Admin/inventory/index.html.twig', [
+        return $this->render('admin/inventory/index.html.twig', [
             'tab' => $currentTab,
             'form' => $form->createView(),
             'filterForm' => $filterForm->createView()
@@ -76,7 +76,7 @@ final class InventoryController extends AbstractController
         $items = $inventory->getInventoryItems();
         $notOkItems = $inventoryItemRepository->findAllByInventoryAndNotOkStatus($inventory);
 
-        return $this->render('Admin/inventory/index.html.twig', [
+        return $this->render('admin/inventory/index.html.twig', [
             'currentInventory' => $inventory,
             'items' => $items,
             'notOkItems' => $notOkItems,
@@ -103,7 +103,7 @@ final class InventoryController extends AbstractController
         if($page ==='not-ok'){
             $notOkItems = $inventoryItemRepository->findAllByInventoryAndNotOkStatus($inventory);
         }
-        return $this->render('Admin/inventory/index.html.twig',[
+        return $this->render('admin/inventory/index.html.twig',[
             'items'=>$items,
             'notOkItems'=>$notOkItems,
             'currentInventory'=>$currentInventory,
@@ -126,7 +126,7 @@ final class InventoryController extends AbstractController
             dd('modifié !');
         }
 
-        return $this->render('Admin/inventory/edit.html.twig', [
+        return $this->render('admin/inventory/edit.html.twig', [
             'form' => $form->createView(),
             'inventory' => $inventory
         ]);
@@ -170,7 +170,7 @@ final class InventoryController extends AbstractController
                 'id' => $currentInventory->getId()
             ]);
         }
-        return $this->render('Admin/inventory/index.html.twig', [
+        return $this->render('admin/inventory/index.html.twig', [
             'itemToEdit' => $inventoryItem,
             'itemForm' => $itemForm->createView(),
             'itemFilterForm' => $itemFilterForm->createView(),

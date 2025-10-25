@@ -1,9 +1,9 @@
 {% if page is defined and page == 'checked' %}
-	{% include "Admin/inventory/checked.html.twig" %}
+	{% include "admin/inventory/checked.html.twig" %}
 {% elseif page is defined and page == 'not-ok' %}
-	{% include "Admin/inventory/notOk.html.twig" %}
+	{% include "admin/inventory/notOk.html.twig" %}
 {% elseif itemToEdit is defined and itemToEdit is not null %}
-	{% include "Admin/inventory/edit-item.html.twig" %}
+	{% include "admin/inventory/edit-item.html.twig" %}
 {% else %}
 	<div class="card one-card inventory-card">
 		<div class="detail book-details">

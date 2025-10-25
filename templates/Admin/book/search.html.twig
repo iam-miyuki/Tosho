@@ -79,14 +79,14 @@
 	{% endif %}
 
 	{% if currentBook is defined and currentBook is not null %}
-		{% include "Admin/book/book.html.twig" %}
+		{% include "admin/book/book.html.twig" %}
 	{% endif %}
 
 	{% if bookToEdit is defined and bookToEdit is not null %}
-		{% include "Admin/book/edit.html.twig" %}
+		{% include "admin/book/edit.html.twig" %}
 	{% endif %}
 	{% if bookToDelete is defined and bookToDelete is not null %}
-		{% include "Admin/book/delete.html.twig" %}
+		{% include "admin/book/delete.html.twig" %}
 	{% endif %}
 
 	{% if loanBook is defined and loanBook is not null %}
@@ -99,8 +99,8 @@
 		</div>
 	{% endif %}
 	{% if modifiedBook is defined and modifiedBook is not null %}
-		{% include "Admin/book/success.html.twig" %}
+		{% include "admin/book/success.html.twig" %}
 	{% endif %}
 	{% if erreurCodeBook is defined and erreurCodeBook is not null %}
-		{% include "Admin/book/erreur.html.twig" %}
+		{% include "admin/book/erreur.html.twig" %}
 	{% endif %}
