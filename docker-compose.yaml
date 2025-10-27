@@ -1,0 +1,42 @@
+services:
+  ### db tosho
+  database: 
+    image: mysql:8.0.25
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tosho
+      MYSQL_USER: tosho_sql
+      MYSQL_PASSWORD: tosho_sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 2
+    networks:
+      - symfony_tosho_net
+    volumes:
+      - ../.mysql-tosho/data:/var/lib/mysql
+      #- ../.mysql-tosho/init:/docker-entrypoint-initdb.d #permet d'initialiser la bdd ou d'executer des scripts (anonymyser les données)
+  ### db tosho
+
+  ### app tosho
+  ##app: 
+  ### app tosho
+
+  ###> symfony/mailer ###
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025"
+      - "8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+  ###< symfony/mailer ###
+
+networks:
+  symfony_tosho_net:
+    driver: bridge
