@@ -1,0 +1,62 @@
+# la version recommandée pour des projet Symfony
+version: "3.8"
+
+services:
+  ### db tosho
+  database: 
+    image: mysql:8.0.25
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"] # vérifie si le serveur MySQL local est prêt à accepter des connexions
+      interval: 5s
+      timeout: 3s
+      retries: 2
+    networks:
+      - symfony_tosho_net
+    volumes:
+      - ../.mysql-tosho/data:/var/lib/mysql # : sépare hôte : conteneur. meme si le conteneur est supprimé les données sont sauvegardé localement dans ../.mysql-tosho/data
+      #- ../.mysql-tosho/init:/docker-entrypoint-initdb.d #permet d'initialiser la bdd ou d'executer des scripts (anonymyser les données)
+  ### db tosho
+
+  ###> symfony/mailer ###
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025:1025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+  ###< symfony/mailer ###
+
+  ### app tosho
+  app: 
+    build:
+      context: ..
+      dockerfile: Dockerfile.dev
+    #container_name: tosho_app
+    ports: 
+      - "7878:8000"
+    restart: always
+    depends_on: # cela indique que database et mailer soient lancé avant app
+      database:
+        condition: service_healthy # docker compose attends que database soit 'healthy' avant app
+      mailer:
+        condition: service_started
+    env_file:
+      - .env.dev
+    volumes:
+      - ../:/var/www/html # Bind mount : code source local (../) est monté dans le conteneur (/var/www/html est le chemin dans le conteneur). à changer en prod
+    networks:
+      - symfony_tosho_net
+  ### app tosho
+
+networks:
+  symfony_tosho_net:
+    driver: bridge

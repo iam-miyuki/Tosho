@@ -1,0 +1,34 @@
+# --- Base PHP + Apache ---
+FROM php:8.2-apache
+
+# --- Installer dépendances système pour Symfony ---
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libicu-dev \
+    libonig-dev \
+    libzip-dev \
+    libxml2-dev \
+    zlib1g-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-install intl pdo_mysql zip opcache \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- Installer Composer ---
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# --- Définir le répertoire de travail ---
+WORKDIR /var/www/html
+
+# --- Activer mod_rewrite pour Symfony ---
+RUN a2enmod rewrite
+
+# --- Exposer le port Apache ---
+EXPOSE 80
+
+# --- Commande de démarrage par défaut ---
+CMD ["apache2-foreground"]
