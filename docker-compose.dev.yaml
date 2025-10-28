@@ -52,7 +52,7 @@ services:
     env_file:
       - .env.dev
     volumes:
-      - ../:/var/www/html # Bind mount : code source local (../) est monté dans le conteneur (/var/www/html est le chemin dans le conteneur). à changer en prod
+      - .:/var/www/html # Bind mount : code source local (../) est monté dans le conteneur (/var/www/html est le chemin dans le conteneur). à changer en prod
     networks:
       - symfony_tosho_net
   ### app tosho
