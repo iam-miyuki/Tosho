@@ -1,34 +1,50 @@
-# --- Base PHP + Apache ---
-FROM php:8.2-apache
+# Étape 1 : image PHP avec extensions nécessaires
+FROM php:8.2-fpm
+#ENV DATABASE_URL
 
-# --- Installer dépendances système pour Symfony ---
+# Installer dépendances système et extensions PHP utiles pour Symfony
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libicu-dev \
-    libonig-dev \
+    libpq-dev \
     libzip-dev \
-    libxml2-dev \
-    zlib1g-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    && docker-php-ext-install intl pdo_mysql zip opcache \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd \
-    && rm -rf /var/lib/apt/lists/*
+    zip \
+    curl \
+    && docker-php-ext-install intl pdo pdo_mysql opcache zip
 
-# --- Installer Composer ---
+# Étape 2 : Installer Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# --- Définir le répertoire de travail ---
+# Étape 3 : Installer Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash \
+    && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
+
+# Étape 3 : Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# --- Activer mod_rewrite pour Symfony ---
-RUN a2enmod rewrite
+# Étape 4 : Copier les fichiers du projet
+COPY . .
 
-# --- Exposer le port Apache ---
-EXPOSE 80
+# Étape 5 : Installer les dépendances Symfony (sans les dev si en prod)
+#RUN composer install 
+RUN composer install --no-scripts --no-interaction --prefer-dist
 
-# --- Commande de démarrage par défaut ---
-CMD ["apache2-foreground"]
+# Étape 6 : Droits d’écriture pour Symfony (cache, logs)
+RUN mkdir -p var
+RUN chown -R www-data:www-data var
+RUN chown -R www-data:www-data public
+
+# Build asserts
+RUN php bin/console importmap:install
+RUN php bin/console asset-map:compile
+
+# Exposer le port PHP-FPM
+EXPOSE 9000
+EXPOSE 8000
+
+
+#CMD ["php-fpm"]
+#CMD ["symfony", "serve"]
+# Run built-in server (for dev only)
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]

@@ -53,9 +53,8 @@ final class LoanController extends AbstractController
                         'families' => $results,
                         'tab' => 'family'
                     ]);
-                } 
-                else {
-                    echo('aucune famille trouvé !');
+                } else {
+                    echo ('aucune famille trouvé !');
                 }
             }
             // chercher par livre avec code
@@ -67,7 +66,7 @@ final class LoanController extends AbstractController
                         'id' => $book->getId()
                     ]);
                 } else {
-                    echo('aucun livre trouvé !');
+                    echo ('aucun livre trouvé !');
                 }
             }
             // chercher par livre avec mot-clé
@@ -80,7 +79,7 @@ final class LoanController extends AbstractController
                         'tab' => 'book'
                     ]);
                 } else {
-                    echo('aucun livre trouvé !');
+                    echo ('aucun livre trouvé !');
                 }
             }
         }
@@ -125,7 +124,7 @@ final class LoanController extends AbstractController
                         'tab' => 'book'
                     ]);
                 } else {
-                    echo('aucune famille trouvé !');
+                    echo ('aucune famille trouvé !');
                 }
             }
         }
@@ -152,8 +151,8 @@ final class LoanController extends AbstractController
         $em->persist($loan);
         $em->persist($book);
         $em->flush();
-        return $this->redirectToRoute('loan-by-family',[
-            'id'=>$family->getId()
+        return $this->redirectToRoute('loan-by-family', [
+            'id' => $family->getId()
         ]);
     }
 
@@ -167,40 +166,52 @@ final class LoanController extends AbstractController
     ): Response {
         $loans = $loanRepository->findAllWithFamilyAndStatus($family);
 
-        if ($request->isMethod('POST')) {
-            if ($request->request->has('book_code')) {
-                $code = $request->request->get('book_code');
-                $book = $bookRepository->findOneByCode($code);
-
-                if ($family && $book && $book->getStatus() != BookStatusEnum::borrowed) {
-                    $loan = new Loan();
-                    $loan->setFamily($family);
-                    $loan->setBook($book);
-                    $loan->setStatus(LoanStatusEnum::inProgress);
-                    $loan->setLoanDate(new \DateTime());
-                    $loan->setUser($this->getUser());
-                    $book->setStatus(BookStatusEnum::borrowed);
-                    $em->persist($loan);
-                    $em->persist($book);
-                    $em->flush();
-                    return $this->redirectToRoute('loan-by-family', [
-                        'id' => $family->getId(),
-                    ]);
-                }
-                if ($family && $book && $book->getStatus() === BookStatusEnum::borrowed) {
-                    // TODO 
-                    echo('ce livre est déjà emprunté !');
-                } else {
-                    echo('aucun livre trouvé !');
-                }
-            }
+        if (!$request->isMethod('POST')) {
+            return $this->render('loan/index.html.twig', [
+                'loans' => $loans,
+                'family' => $family,
+                'tab' => 'family'
+            ]);
         }
 
-        return $this->render('loan/index.html.twig', [
-            'loans' => $loans,
-            'family' => $family,
-            'tab' => 'family'
-        ]);
+        if (!$request->request->has('book_code')) {
+            return new Response('You should provide a book_code.', Response::HTTP_BAD_REQUEST);
+        }
+
+        $code = (string) $request->request->get('book_code');
+        $book = $bookRepository->findOneByCode($code);
+
+        if ($book === null) {
+            return new Response('This book doesnt exists.', Response::HTTP_NOT_FOUND);
+        }
+
+        if ($book->getStatus() !== BookStatusEnum::borrowed) {
+            $loan = new Loan();
+            $loan->setFamily($family);
+            $loan->setBook($book);
+            $loan->setStatus(LoanStatusEnum::inProgress);
+            $loan->setLoanDate(new \DateTime());
+            $loan->setUser($this->getUser());
+            $book->setStatus(BookStatusEnum::borrowed);
+            $em->persist($loan);
+            $em->persist($book);
+            $em->flush();
+
+            return $this->redirectToRoute('loan-by-family', [
+                'id' => $family->getId(),
+            ]);
+        }
+
+        if ($book->getStatus() === BookStatusEnum::borrowed) {
+            return $this->render('loan/index.html.twig',[
+                'tab'=>'family',
+                'notDisponible'=>$book,
+                'family'=>$family,
+                'loans'=>$loans
+            ]);
+        }
+
+        return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[Route(path: '/return/{id}', name: 'return-book')]
@@ -225,13 +236,13 @@ final class LoanController extends AbstractController
                     'id' => $loan->getFamily()->getId()
                 ]);
             } else {
-                echo('déjà rendu !');
+                echo ('déjà rendu !');
             }
         } else {
-            echo('non trouvé!');
+            echo ('non trouvé!');
         }
-        return $this->render('loan/index.html.twig',[
-            'loan'=>$loan,
+        return $this->render('loan/index.html.twig', [
+            'loan' => $loan,
             ''
         ]);
     }

@@ -29,14 +29,15 @@
     margin-right: auto;
     font-size: var(--font-s);
     padding: 1rem;
-
   }
-
 }
 .card.one-card{
   margin-left: auto;
   margin-right: auto;
-  margin-top: 3rem;
+  margin-top: 1rem;
+}
+.card.one-card.alert-card{
+  margin-top: 0rem;
 }
 .inventory-card{
   background-color: transparent;
@@ -251,9 +252,7 @@ img.book-cover {
     align-items: center;
   }
 }
-.alert-card{
-  background-color: var(--color-alert);
-}
+
 .icon-alert{
   display: inline-block;
   width: 30px;

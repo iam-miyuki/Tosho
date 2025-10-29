@@ -38,10 +38,10 @@ services:
   app: 
     build:
       context: .
-      dockerfile: Dockerfile2.dev
+      dockerfile: Dockerfile.dev
     #container_name: tosho_app
     ports: 
-      - "7878:80"
+      #- "7878:80"
       - "8000:8000"
     restart: always
     depends_on: # cela indique que database et mailer soient lancé avant app
