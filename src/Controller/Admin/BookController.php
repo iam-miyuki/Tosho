@@ -6,10 +6,12 @@ use App\Entity\Book;
 use App\Enum\LocationEnum;
 use App\Form\Book\BookForm;
 use App\Enum\BookStatusEnum;
+use App\Enum\LoanStatusEnum;
 use App\Form\Book\FindBookForm;
 use App\Form\Book\BookFilterForm;
 use App\Form\Book\EditBookForm;
 use App\Repository\BookRepository;
+use App\Repository\LoanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,12 +36,15 @@ final class BookController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $em,
-        BookRepository $bookRepository
+        BookRepository $bookRepository,
+        LoanRepository $loanRepository
     ): Response {
         $currentTab = $request->query->get('tab', 'search');
         $book = new Book();
         $form = $this->createForm(BookForm::class, $book);
         $form->handleRequest($request);
+        $activeLoans = $loanRepository->findAllByStatus(LoanStatusEnum::inProgress);
+        $overdueLoans = $loanRepository->findAllByStatus(LoanStatusEnum::overdue);
 
         $currentBook = null;
         $all = $bookRepository->findAll();

@@ -1,6 +1,6 @@
-	{% if bookToLoan is defined and bookToLoan is not null %}
+{% if bookToLoan is defined and bookToLoan is not null %}
 	{% include "loan/loan-by-book.html.twig" %}
-	{% else %}	
+{% else %}
 	<div class="forms-wrapper">
 		<form action="{{path('loan')}}" method="POST">
 			<h3 class="form-title">Code livre :
@@ -15,7 +15,7 @@
 			<button type="submit">Rechercher</button>
 		</form>
 	</div>
-	
+
 	<div class="cards-container">
 		{% if book is defined and book is not null %}
 			{% if loan %}
@@ -24,6 +24,24 @@
 				{% include 'loan/book-card.html.twig' with { book: book } %}
 			{% endif %}
 		{% endif %}
+		{% if notFoundCode is defined %}
+			<div class="card one-card not-found">
+				<div class="card-title">
+					<h4>Aucun livre ne correspond à votre recherche</h4>
+					<div class="icon-not-found"></div>
+				</div>
+			</div>
+		{% endif %}
+		{% if notFound is defined %}
+			<div class="card one-card not-found">
+				<div class="card-title">
+					<h4>Aucun livre ne correspond à votre recherche</h4>
+					<div class="icon-not-found"></div>
+				</div>
+			</div>
+		{% endif %}
+
+
 	</div>
 	{% if books is defined %}
 		{% if  books | length > 0 %}
@@ -47,4 +65,3 @@
 		{% endif %}
 	{% endif %}
 {% endif %}
-

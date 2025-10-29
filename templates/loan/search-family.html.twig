@@ -23,11 +23,17 @@
 					</li>
 				{% endfor %}
 			</ul>
-		{% else %}
-			<p>Aucune famille trouvée !</p>
 		{% endif %}
 	</div>
 {% endif %}
+{% if noResult is defined %}
+			<div class="card one-card not-found">
+				<div class="card-title">
+					<h4>Aucune famille trouvée</h4>
+					<div class="icon-not-found"></div>
+				</div>
+			</div>
+		{% endif %}
 
 
 {% if family is defined and family is not null %}
@@ -58,6 +64,15 @@
 					</div>
 				</div>
 			{% endif %}
+			{% if notFoundCode is defined %}
+				<div class="card one-card not-found">
+					<div class="card-title">
+						<h4>Aucun livre ne correspond à votre recherche</h4>
+						<div class="icon-not-found"></div>
+					</div>
+				</div>
+			{% endif %}
+
 			<h4 class="name-container section-name yellow">Prêts en cours</h4>
 			{% if loans is defined %}
 				<div class="cards-wrapper">
