@@ -65,7 +65,10 @@
 					</nav>
 					{% if is_granted('ROLE_ADMIN') %}
 						<div class="switch admin">
+							<div class="switch-icon"></div>
+							<div>
 							<a href="{{path('admin_home')}}">Espace Admin</a>
+							</div>
 						</div>
 					{% endif %}
 					{# <a href="{{ path('switch_locale') }}">en</a> #}
