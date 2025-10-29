@@ -260,7 +260,7 @@ img.book-cover {
   background-image: url(../../img/neutral.svg);
   background-size: cover;
 }
-.add-wrapper{
+.edit-wrapper{
   background-color: var(--color-badet);
 }
 .form-wrapper{
