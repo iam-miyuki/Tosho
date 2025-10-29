@@ -27,7 +27,7 @@ final class BookController extends AbstractController
     {
         do {
             $code = (string) random_int(1000, 9999);
-            $existingBook = $bookRepository->findOneBy(['code' => $code]);
+            $existingBook = $bookRepository->findOneByCode($code);
         } while ($existingBook !== null); //pour générer le code qui n'est pas encore attribué à un livre
         return $code;
     }
@@ -43,8 +43,6 @@ final class BookController extends AbstractController
         $book = new Book();
         $form = $this->createForm(BookForm::class, $book);
         $form->handleRequest($request);
-        $activeLoans = $loanRepository->findAllByStatus(LoanStatusEnum::inProgress);
-        $overdueLoans = $loanRepository->findAllByStatus(LoanStatusEnum::overdue);
 
         $currentBook = null;
         $all = $bookRepository->findAll();
@@ -72,46 +70,50 @@ final class BookController extends AbstractController
             'badet' => $badet,
         ];
 
-        if ($request->isMethod('POST')) {
-            if ($filterForm->isSubmitted()) {
-                $keyword = $filterForm->get('filter')->getData();
-                $results = $bookRepository->findAllWithFilterQuery($keyword);
-                return $this->render('admin/book/index.html.twig', array_merge($sharedData, [
+        if (!$request->isMethod('POST')) {
+            return $this->render(
+                'admin/book/index.html.twig',
+                array_merge($sharedData, [
+                    'tab' => $currentTab,
                     'books' => $results,
-                    'tab' => 'search'
-                ]));
-            }
-            if ($findBookForm->isSubmitted()) {
-                $code = $findBookForm->get('code')->getData();
-                $currentBook = $bookRepository->findOneByCode($code);
-                return $this->redirectToRoute('admin-show-book', [
-                    'id' => $currentBook->getId()
-                ]);
-            }
-            if ($form->isSubmitted() && $form->isValid()) {
-                $book = $form->getData();
-                $book->setAddedAt(new \DateTimeImmutable());
-                $book->setStatus(BookStatusEnum::available);
-                $code = $this->generateUniqueCode($bookRepository);
-                $book->setCode($code);
-                $em->persist($book);
-                $em->flush();
-                return $this->render('admin/book/index.html.twig', array_merge($sharedData, [
-                    'addedBook' => $book,
-                    'tab' => 'new',
-                    'successMessage' => 'Le livre a été ajouté avec succès'
-                ]));
-            }
+                    'currentBook' => $currentBook,
+                    'addedBook' => null,
+                   ])
+            );
         }
-        return $this->render(
-            'admin/book/index.html.twig',
-            array_merge($sharedData, [
-                'tab' => $currentTab,
+
+        if ($filterForm->isSubmitted()) {
+            $keyword = $filterForm->get('filter')->getData();
+            $results = $bookRepository->findAllWithFilterQuery($keyword);
+            return $this->render('admin/book/index.html.twig', array_merge($sharedData, [
                 'books' => $results,
-                'currentBook' => $currentBook,
-                'addedBook' => null
-            ])
-        );
+                'tab' => 'search'
+            ]));
+        }
+
+        if ($findBookForm->isSubmitted()) {
+            $code = $findBookForm->get('code')->getData();
+            $currentBook = $bookRepository->findOneByCode($code);
+            return $this->redirectToRoute('admin-show-book', [
+                'id' => $currentBook->getId()
+            ]);
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $book = $form->getData();
+            $book->setAddedAt(new \DateTimeImmutable());
+            $book->setStatus(BookStatusEnum::available);
+            $code = $this->generateUniqueCode($bookRepository);
+            $book->setCode($code);
+            $em->persist($book);
+            $em->flush();
+            return $this->render('admin/book/index.html.twig', array_merge($sharedData, [
+                'addedBook' => $book,
+                'tab' => 'new',
+                'successMessage' => 'Le livre a été ajouté avec succès'
+            ]));
+        }
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[Route('/{id}', name: 'admin-show-book')]
