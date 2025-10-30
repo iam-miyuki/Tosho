@@ -14,14 +14,14 @@
 	{{ form_end(searchFamilyForm) }}
 </div>
 
-{% if searchedFamilies is defined and searchedFamilies is not null %}
+{% if results is defined and results is not null %}
 	<div class="section-title">
 		<h4>Résultats de recherche :</h4>
 	</div>
 	<div class="result-container">
-		{% if searchedFamilies|length > 0 %}
+		{% if results|length > 0 %}
 			<ul class="result-list">
-				{% for family in searchedFamilies %}
+				{% for family in results %}
 					<li>
 						<a href="{{ path('show-family', {id: family.id}) }}">
 							{{ family.name|upper }}

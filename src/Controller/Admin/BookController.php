@@ -78,7 +78,7 @@ final class BookController extends AbstractController
                     'books' => $results,
                     'currentBook' => $currentBook,
                     'addedBook' => null,
-                   ])
+                ])
             );
         }
 
@@ -182,39 +182,42 @@ final class BookController extends AbstractController
             'badet' => $badet,
         ];
 
-        if ($request->isMethod('POST')) {
-            if ($editForm->isSubmitted() && $editForm->isValid()) {
-                $code = $editForm->get('code')->getData();
-                $existingBook = $bookRepository->findOneByCode($code);
-
-                if ($existingBook == null || $existingBook->getId() === $book->getId()) {
-                    $em->flush();
-                    return $this->render(
-                        'admin/book/index.html.twig',
-                        array_merge($sharedData, [
-                            'modifiedBook' => $book,
-                            'tab' => 'search',
-                            'successMessage' => 'Le livre a été modifié avec succès'
-                        ])
-                    );
-                } else {
-                    return $this->render(
-                        'admin/book/index.html.twig',
-                        array_merge($sharedData, [
-                            'tab' => 'search',
-                            'erreurCodeBook' => $book
-                        ])
-                    );
-                }
-            }
+        if (!$request->isMethod('POST')) {
+            return $this->render(
+                'admin/book/index.html.twig',
+                array_merge($sharedData, [
+                    'bookToEdit' => $book,
+                    'tab' => 'search'
+                ])
+            );
         }
-        return $this->render(
-            'admin/book/index.html.twig',
-            array_merge($sharedData, [
-                'bookToEdit' => $book,
-                'tab' => 'search'
-            ])
-        );
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $code = $editForm->get('code')->getData();
+            $existingBook = $bookRepository->findOneByCode($code);
+
+            if ($existingBook === null || $existingBook->getId() === $book->getId()) {
+                $em->flush();
+                return $this->render(
+                    'admin/book/index.html.twig',
+                    array_merge($sharedData, [
+                        'modifiedBook' => $book,
+                        'tab' => 'search',
+                        'successMessage' => 'Le livre a été modifié avec succès'
+                    ])
+                );
+            }
+
+            return $this->render(
+                'admin/book/index.html.twig',
+                array_merge($sharedData, [
+                    'tab' => 'search',
+                    'erreurCodeBook' => $book
+                ])
+            );
+        }
+
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[Route('/delete/{id}', name: 'delete-book')]
@@ -247,6 +250,18 @@ final class BookController extends AbstractController
             'badet' => $badet,
         ];
 
+        if (!$request->isMethod('POST')) {
+            return $this->render(
+                'admin/book/index.html.twig',
+                array_merge(
+                    $sharedData,
+                    [
+                        'bookToDelete' => $book,
+                    ]
+                )
+            );
+        }
+
         if ($book->getStatus() !== BookStatusEnum::available) {
             return $this->render(
                 'admin/book/index.html.twig',
@@ -275,14 +290,6 @@ final class BookController extends AbstractController
             );
         }
 
-        return $this->render(
-            'admin/book/index.html.twig',
-            array_merge(
-                $sharedData,
-                [
-                    'bookToDelete' => $book,
-                ]
-            )
-        );
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
