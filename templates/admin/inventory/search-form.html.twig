@@ -6,6 +6,10 @@
 
 {% elseif modifiedInventory is defined and modifiedInventory is not null %}
 	{% include "admin/inventory/success.html.twig" %}
+{% elseif inventoryToConfirm is defined and inventoryToConfirm is not null %}
+	{% include "admin/inventory/delete.html.twig" %}
+{% elseif inventoryInProgress is defined and inventoryInProgress is not null %}
+	{% include "admin/inventory/error.html.twig" %}
 {% else %}
 
 	<div class="forms-wrapper filter-form">

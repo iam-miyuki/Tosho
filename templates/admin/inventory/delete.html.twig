@@ -1,0 +1,30 @@
+<div class="card one-card alert-card">
+    <div class="card-title">
+        <h4>Voulez-vous vraiment supprimer cet inventaire  ?</h4>
+    </div>
+    <div class="card-body">
+        <div class="detail">
+            <div class="detail-item item-label">
+                <p>Lieu</p>
+                <p>Date</p>
+                <p>Statut</p>
+                <p>Commentaire</p>
+            </div>
+            <div class="detail-item">
+                <p> : {{ inventoryToConfirm.location.value }}</p>
+                <p> : {{ inventoryToConfirm.date|date('d/m/Y')  }}</p>
+                <p> : {{ inventoryToConfirm.status.value }} </p>
+                <p> : {{ inventoryToConfirm.note }} </p>
+            </div>
+        </div>
+
+    </div>
+        <div class="btn-wrapper">
+            <form method="POST">
+                <button class="btn-form btn-alert"type="submit">Supprimer</button>
+            </form>
+                <div class="href-btn cancel-btn"><a href="{{path('inventory',{tab:'search'})}}">Annuler</a></div>
+        </div>
+</div>
+
+

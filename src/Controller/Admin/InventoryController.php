@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use DateTimeImmutable;
 use App\Entity\Inventory;
 use App\Entity\InventoryItem;
+use App\Enum\InventoryStatusEnum;
 use App\Form\InventoryItem\InventoryItemForm;
 use App\Form\Inventory\InventoryForm;
 use App\Form\InventoryItem\InventoryItemFilterForm;
@@ -133,16 +134,16 @@ final class InventoryController extends AbstractController
             return $this->render('admin/inventory/index.html.twig', [
                 'form' => $form->createView(),
                 'inventoryToEdit' => $inventory,
-                'tab'=>'search'
+                'tab' => 'search'
             ]);
         }
 
         if ($form->isSubmitted()) {
             $em->flush();
-            return $this->render('admin/inventory/index.html.twig',[
-                'tab'=>'search',
-                'modifiedInventory'=>$inventory,
-                'successMessage'=>'L\'inventaire modifié avec succès'
+            return $this->render('admin/inventory/index.html.twig', [
+                'tab' => 'search',
+                'modifiedInventory' => $inventory,
+                'successMessage' => 'L\'inventaire modifié avec succès'
             ]);
         }
 
@@ -152,14 +153,30 @@ final class InventoryController extends AbstractController
     #[Route('/delete/{id}', name: 'delete-inventory')]
     public function delete(
         Inventory $inventory,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Request $request
     ): Response {
 
-        if ($inventory) {
+        if (!$request->isMethod('POST')) {
+            return $this->render('admin/inventory/index.html.twig', [
+                'inventoryToConfirm' => $inventory,
+                'tab' => 'search'
+            ]);
+        }
+
+        if ($inventory->getStatus() === InventoryStatusEnum::open) {
+            return $this->render('admin/inventory/index.html.twig', [
+                'tab' => 'search',
+                'inventoryInProgress' => $inventory
+            ]);
+        }
+
             $em->remove($inventory);
             $em->flush();
-        }
-        return $this->redirectToRoute('inventory');
+            return $this->render('admin/inventory/index.html.twig', [
+                'tab' => 'search',
+                'successMessage' => 'Supprimé avec succès !'
+            ]);
     }
 
     #[Route('/edit-item/{id}', name: 'admin-edit-item')]
