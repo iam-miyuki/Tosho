@@ -37,37 +37,39 @@ final class InventoryController extends AbstractController
         $filterForm = $this->createForm(InventoryFilterForm::class, null);
         $filterForm->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $inventory->setDate(new \DateTime('now'));
-                $inventory = $form->getData();
-                $em->persist($inventory);
-                $em->flush();
-                return $this->render('admin/inventory/index.html.twig', [
-                    'addedInventory' => $inventory,
-                    'successMessage' => 'L\'inventaire a été crée avec success ! ',
-                    'tab' => 'new'
-                ]);
-            }
-            if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-                $status = $filterForm->get('status')->getData();
-                $location = $filterForm->get('location')->getData();
-                $inventories = $inventoryRepository->findAllWithFilterQuery($status, $location);
-                return $this->render('admin/inventory/index.html.twig', [
-                    'inventories' => $inventories,
-                    'tab' => 'search',
-                    'filterForm' => $filterForm
-                ]);
-            }
+        if (!$request->isMethod('POST')) {
+            return $this->render('admin/inventory/index.html.twig', [
+                'tab' => $currentTab,
+                'form' => $form->createView(),
+                'filterForm' => $filterForm->createView()
+            ]);
         }
 
-        return $this->render('admin/inventory/index.html.twig', [
-            'tab' => $currentTab,
-            'form' => $form->createView(),
-            'filterForm' => $filterForm->createView()
-        ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $inventory->setDate(new \DateTime('now'));
+            $inventory = $form->getData();
+            $em->persist($inventory);
+            $em->flush();
+            return $this->render('admin/inventory/index.html.twig', [
+                'addedInventory' => $inventory,
+                'successMessage' => 'L\'inventaire a été crée avec succès ! ',
+                'tab' => 'new'
+            ]);
+        }
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $status = $filterForm->get('status')->getData();
+            $location = $filterForm->get('location')->getData();
+            $inventories = $inventoryRepository->findAllWithFilterQuery($status, $location);
+            return $this->render('admin/inventory/index.html.twig', [
+                'inventories' => $inventories,
+                'tab' => 'search',
+                'filterForm' => $filterForm
+            ]);
+        }
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
     #[Route('/{id}', name: 'show-inventory')]
     public function show(
         Inventory $inventory,
@@ -76,39 +78,45 @@ final class InventoryController extends AbstractController
         $items = $inventory->getInventoryItems();
         $notOkItems = $inventoryItemRepository->findAllByInventoryAndNotOkStatus($inventory);
 
-        return $this->render('admin/inventory/index.html.twig', [
-            'currentInventory' => $inventory,
-            'items' => $items,
-            'notOkItems' => $notOkItems,
-            'tab' => 'search',
-        ]);
+        if ($inventory) {
+            return $this->render('admin/inventory/index.html.twig', [
+                'currentInventory' => $inventory,
+                'items' => $items,
+                'notOkItems' => $notOkItems,
+                'tab' => 'search',
+            ]);
+        }
+
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    
-    #[Route('/items/{id}/{page}', 
-    name:'admin-items',
-    requirements:['page' => '^(checked|not-ok)$'])]
+
+    #[Route(
+        '/items/{id}/{page}',
+        name: 'admin-items',
+        requirements: ['page' => '^(checked|not-ok)$']
+    )]
     public function items(
         Inventory $inventory,
         string $page,
         InventoryRepository $inventoryRepository,
         InventoryItemRepository $inventoryItemRepository
-    ) : Response {
+    ): Response {
         $currentInventory = $inventoryRepository->findWithItems($inventory->getId()); // besoin de récupérer avec inventoryItems
         $items = null;
         $notOkItems = null;
 
-        if($page ==='checked'){
+        if ($page === 'checked') {
             $items = $inventoryItemRepository->findAllByInventory($inventory);
         }
-        if($page ==='not-ok'){
+        if ($page === 'not-ok') {
             $notOkItems = $inventoryItemRepository->findAllByInventoryAndNotOkStatus($inventory);
         }
-        return $this->render('admin/inventory/index.html.twig',[
-            'items'=>$items,
-            'notOkItems'=>$notOkItems,
-            'currentInventory'=>$currentInventory,
-            'tab'=>'search',
-            'page'=>$page
+        return $this->render('admin/inventory/index.html.twig', [
+            'items' => $items,
+            'notOkItems' => $notOkItems,
+            'currentInventory' => $currentInventory,
+            'tab' => 'search',
+            'page' => $page
         ]);
     }
 
@@ -121,15 +129,24 @@ final class InventoryController extends AbstractController
         $form = $this->createForm(InventoryForm::class, $inventory);
         $form->handleRequest($request)->createView();
 
-        if ($form->isSubmitted()) {
-            $em->flush();
-            dd('modifié !');
+        if (!$request->isMethod('POST')) {
+            return $this->render('admin/inventory/index.html.twig', [
+                'form' => $form->createView(),
+                'inventoryToEdit' => $inventory,
+                'tab'=>'search'
+            ]);
         }
 
-        return $this->render('admin/inventory/edit.html.twig', [
-            'form' => $form->createView(),
-            'inventory' => $inventory
-        ]);
+        if ($form->isSubmitted()) {
+            $em->flush();
+            return $this->render('admin/inventory/index.html.twig',[
+                'tab'=>'search',
+                'modifiedInventory'=>$inventory,
+                'successMessage'=>'L\'inventaire modifié avec succès'
+            ]);
+        }
+
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[Route('/delete/{id}', name: 'delete-inventory')]
@@ -176,8 +193,8 @@ final class InventoryController extends AbstractController
             'itemFilterForm' => $itemFilterForm->createView(),
             'currentInventory' => $currentInventory,
             'items' => $items,
-            'notOkItems'=>null,
-            'tab'=>'search'
+            'notOkItems' => null,
+            'tab' => 'search'
         ]);
     }
 }

@@ -39,7 +39,7 @@ final class AccountController extends AbstractController
             $em->flush();
             return $this->render('account/index.html.twig', [
                 'editedUser' => $user,
-                'successMessage' => 'Modifié avec success !'
+                'successMessage' => 'Modifié avec succès !'
             ]);
         }
         return $this->render('account/index.html.twig', [
@@ -71,14 +71,14 @@ final class AccountController extends AbstractController
                     $email
                         ->from('tosho@mail.com')
                         ->to($user->getEmail())
-                        ->subject('Votre mot de passe a été changé avec success !')
+                        ->subject('Votre mot de passe a été changé avec succès !')
                         ->htmlTemplate('account/email.html.twig')
                         ->context([
                             'user' => $user,
                         ]);
                     $mailer->send($email);
                     return $this->render('account/index.html.twig', [
-                        'successMessage' => 'Mot de passe a été changé avec success !',
+                        'successMessage' => 'Mot de passe a été changé avec succès !',
                     ]);
                 } else {
                     return $this->render('account/index.html.twig', [

@@ -89,7 +89,7 @@ class SecurityController extends AbstractController
                 $user->setPassword($newPwd);
                 $em->flush();
                 return $this->render('security/login.html.twig',[
-                    'successMessage'=>'Mot de passe a été réinitialisé avec success !'
+                    'successMessage'=>'Mot de passe a été réinitialisé avec succès !'
                 ]);
             }
         }

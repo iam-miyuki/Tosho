@@ -84,7 +84,7 @@ final class LibrarienController extends AbstractController
                 return $this->render('admin/librarien/index.html.twig', [
                     'tab' => 'new',
                     'addedUser' => $user,
-                    'successMessage' => 'Ajout avec success !'
+                    'successMessage' => 'Ajout avec succès !'
                 ]);
             }
         }
@@ -124,7 +124,7 @@ final class LibrarienController extends AbstractController
                 'admin/librarien/index.html.twig',[
                     'tab'=>'family',
                     'deletedUser'=>$user,
-                    'successMessage'=>'Suppression avec success !'
+                    'successMessage'=>'Suppression avec succès !'
                 ]);
         }
         return $this->render('admin/librarien/index.html.twig', [

@@ -1,12 +1,44 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Modifier
-{% endblock %}
-{% block body %}
-<h3>Modifier</h3>
-	{{ form_start(form) }}
-	{{ form_row(form) }}
-	<button type="submit">Modifier</button>
-{{ form_end(form) }}
-	
-{% endblock %}
+<div class="card one-card edit-wrapper">
+	<div class="card-title">Modifier
+	</div>
+	<div class="card-body">
+
+		{{ form_start(form) }}
+		<div>
+			<div class="form-item">
+				<p>Lieu : </p>
+				<div class="item-field">
+					
+					{{ form_widget(form.location, {'attr': {'class': 'form-field enum-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Commentaire :
+				</p>
+				<div class="item-field">
+					
+					{{ form_widget(form.note, {'attr': {'class': 'form-field textarea-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Date : </p>
+				<div>
+					
+					{{ form_widget(form.date, {'attr': {'class': 'form-field'}}) }}</div>
+			</div>
+			<div class="form-item">
+				<p>Statut : </p>
+				<div>
+					
+					{{ form_widget(form.status, {'attr': {'class': 'form-field enum-field'}}) }}</div>
+			</div>
+		</div>
+		
+		<div class="btn-wrapper">
+			<button class="btn-form" type="submit">Enregistrer</button>
+			<div class="href-btn cancel-btn">
+				<a href="{{path('inventory')}}">Annuler</a>
+			</div>
+		</div>
+
+	</div>
+	{{ form_end(form) }}</div></div>

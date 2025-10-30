@@ -1,5 +1,11 @@
 {% if currentInventory is defined and currentInventory is not null %}
 	{% include "admin/inventory/inventory-page.html.twig" %}
+
+{% elseif inventoryToEdit is defined and inventoryToEdit is not null %}
+	{% include "admin/inventory/edit.html.twig" %}
+
+{% elseif modifiedInventory is defined and modifiedInventory is not null %}
+	{% include "admin/inventory/success.html.twig" %}
 {% else %}
 
 	<div class="forms-wrapper filter-form">

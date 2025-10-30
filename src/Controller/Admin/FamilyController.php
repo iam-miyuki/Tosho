@@ -81,14 +81,16 @@ final class FamilyController extends AbstractController
         $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
         $searchFamilyForm->handleRequest($request);
 
-        // TODO : if ($family) {
-        // }
-        return $this->render('admin/family/index.html.twig', [
-            'tab' => 'family',
-            'currentFamily' => $family,
-            'form' => $form->createView(),
-            'searchFamilyForm' => $searchFamilyForm->createView()
-        ]);
+        if($family){
+            return $this->render('admin/family/index.html.twig', [
+                'tab' => 'family',
+                'currentFamily' => $family,
+                'form' => $form->createView(),
+                'searchFamilyForm' => $searchFamilyForm->createView()
+            ]);
+        }
+        
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
     #[Route('/edit/{id}', name: 'edit-family')]
     public function edit(
@@ -107,7 +109,7 @@ final class FamilyController extends AbstractController
             return $this->render('admin/family/index.html.twig', [
                 'edited' => $family,
                 'tab' => 'family',
-                'successMessage' => 'Modifié avec success !',
+                'successMessage' => 'Modifié avec succès !',
                 'searchFamilyForm' => $searchFamilyForm->createView()
             ]);
         }
@@ -129,6 +131,8 @@ final class FamilyController extends AbstractController
     ): Response {
         $searchFamilyForm = $this->createForm(SearchFamilyForm::class, $family);
         $searchFamilyForm->handleRequest($request);
+
+        // vérifier si la famille a des prêts en cours
         if ($loanRepository->findAllWithFamilyAndStatus($family)) {
             return $this->render('admin/family/index.html.twig', [
                 'familyHasLoan' => $family,
@@ -136,6 +140,7 @@ final class FamilyController extends AbstractController
                 'searchFamilyForm' => $searchFamilyForm
             ]);
         }
+
         if ($request->isMethod('POST')) {
 
             $em->remove($family);
@@ -144,7 +149,7 @@ final class FamilyController extends AbstractController
                 'deleted' => $family,
                 'tab' => 'family',
                 'searchFamilyForm' => $searchFamilyForm,
-                'successMessage' => 'Suppression de famille avec success !'
+                'successMessage' => 'Suppression de famille avec succès !'
             ]);
         }
 
