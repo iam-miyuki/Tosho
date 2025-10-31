@@ -37,7 +37,6 @@ final class BookController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         BookRepository $bookRepository,
-        LoanRepository $loanRepository
     ): Response {
         $currentTab = $request->query->get('tab', 'search');
         $book = new Book();
@@ -274,22 +273,18 @@ final class BookController extends AbstractController
             );
         }
 
-        if ($request->isMethod('POST')) {
-            $em->remove($book);
-            $em->flush();
+        $em->remove($book);
+        $em->flush();
 
-            return $this->render(
-                'admin/book/index.html.twig',
-                array_merge(
-                    $sharedData,
-                    [
-                        'deletedBook' => $book,
-                        'successMessage' => 'Le livre a été supprimé avec succès'
-                    ]
-                )
-            );
-        }
-
-        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
+        return $this->render(
+            'admin/book/index.html.twig',
+            array_merge(
+                $sharedData,
+                [
+                    'deletedBook' => $book,
+                    'successMessage' => 'Le livre a été supprimé avec succès'
+                ]
+            )
+        );
     }
 }

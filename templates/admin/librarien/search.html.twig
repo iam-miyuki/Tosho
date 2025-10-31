@@ -36,14 +36,16 @@
 				<ul class="result-list">
 					{% for l in librariens %}
 						<li>
-							<a href="{{ path('show-librarien', {id: l.id}) }}">
-								{{ l.lastName|upper }}
-								{{ l.firstName }}
-								/
-								{{ l.jpLastName }}
-								{{ l.jpFirstName }}
-								/
-								{{ l.email }}
+							<a href="{{ path('show-librarien', {id: l.id}) }}"><span>
+								
+									{{ l.lastName|upper }}
+									{{ l.firstName }}
+									/
+									{{ l.jpLastName }}
+									{{ l.jpFirstName }}
+									/
+									{{ l.email }}
+							</span>
 							</a>
 						</li>
 					{% endfor %}

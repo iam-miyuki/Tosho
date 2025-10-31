@@ -170,13 +170,12 @@ final class InventoryController extends AbstractController
                 'inventoryInProgress' => $inventory
             ]);
         }
-
-            $em->remove($inventory);
-            $em->flush();
-            return $this->render('admin/inventory/index.html.twig', [
-                'tab' => 'search',
-                'successMessage' => 'Supprimé avec succès !'
-            ]);
+        $em->remove($inventory);
+        $em->flush();
+        return $this->render('admin/inventory/index.html.twig', [
+            'tab' => 'search',
+            'successMessage' => 'Supprimé avec succès !'
+        ]);
     }
 
     #[Route('/edit-item/{id}', name: 'admin-edit-item')]

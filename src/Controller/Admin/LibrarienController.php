@@ -27,7 +27,7 @@ final class LibrarienController extends AbstractController
         $password = '';
         $maxIndex = strlen($chars) - 1; // strlen(): get string length
 
-        for ($i = 0; $i < $length; $i++) { 
+        for ($i = 0; $i < $length; $i++) {
             $password .= $chars[random_int(0, $maxIndex)]; //ajoute ce caractère à la fin de la chaîne $password.
         }
 
@@ -52,48 +52,49 @@ final class LibrarienController extends AbstractController
 
         $role = 'ROLE_LIBRARIEN';
 
-        if ($request->isMethod('POST')) {
-            if ($form->isSubmitted()  && $form->isValid()) {
-                $query = $form->get('query')->getData();
-                $results = $userRepository->findAllWithFilterQuery($role,$query);
-                return $this->render('admin/librarien/index.html.twig', [
-                    'librariens' => $results,
-                    'tab' => 'family',
-                    'searchForm' => $form
-                ]);
-            }
-
-            if ($registerForm->isSubmitted() && $registerForm->isValid()) {
-                $password = $this->generatePassword(8); // randomPassword
-                $user->setPassword($hasher->hashPassword($user, $password));
-                $user->setRoles(['ROLE_LIBRARIEN']);
-                $user->setIsActive(true);
-                $em->persist($user);
-                $em->flush();
-                $email = new TemplatedEmail();
-                $email
-                    ->from('tosho@mail.com')
-                    ->to($user->getEmail())
-                    ->subject('Votre compte bibliothécaire')
-                    ->htmlTemplate('admin/librarien/email.html.twig')
-                    ->context([
-                        'pwd' => $password,
-                        'user' => $user
-                    ]);
-                $mailer->send($email);
-                return $this->render('admin/librarien/index.html.twig', [
-                    'tab' => 'new',
-                    'addedUser' => $user,
-                    'successMessage' => 'Ajout avec succès !'
-                ]);
-            }
+        if (!$request->isMethod('POST')) {
+            return $this->render('admin/librarien/index.html.twig', [
+                'tab' => $currentTab,
+                'searchForm' => $form,
+                'registerForm' => $registerForm
+            ]);
+        }
+        if ($form->isSubmitted()  && $form->isValid()) {
+            $query = $form->get('query')->getData();
+            $results = $userRepository->findAllWithFilterQuery($role, $query);
+            return $this->render('admin/librarien/index.html.twig', [
+                'librariens' => $results,
+                'tab' => 'family',
+                'searchForm' => $form
+            ]);
         }
 
-        return $this->render('admin/librarien/index.html.twig', [
-            'tab' => $currentTab,
-            'searchForm' => $form,
-            'registerForm' => $registerForm
-        ]);
+        if ($registerForm->isSubmitted() && $registerForm->isValid()) {
+            $password = $this->generatePassword(8); // randomPassword
+            $user->setPassword($hasher->hashPassword($user, $password));
+            $user->setRoles(['ROLE_LIBRARIEN']);
+            $user->setIsActive(true);
+            $em->persist($user);
+            $em->flush();
+            $email = new TemplatedEmail();
+            $email
+                ->from('tosho@mail.com')
+                ->to($user->getEmail())
+                ->subject('Votre compte bibliothécaire')
+                ->htmlTemplate('admin/librarien/email.html.twig')
+                ->context([
+                    'pwd' => $password,
+                    'user' => $user
+                ]);
+            $mailer->send($email);
+            return $this->render('admin/librarien/index.html.twig', [
+                'tab' => 'new',
+                'addedUser' => $user,
+                'successMessage' => 'Ajout avec succès !'
+            ]);
+        }
+
+        return new Response('500 Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[Route('/{id}', name: 'show-librarien')]
@@ -104,6 +105,7 @@ final class LibrarienController extends AbstractController
         $currentTab = $request->query->get('tab', 'family');
         $form = $this->createForm(SearchForm::class, null);
         $form->handleRequest($request);
+
         return $this->render('admin/librarien/index.html.twig', [
             'tab' => $currentTab,
             'librarien' => $user,
@@ -117,21 +119,26 @@ final class LibrarienController extends AbstractController
         EntityManagerInterface $em,
         Request $request
     ): Response {
-        if ($request->isMethod('POST')) {
-            $em->remove($user);
-            $em->flush();
-            return $this->render(
-                'admin/librarien/index.html.twig',[
-                    'tab'=>'family',
-                    'deletedUser'=>$user,
-                    'successMessage'=>'Suppression avec succès !'
-                ]);
+
+        if (!$request->isMethod('POST')) {
+            return $this->render('admin/librarien/index.html.twig', [
+                'librarienToDelete' => $user,
+                'tab' => 'family'
+            ]);
         }
-        return $this->render('admin/librarien/index.html.twig', [
-            'librarienToDelete' => $user,
-            'tab'=>'family'
-        ]);
+
+        $em->remove($user);
+        $em->flush();
+        return $this->render(
+            'admin/librarien/index.html.twig',
+            [
+                'tab' => 'family',
+                'deletedUser' => $user,
+                'successMessage' => 'Suppression avec succès !'
+            ]
+        );
     }
+    
     #[Route('/change-status/{id}', name: 'change-status')]
     public function change(
         User $user, //ParamConverter : faire le lien entre le paramètre dans l'url(id) et l'entité sans faire de requette
