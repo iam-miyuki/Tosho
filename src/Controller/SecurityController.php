@@ -81,6 +81,8 @@ class SecurityController extends AbstractController
     ) : Response {
         $resetPwdForm = $this->createForm(ResetPwdForm::class,null);
         $resetPwdForm->handleRequest($request);
+
+       /** @var User $user */
         $user = $this->getUser();
         if($resetPwdForm->isSubmitted() && $resetPwdForm->isValid()){
             $newPwd = $resetPwdForm->get('newPwd')->getData();
