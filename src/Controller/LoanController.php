@@ -33,14 +33,11 @@ final class LoanController extends AbstractController
         Request $request,
         FamilyRepository $familyRepository,
         BookRepository $bookRepository,
-        LoanRepository $loanRepository
     ): Response {
 
         $tab = $request->query->get('tab', 'family');
         $books = null;
         $results = null;
-        $activeLoans = $loanRepository->findAllByStatus(LoanStatusEnum::inProgress);
-        $overdueLoans = $loanRepository->findAllByStatus(LoanStatusEnum::overdue);
 
         if (!$request->isMethod('POST')) {
             return $this->render('loan/index.html.twig', [

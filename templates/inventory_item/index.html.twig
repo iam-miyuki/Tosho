@@ -8,6 +8,17 @@
 		<h3>Inventaire</h3>
 		<img src="{{ asset('img/books.svg') }}" alt="inventory">
 	</div>
+	<div class="inventory-loan-status">
+		<ul>
+			<li>
+				Total des prêts en cours :
+				{{ activeLoans|length }}</li>
+			<li>
+				Dont retours en retard :
+				{{ overdueLoans|length }}
+			</li>
+		</ul>
+	</div>
 
 	{% if currentInventory is defined and currentInventory is not null %}
 		{% include "inventory_item/inventory.html.twig" %}

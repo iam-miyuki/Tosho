@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Entity\Inventory;
 use App\Enum\LocationEnum;
+use App\Enum\LoanStatusEnum;
 use App\Entity\InventoryItem;
 use App\Enum\InventoryStatusEnum;
 use App\Repository\BookRepository;
+use App\Repository\LoanRepository;
 use App\Enum\InventoryItemStatusEnum;
 use App\Repository\InventoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,10 +29,16 @@ final class InventoryItemController extends AbstractController
     #[Route('/', name: 'inventory-home')]
     public function index(
         InventoryRepository $inventoryRepository,
+        LoanRepository $loanRepository,
+        
     ): Response {
         $inventories = $inventoryRepository->findAllByStatus(InventoryStatusEnum::open);
+        $activeLoans = $loanRepository->findAllByStatus(LoanStatusEnum::inProgress);
+        $overdueLoans = $loanRepository->findAllByStatus(LoanStatusEnum::overdue);
         return $this->render('inventory_item/index.html.twig', [
-            'inventories' => $inventories
+            'inventories' => $inventories,
+            'activeLoans'=>$activeLoans,
+            'overdueLoans'=>$overdueLoans
         ]);
     }
 

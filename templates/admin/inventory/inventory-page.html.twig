@@ -17,26 +17,27 @@
 					{{ currentInventory.note }}</p>
 			{% endif %}
 		</div>
-	</div>
 
-	<div class="btn-card-wrapper">
-		<div>
-			<a href="{{ path('admin-items', { id: currentInventory.id,page:'checked' }) }}">
-				<div class="btn-card">
-					<p>Livres vérifiés :
-						{{items | length}}
-					</p>
-				</div>
-			</a>
-		</div>
-		<div>
-			<a href="{{ path('admin-items', { id: currentInventory.id,page:'not-ok' }) }}">
-				<div class="btn-card">
-					<p>Livres signalés :
-						{{notOkItems| length}}
-					</p>
-				</div>
-			</a>
+
+		<div class="btn-card-wrapper">
+			<div>
+				<a href="{{ path('admin-items', { id: currentInventory.id,page:'checked' }) }}">
+					<div class="btn-card">
+						<p>Livres vérifiés :
+							{{items | length}}
+						</p>
+					</div>
+				</a>
+			</div>
+			<div>
+				<a href="{{ path('admin-items', { id: currentInventory.id,page:'not-ok' }) }}">
+					<div class="btn-card">
+						<p>Livres signalés :
+							{{notOkItems| length}}
+						</p>
+					</div>
+				</a>
+			</div>
 		</div>
 	</div>
 {% endif %}
